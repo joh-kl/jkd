@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0 (14 Oct 2026)
+
+His second round. büro shows the table poster and a logotype exploration
+page; ALPS is its logo beside the flyer (the colour palette was not his);
+the yellow Technobar Vol. 13 poster joins; four type studies; experiments are
+the TouchDesigner fluid contours only, and their index preview plays the loop
+halftoned frame by frame; the city map is out. Logos keep light tiles on the
+black page. The footer mark is plain chrome, no plate, no outline.
+
 ## 0.3.0 (14 Oct 2026)
 
 His feedback on the showcase. Heavier bar at display sizes, a white or black

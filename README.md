@@ -61,7 +61,7 @@ readable type when nothing moves.
 
 | | |
 | --- | --- |
-| ![The system: the white or black switch, the Switzer scale, and each colour and button with what it is for](assets/site-system.png) | ![Footer: the brush mark in liquid chrome on a black plate, beside Johannes Klaus Design](assets/site-footer.png) |
+| ![The system: the white or black switch, the Switzer scale, and each colour and button with what it is for](assets/site-system.png) | ![Footer: the brush mark in liquid chrome, beside Johannes Klaus Design](assets/site-footer.png) |
 
 Run it: from the repository folder, `python3 -m http.server 8765`, then open
 `http://127.0.0.1:8765/examples/site/`. Opening `examples/site/index.html` directly
@@ -147,7 +147,7 @@ LICENSE              all rights reserved, and the font licences
 
 ## Versions
 
-Current: **0.3**. See [`CHANGELOG.md`](CHANGELOG.md). Primary and accent colours
+Current: **0.4**. See [`CHANGELOG.md`](CHANGELOG.md). Primary and accent colours
 are still to be chosen; until then they resolve to ink, so choosing them later
 changes one file.
 
