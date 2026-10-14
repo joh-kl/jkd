@@ -42,6 +42,7 @@ shows.
 | --- | --- |
 | ![Identity: the büro guide pages, one lifted to show the original](assets/site-work-identity.png) | ![Posters: four Technobar club night posters](assets/site-work-posters.png) |
 | ![Interfaces: Vibe Catcher, the city map, Auto-Sort](assets/site-work-interfaces.png) | ![Logos on light tiles, under the screen](assets/site-work-logos.png) |
+| ![Experiments: the TouchDesigner fluid contours looping through a dot screen, with three stills](assets/site-work-experiments.png) | |
 
 ### Lab: type that reacts
 

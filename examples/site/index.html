@@ -86,6 +86,11 @@
   .piece:hover canvas, .piece:focus-within canvas, .piece.open canvas { opacity: 0; }
   .piece figcaption { display: flex; gap: var(--jkd-s2); align-items: baseline; margin-top: var(--jkd-s2); }
   .piece figcaption b { font: 700 var(--jkd-small)/1.2 var(--jkd-font); }
+  .piece.video .frame { background: var(--jkd-page); }
+  .piece.video video { display: block; width: 100%; height: auto;
+    -webkit-mask: radial-gradient(circle, #000 40%, transparent 46%) 0 0 / 7px 7px; mask: radial-gradient(circle, #000 40%, transparent 46%) 0 0 / 7px 7px; }
+  .piece.video:hover video, .piece.video:focus-within video, .piece.video.open video { -webkit-mask: none; mask: none; }
+  @media (prefers-contrast: more), (prefers-reduced-transparency: reduce) { .piece.video video { -webkit-mask: none; mask: none; } }
   .logos { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--jkd-gutter); }
   .logos .frame { aspect-ratio: 4 / 3; display: grid; place-items: center; padding: var(--jkd-s5); box-sizing: border-box; }
   .logos img { max-width: 100%; max-height: 100%; width: auto; object-fit: contain; }

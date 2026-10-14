@@ -214,7 +214,7 @@
     ['posters', 'Posters', [['tb13', 3], ['tb12', 3], ['tb11', 3], ['tb10', 3]]],
     ['interfaces', 'Interfaces', [['vibe-cover', 6], ['vibe-page', 6], ['map', 8], ['autosort', 4]]],
     ['type', 'Type studies', [['type-brabo', 4], ['type-clerkenwell', 4], ['type-conrad', 4], ['type-dillon', 6], ['type-emeric', 6]]],
-    ['experiments', 'Experiments', [['shapes-gradient', 4], ['shapes-polygon', 4], ['capture', 4]]],
+    ['experiments', 'Experiments', [['td-video', 8], ['td-1', 4], ['td-2', 4], ['td-3', 4], ['shapes-gradient', 4], ['shapes-polygon', 6], ['capture', 6]]],
     ['logos', 'Logos', (window.JKD_WORK || []).filter(w => w.group === 'logos').map(w => [w.id, 3])],
   ];
   const chapters = document.getElementById('chapters');
@@ -225,6 +225,17 @@
     const holder = key === 'logos' ? Object.assign(document.createElement('div'), { className: 'logos' }) : ch;
     if (holder !== ch) ch.appendChild(holder);
     list.forEach(([id, span]) => {
+      if (id === 'td-video') {
+        // The TouchDesigner piece moves. Its screen is a dot mask in CSS, since
+        // a canvas may not read video frames from a page opened as a file.
+        const fig = document.createElement('figure'); fig.className = 'piece video'; fig.style.gridColumn = `span ${span}`;
+        fig.innerHTML = `<div class="frame" tabindex="0"><video src="assets/td-loop.mp4" poster="assets/td-poster.jpg" muted loop playsinline preload="metadata" aria-label="Fluid contours, a TouchDesigner study, looping"></video></div><figcaption><b>Fluid contours</b><span class="jkd-caption">touchdesigner · 8 second loop</span></figcaption>`;
+        fig.addEventListener('click', () => fig.classList.toggle('open'));
+        holder.appendChild(fig);
+        const v = fig.querySelector('video');
+        if (!reduce) new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? v.play().catch(() => {}) : v.pause())).observe(v);
+        return;
+      }
       const w = WORK[id]; if (!w) return;
       const fig = document.createElement('figure'); fig.className = 'piece';
       if (key !== 'logos') fig.style.gridColumn = `span ${span}`;
