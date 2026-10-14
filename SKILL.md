@@ -39,7 +39,7 @@ colour (a user's label, a mana colour, a chart series).
 
 - Black and white. Primary and accent resolve to ink until he chooses them.
   Never reintroduce the old sand beige.
-- One family (Helvetica Neue), the scale in `DESIGN.md`, flush left.
+- One family (Switzer; Space Mono only for technical readouts), the scale in `DESIGN.md`, flush left.
 - Every gap a multiple of 4; corners 0 or 3 pt (full round only for a count or
   an avatar).
 - At most one expressive moment per screen or page, never on the frequent path.

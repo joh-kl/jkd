@@ -132,6 +132,15 @@ public enum JKD {
 
     // MARK: type
 
+    /// The Switzer face if it is installed or bundled, else the stand in.
+    public static func face(_ switzer: String, _ fallback: String) -> String {
+        #if canImport(UIKit)
+        UIFont(name: switzer, size: 12) != nil ? switzer : fallback
+        #else
+        NSFont(name: switzer, size: 12) != nil ? switzer : fallback
+        #endif
+    }
+
     /// The scale. Each size has one role; there is no other size.
     public enum Style: CaseIterable, Sendable {
         case caption, small, body, lead, title, display, poster, monument
@@ -149,11 +158,12 @@ public enum JKD {
             }
         }
 
+        /// Switzer when the app has it, Helvetica Neue otherwise.
         public var face: String {
             switch self {
-            case .caption: "HelveticaNeue-Medium"
-            case .small, .body, .lead: "HelveticaNeue"
-            case .title, .display, .poster, .monument: "HelveticaNeue-Bold"
+            case .caption: JKD.face("Switzer-Medium", "HelveticaNeue-Medium")
+            case .small, .body, .lead: JKD.face("Switzer-Regular", "HelveticaNeue")
+            case .title, .display, .poster, .monument: JKD.face("Switzer-Bold", "HelveticaNeue-Bold")
             }
         }
 
@@ -192,11 +202,18 @@ public extension Font {
     }
     /// Medium weight at a scale size: labels, rows, quiet buttons.
     static func jkdMedium(_ style: JKD.Style) -> Font {
-        .custom("HelveticaNeue-Medium", size: style.size, relativeTo: style.textStyle)
+        .custom(JKD.face("Switzer-Medium", "HelveticaNeue-Medium"), size: style.size, relativeTo: style.textStyle)
     }
     /// Light weight, only at 16 pt and up (thin strokes fail at small sizes).
     static func jkdLight(_ style: JKD.Style) -> Font {
-        .custom("HelveticaNeue-Light", size: max(style.size, 16), relativeTo: style.textStyle)
+        .custom(JKD.face("Switzer-Light", "HelveticaNeue-Light"), size: max(style.size, 16), relativeTo: style.textStyle)
+    }
+}
+
+public extension Font {
+    /// Space Mono, for technical readouts only (coordinates, ids).
+    static func jkdMono(_ style: JKD.Style) -> Font {
+        .custom(JKD.face("SpaceMono-Regular", "Menlo-Regular"), size: style.size, relativeTo: style.textStyle)
     }
 }
 

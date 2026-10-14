@@ -16,7 +16,7 @@ migrated to JKD in a later session.
 ## Migration plan (later session)
 
 1. Add `JKDDesign` as a local package; replace `Metrics` with `JKD.Grid`.
-2. Type: Helvetica Neue through `JKD.Type`, tied to text styles for Dynamic
+2. Type: Switzer (bundled) through `Font.jkd`, tied to text styles for Dynamic
    Type. Check every screen at the largest accessibility size.
 3. Colour: accent from blue to ink; chips from capsules to 3 pt corners with
    the checkmark kept.

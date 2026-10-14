@@ -18,8 +18,8 @@ Ruder, Hofmann) is the centre of JKD. These are the rules as they apply here.
 
 ## The type
 
-- **One grotesk.** Helvetica Neue, the nearest shipping relative of the büro
-  guide's Akzidenz Grotesk. No second family for "personality": personality
+- **One grotesk.** Switzer, a neo-grotesk in the line of the büro guide's
+  Akzidenz Grotesk, from Thin to Black. No second family for "personality": personality
   comes from size, weight and placement.
 - **Few sizes, big jumps.** Use the scale (11, 13, 17, 20, 28, 36, 72, 108). A
   headline should be clearly bigger, not a little bigger. Two or three sizes on

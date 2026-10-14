@@ -2,6 +2,13 @@
 
 The same tokens everywhere; how they land on each medium.
 
+## Apps (both)
+
+Bundle the Switzer `.otf` files in the app target and list them under
+`UIAppFonts` (iOS) or `ATSApplicationFontsPath` (macOS). `JKDDesign` uses
+Switzer when it is available and Helvetica Neue when it is not, so an app
+without the files still looks right, just less so.
+
 ## macOS (SwiftUI)
 
 - `NavigationSplitView`, a sidebar of two levels at most, an inspector where a
@@ -30,7 +37,10 @@ The same tokens everywhere; how they land on each medium.
 
 - Load `web/jkd.css`; it defines every token as a custom property, light and
   dark through `prefers-color-scheme`, plus `data-theme="light|dark"` to force.
-- Type stack: "Helvetica Neue", Helvetica, Arial, sans-serif. Sizes in rem from
+- Load Switzer from Fontshare
+  (`https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,700,800,900&display=swap`)
+  and, where readouts appear, Space Mono from Google Fonts. Stack: Switzer,
+  "Helvetica Neue", Helvetica, Arial, sans-serif. Sizes in rem from
   the scale (body 1rem = 17px on phones, 16px is fine on desktop text).
 - 12 column CSS grid on wide screens, 4 on phones, 16px side margins on phones.
 - No horizontal scroll at 320px wide.
@@ -45,8 +55,8 @@ From the büro guide:
 - The reference cube **b²** is 4.7 cm (the stem of the "b" at 108.6 pt); every
   placement is a whole number of cubes; the logo sits 3 b² from the left and
   the top.
-- Headings bold at 36 pt, ideally white on a dark plate; text Helvetica Light
-  16 or 13 pt (Light is fine in print at these sizes).
+- Headings Switzer Bold at 36 pt, ideally white on a dark plate; text
+  Switzer Light at 16 or 13 pt (Light is fine in print at these sizes).
 - Grayscale architecture or clean studio photography.
 - Slides: 16:9, a 12 column grid, one idea per slide, the headline as a stacked
   bold block, a lowercase caption top left as the section label (as on the

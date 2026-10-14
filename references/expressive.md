@@ -51,3 +51,25 @@ All three are decorative: hidden from VoiceOver, and switched off (or swapped
 for the plain ink version) with Reduce Transparency or Increase Contrast.
 Anything animated (a halftone that breathes, chrome that glints) stops with
 Reduce Motion.
+
+## Reacting type
+
+Type that answers scrolling or the pointer, without resizing letters (variable
+fonts that grow and shrink are the cliché to avoid). Each idea comes from a
+real process, which is what keeps it from being a gimmick. One per screen, with
+a caption naming the process. All of them settle into plain, readable type when
+nothing moves, and with Reduce Motion they show that settled state only.
+
+- **Blob tracking** (TouchDesigner): every shape on screen is found, boxed in a
+  1 pt rule, numbered, and joined to its neighbours, with readouts in Space Mono.
+  The detection is real, not drawn on: the boxes follow what the pixels do.
+- **Moiré** (Wolfgang Weingart, Basel): the word exists only as a phase shift
+  between two dot screens. Aligned, it reads; turned, it dissolves into fringes.
+- **Slit-scan** (2001's star gate): the word is cut into thin bands, each a
+  moment behind the one above. At rest it is crisp; moved, it smears.
+- **Misregistration** (offset printing): a solid plate and a halftone plate of
+  the same word, with registration marks. Speed pulls the second plate out of
+  register; stopping snaps it back.
+- **The composing stick** (hand setting): sorts arrive one at a time, mirrored,
+  with the spacing quads visible; then the line is proofed and reads the right
+  way round. Scrolling back distributes the type again.

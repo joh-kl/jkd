@@ -34,13 +34,15 @@ contrast:   # computed, WCAG 2.x
   secondary/sunken or raised: "5.8:1 light, 6.9:1 dark"
   rule/page: "2.9:1 light, 2.4:1 dark (decorative, never the only edge)"
 typography:
-  family:
-    display: "Helvetica Neue Bold"        # stands in for Akzidenz Grotesk Bold
-    text:    "Helvetica Neue"
-    medium:  "Helvetica Neue Medium"
-    light:   "Helvetica Neue Light"       # 16 pt and up only
-    stamp:   "Helvetica Neue Condensed Black"  # expressive only
-    web:     "\"Helvetica Neue\", Helvetica, Arial, sans-serif"
+  family:          # Switzer, Indian Type Foundry, Fontshare licence (credit ITF)
+    display: "Switzer Bold"
+    text:    "Switzer Regular"
+    medium:  "Switzer Medium"
+    light:   "Switzer Light"              # 16 pt and up only
+    stamp:   "Switzer Black"              # expressive only
+    mono:    "Space Mono"                 # technical readouts only (OFL)
+    fallback: "Helvetica Neue, Helvetica, Arial"
+    web:     "Switzer, \"Helvetica Neue\", Helvetica, Arial, sans-serif"
   scale:   # pt; the iOS text style it scales with
     caption: { size: 11, weight: medium, case: lower, tracking: 0.4, ios: caption2 }
     small:   { size: 13, weight: regular, ios: footnote }    # macOS body
@@ -85,7 +87,8 @@ objective grid, a grotesk in few sizes, flush left and ragged right, hierarchy
 made by size and weight, white space as a material. From the büro brand guide:
 the reference cube, heavy bold headings, lowercase captions, raw black and
 white, grayscale photography, slabs with hard shadows, and **the bar**, the
-wordmark's full-length umlaut. Now and then, on purpose, an **expressive layer**:
+wordmark's full-length umlaut. The mark is his round brush logo with the two
+horns. Now and then, on purpose, an **expressive layer**:
 halftone, paper texture, chrome.
 
 Every product is a **theme** of JKD. A theme may change values (a colour, a
@@ -129,8 +132,12 @@ code must use the token names, so choosing them later changes one file.
 
 ## Typography
 
-One family, Helvetica Neue, as the closest relative of the guide's Akzidenz
-Grotesk that ships on every Apple device. The full Swiss rules are in
+One family, **Switzer** (Indian Type Foundry, free under the Fontshare licence
+for commercial, app and web use; credit the foundry), a neo-grotesk in the
+Swiss line of the guide's Akzidenz Grotesk, cut from Thin to Black. Apps bundle
+it; pages load it from Fontshare. If it is missing, Helvetica Neue stands in.
+**Space Mono** (open licence) is allowed for one job only: technical readouts,
+such as the coordinates of a blob tracker. The full Swiss rules are in
 `references/swiss-typography.md`; the short version:
 
 - **Flush left, ragged right.** No justified text, no centred paragraphs.
@@ -217,8 +224,8 @@ menu bar on a Mac, touch targets 44 pt on iOS.
 
 - A platform without the 3 pt continuous corner uses square corners, never a
   larger round.
-- Without Helvetica Neue (Windows, Android, some print shops): Helvetica, then
-  Arial, then the system grotesk. Never a geometric or humanist face as a
+- Without Switzer: Helvetica Neue, then Helvetica, then Arial, then the system
+  grotesk. Never a geometric or humanist face as a
   stand in.
 - A dense tool may halve the spacing steps it uses, but keeps the unit.
 - A theme that needs colour before the brand has chosen it uses the status or

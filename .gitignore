@@ -1,3 +1,5 @@
 .DS_Store
 swift/.build/
 swift/.swiftpm/
+examples/swiftui/.build/
+examples/swiftui/.swiftpm/
