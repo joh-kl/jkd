@@ -161,7 +161,7 @@
   // One dot per cell, sized by how much ink the image puts there. `rect` is
   // where the image sits inside the w by h box. On a black page the screen
   // is printed in white, so light areas carry the dots instead.
-  function halftoneImage(ctx, img, w, h, rect, { cell = 7, bg = css('--jkd-page') } = {}) {
+  function halftoneImage(ctx, img, w, h, rect, { cell = 7, bg = css('--jkd-page'), invert = false } = {}) {
     const cols = Math.max(1, Math.ceil(w / cell)), rows = Math.max(1, Math.ceil(h / cell));
     sampler.width = cols; sampler.height = rows;
     sx.clearRect(0, 0, cols, rows);
@@ -174,7 +174,7 @@
       const k = (j * cols + i) * 4, a = d[k + 3] / 255;
       if (a < 0.02) continue;
       const lum = (0.299 * d[k] + 0.587 * d[k + 1] + 0.114 * d[k + 2]) / 255;
-      const t = a * (light ? lum : 1 - lum);
+      const t = a * ((light !== invert) ? lum : 1 - lum);
       const rad = cell * 0.5 * Math.sqrt(t) * 1.15;
       if (rad > 0.3) { const x = i * cell + cell / 2, y = j * cell + cell / 2; ctx.moveTo(x + rad, y); ctx.arc(x, y, rad, 0, Math.PI * 2); }
     }
@@ -201,16 +201,34 @@
   }
   // A row with a moving piece shows it moving; Reduce Motion keeps the still.
   const peekVideo = document.getElementById('peekVideo');
-  const peekEl = li => li.dataset.video && !reduce ? peekVideo : peek;
+  // Every frame goes through the screen: the light contour lines become the
+  // dots. A page opened as a file may not read video frames; then the plain
+  // dot mask in CSS stands in.
+  let videoRows = 0, canReadVideo = true;
+  function screenVideo() {
+    if (!videoRows) return;
+    if (peekVideo.readyState >= 2) {
+      try {
+        scope = root;
+        halftoneImage(pctx, peekVideo, peek.width, peek.height,
+          coverRect(peekVideo.videoWidth, peekVideo.videoHeight, peek.width, peek.height), { cell: 8, bg: css('--jkd-raised'), invert: true });
+      } catch (e) { canReadVideo = false; peek.classList.remove('on'); peekVideo.classList.add('on'); return; }
+    }
+    requestAnimationFrame(screenVideo);
+  }
+  const peekEl = li => li.dataset.video && !reduce && !canReadVideo ? peekVideo : peek;
   const showPeek = (li, x, y) => {
+    if (li.dataset.video && !reduce) {
+      if (!peekVideo.src.endsWith(li.dataset.video)) peekVideo.src = li.dataset.video;
+      peekVideo.play().catch(() => {});
+      if (canReadVideo) { videoRows = 1; requestAnimationFrame(screenVideo); }
+    } else plate(li.dataset.img);
     const el = peekEl(li);
-    if (el === peekVideo) { if (!peekVideo.src.endsWith(li.dataset.video)) peekVideo.src = li.dataset.video; peekVideo.play().catch(() => {}); }
-    else plate(li.dataset.img);
     el.classList.add('on'); el.style.left = Math.min(x + 24, innerWidth - 320) + 'px'; el.style.top = (y - 110) + 'px';
   };
   document.querySelectorAll('.index li').forEach(li => {
     li.addEventListener('pointerenter', e => { if (!quiet()) showPeek(li, e.clientX, e.clientY); });
-    li.addEventListener('pointerleave', () => { peek.classList.remove('on'); peekVideo.classList.remove('on'); peekVideo.pause(); });
+    li.addEventListener('pointerleave', () => { videoRows = 0; peek.classList.remove('on'); peekVideo.classList.remove('on'); peekVideo.pause(); });
     li.addEventListener('pointermove', e => { const el = peekEl(li); el.style.left = Math.min(e.clientX + 24, innerWidth - 320) + 'px'; el.style.top = (e.clientY - 110) + 'px'; });
   });
 
