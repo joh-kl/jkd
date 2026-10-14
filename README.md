@@ -9,7 +9,7 @@
 
 The house style of Johannes Klaus Design: **Swiss typography on a brutalist
 base** (from the büro brand guide), set in **Switzer**, black and white, with an
-occasional halftone, texture or chrome moment. One system for his apps (macOS,
+occasional halftone, dither, liquid chrome or blob tracking moment. One system for his apps (macOS,
 iOS), web pages and print, packaged as a Claude Code skill.
 
 **Contents:** [At a glance](#at-a-glance) · [The showcase site](#the-showcase-site) ·
@@ -20,10 +20,10 @@ iOS), web pages and print, packaged as a Claude Code skill.
 ## At a glance
 
 1. **The grid decides.** Unit 4, the büro reference cube 8, 4 columns on a phone and 12 everywhere else.
-2. **Type is the image.** One family, Switzer, in eight sizes, flush left, hierarchy by size and weight.
-3. **Black and white** until colour earns a job. Every text pair is tested for contrast.
+2. **Type is the image, at poster scale.** One family, Switzer, in nine sizes, flush left. Page titles at 72 pt, the name that matters at 48, the heavy bar over them.
+3. **Black and white, with sand as a hairline.** The büro sand (#C9B69B) appears only as thin lines of 3 pt or less, never as a button or a fill. Every text pair is tested for contrast.
 4. **Raw, not rough.** Hard edges, hard shadows, a 3 point corner, and the bar over the most important word.
-5. **One loud moment per screen.** Halftone, grain, chrome and type that reacts, never on the path you take daily.
+5. **One loud moment per screen.** Halftone, grain, liquid chrome, dither, blob tracking and type that reacts, never on the path you take daily.
 
 ## The showcase site
 
@@ -71,7 +71,7 @@ add `&theme=dark` for black, `&chapter=posters` and `&open=1` for the work.
 
 ## In an app
 
-Card Sort from Auto-Sort 2, rebuilt with `JKDDesign` alone and rendered by
+Card Sort from Auto-Sort, rebuilt with `JKDDesign` alone and rendered by
 `examples/swiftui` (`swift run render`):
 
 <picture>
@@ -147,9 +147,11 @@ LICENSE              all rights reserved, and the font licences
 
 ## Versions
 
-Current: **0.4**. See [`CHANGELOG.md`](CHANGELOG.md). Primary and accent colours
-are still to be chosen; until then they resolve to ink, so choosing them later
-changes one file.
+Current: **0.5**. See [`CHANGELOG.md`](CHANGELOG.md). 0.5 made the style louder
+(poster titles, a 48 pt headline, the heavy bar, one inverted band per screen),
+chose büro sand as the accent, only ever as a thin line, and added a rendered
+liquid chrome texture, ordered dither and a blob tracking view to the SwiftUI
+package. The primary button stays an ink plate.
 
 ## Licence
 

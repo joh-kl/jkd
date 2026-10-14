@@ -12,9 +12,10 @@ JKD grew out of it. Its own code is `Sources/AutoSort/Theme.swift`.
 
 ## Where it differs from JKD today (to migrate)
 
-- **Sand (#C9B69B)** is used as a fill in Auto-Sort (the bar, selections, the
-  night plate). JKD 0.5 decided: sand is a thin line only. Auto-Sort must
-  follow: bar and plates in ink, sand only for hairlines.
+- **Follows 0.5** (15 Oct 2026): colours and Switzer from this package, sand
+  only as 3 pt lines, ink bar and plates, poster titles, the headline-size
+  destination name. Effects: blob tracking on first run, chrome on Help and
+  "all sorted", dither while Train deals.
 - **Signal orange (#FBAE17)** for "new folder" and warnings. JKD would use
   status warning (system orange) with a word.
 - **Warm paper (#F2F0EB) and ink (#252317)**: JKD's are neutral white and black.
