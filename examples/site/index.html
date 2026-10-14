@@ -74,6 +74,9 @@
   .peek { position: fixed; width: 300px; height: 220px; pointer-events: none; z-index: 30; opacity: 0; transition: opacity var(--jkd-quick) ease-out;
           border-radius: var(--jkd-radius); box-shadow: 6px 6px 0 0 var(--jkd-shadow); border: 1px solid var(--jkd-rule); }
   .peek.on { opacity: 1; }
+  /* The moving preview keeps the screen: black and white, seen through dots. */
+  video.peek.screened { object-fit: cover; border: 0; box-shadow: none; filter: grayscale(1) contrast(1.6);
+    -webkit-mask: radial-gradient(circle, #000 42%, transparent 47%) 0 0 / 8px 8px; mask: radial-gradient(circle, #000 42%, transparent 47%) 0 0 / 8px 8px; }
 
   /* The work: chapters on the grid; each piece wears the halftone filter until you look closer. */
   .showcase .chapter { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--jkd-s6) var(--jkd-gutter); margin-bottom: var(--jkd-s9); align-items: start; }
@@ -218,7 +221,7 @@
       </ol>
     </div>
     <canvas class="peek" id="peek" width="600" height="440" aria-hidden="true"></canvas>
-    <video class="peek" id="peekVideo" muted loop playsinline preload="none" aria-hidden="true" style="object-fit:cover;background:#000"></video>
+    <video class="peek screened" id="peekVideo" muted loop playsinline preload="none" aria-hidden="true"></video>
   </section>
 
   <section class="showcase rule-top" id="work" aria-label="The work">

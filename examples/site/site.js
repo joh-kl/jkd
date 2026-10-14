@@ -524,11 +524,6 @@
     mx.drawImage(mark, rect.x, rect.y, rect.w, rect.h);
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H);
     if (quiet()) { mx.globalCompositeOperation = 'source-in'; mx.fillStyle = css('--jkd-ink'); mx.fillRect(0, 0, W, H); ctx.drawImage(mask, 0, 0); return; }
-    // No plate: a thin ink outline keeps the bright metal readable on paper.
-    const ol = layer(W, H), olx = ol.getContext('2d');
-    olx.drawImage(mask, 0, 0); olx.globalCompositeOperation = 'source-in'; olx.fillStyle = css('--jkd-ink'); olx.fillRect(0, 0, W, H);
-    const o = 1.6 * k;
-    for (const [dx, dy] of [[-o, 0], [o, 0], [0, -o], [0, o], [-o, -o], [o, o], [-o, o], [o, -o]]) ctx.drawImage(ol, dx, dy);
     // The body. Every stroke is treated as a rounded tube: a blur of the mark
     // is its height, the slope at each pixel is its normal, and the normal
     // picks what it reflects from a sky, horizon and ground ramp.
