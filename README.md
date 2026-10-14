@@ -23,13 +23,25 @@ iOS), web pages and print, packaged as a Claude Code skill.
 
 ## The showcase site
 
-A portfolio in the making, built from the system and nothing else. The bar at
-the top is the scroll progress; **G** shows the 12 column grid; the brush mark
-is set in halftone and swells around the pointer.
+A portfolio in the making, built from the system and nothing else. White by
+default with a white or black switch; the bar at the top is the scroll
+progress; **G** shows the 12 column grid; the brush mark is set in halftone
+and swells around the pointer.
 
 | | |
 | --- | --- |
-| ![The work index: project titles in bold, a halftone plate following the pointer](assets/site-work.png) | ![The grid overlay on the hero, twelve columns](assets/site-grid.png) |
+| ![The index: project titles in bold, each showing its project through a halftone screen at the pointer](assets/site-index.png) | ![The grid overlay on the hero, twelve columns](assets/site-grid.png) |
+
+### The work
+
+His projects in chapters on the grid. Every piece wears a halftone screen
+until you hover, focus or tap it; then the screen lifts and the original
+shows.
+
+| | |
+| --- | --- |
+| ![Identity: the büro guide pages, one lifted to show the original](assets/site-work-identity.png) | ![Posters: four Technobar club night posters](assets/site-work-posters.png) |
+| ![Interfaces: Vibe Catcher, the city map, Auto-Sort](assets/site-work-interfaces.png) | ![Logos on light tiles, under the screen](assets/site-work-logos.png) |
 
 ### Lab: type that reacts
 
@@ -40,16 +52,17 @@ readable type when nothing moves.
 | --- | --- |
 | ![Blob tracking: see what moves, every letter boxed, numbered and joined](assets/site-blob.png) **Blob tracking**, the TouchDesigner look. The detection is real: a connected component pass on the pixels, every frame. | ![Moiré: the word visible only as a phase shift between two dot screens](assets/site-moire.png) **Moiré**, after Wolfgang Weingart. The word exists only as a shift between two dot screens. |
 | ![Slit-scan: slit scan, sheared as the bands lag behind](assets/site-slit.png) **Slit-scan**. Each band is a moment behind the one above; scroll fast and it smears. | ![Misregistration: two plates, the halftone plate off register, with registration marks](assets/site-misreg.png) **Misregistration**. Speed pulls the halftone plate off register; a spring brings it home. |
-| ![The composing stick: sorts set mirrored, right to left, and the proof below](assets/site-stick.png) **The composing stick**. Sorts arrive mirrored, quads in grey; then the proof reads. | ![Blob tracking in dark mode](assets/site-blob-dark.png) Every screen in light and dark. |
+| ![The composing stick: sorts set mirrored, right to left, and the proof below](assets/site-stick.png) **The composing stick**. Sorts arrive mirrored, quads in grey; then the proof reads. | ![Blob tracking inverted: black text on white when the page is black](assets/site-blob-dark.png) Blob tracking is an inverted section: black on the white page, white on the black one. |
 
 | | |
 | --- | --- |
-| ![The system: the Switzer scale and the black and white palette, live](assets/site-system.png) | ![Footer: the brush mark in chrome beside Johannes Klaus Design](assets/site-footer.png) |
+| ![The system: the white or black switch, the Switzer scale, and each colour and button with what it is for](assets/site-system.png) | ![Footer: the brush mark in liquid chrome on a black plate, beside Johannes Klaus Design](assets/site-footer.png) |
 
 Run it: from the repository folder, `python3 -m http.server 8765`, then open
-`http://127.0.0.1:8765/examples/site/`. `?shot=blob` (or `hero`, `work`,
-`moire`, `slit`, `misreg`, `stick`, `system`, `footer`) freezes the state used
-for these images; add `&theme=dark` for dark.
+`http://127.0.0.1:8765/examples/site/`. Opening `examples/site/index.html` directly
+works too. `?shot=blob` (or `hero`, `work`, `showcase`, `moire`, `slit`,
+`misreg`, `stick`, `system`, `footer`) freezes the state used for these images;
+add `&theme=dark` for black, `&chapter=posters` and `&open=1` for the work.
 
 ## In an app
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 (14 Oct 2026)
+
+His feedback on the showcase. Heavier bar at display sizes, a white or black
+switch (white by default) and inverted sections, a work section with his real
+projects under a halftone screen that lifts on hover, the index showing each
+project through the screen, a shorter slit-scan, a system section that says
+what each colour and button is for, and chrome redone as reflective tubes on a
+black plate.
+
 ## 0.2.0 (14 Oct 2026)
 
 Switzer replaces Helvetica Neue as the one family (Helvetica Neue is the

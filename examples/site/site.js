@@ -8,18 +8,28 @@
   if (params.get('theme')) root.dataset.theme = params.get('theme');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || !!SHOT;
   const quiet = () => matchMedia('(prefers-contrast: more)').matches || matchMedia('(prefers-reduced-transparency: reduce)').matches;
-  const css = n => getComputedStyle(root).getPropertyValue(n).trim();
+  // Colours are read from the element being drawn, so an inverted section
+  // (blob tracking is black on a white page) draws in its own ink.
+  let scope = root;
+  const css = n => getComputedStyle(scope).getPropertyValue(n).trim();
   const FONT = () => css('--jkd-font');
   const MONO = () => css('--jkd-mono');
   const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
   const now = () => performance.now() / 1000;
 
   // ---- chrome: theme, grid, clock, the bar as progress ----------------------
-  const themeBtn = document.getElementById('themeToggle');
-  const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  const syncTheme = () => { themeBtn.setAttribute('aria-pressed', String(isDark())); rebuild(); };
-  themeBtn.onclick = () => { root.dataset.theme = isDark() ? 'light' : 'dark'; syncTheme(); };
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
+  // White by default; the switch remembers a choice.
+  const isDark = () => root.dataset.theme === 'dark';
+  const themeButtons = [...document.querySelectorAll('[data-theme-set]')];
+  const syncTheme = () => {
+    themeButtons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeSet === (root.dataset.theme || 'light'))));
+    rebuild(); drawPieces(); drawChrome();
+  };
+  themeButtons.forEach(b => b.onclick = () => {
+    root.dataset.theme = b.dataset.themeSet;
+    try { localStorage.setItem('jkd-theme', b.dataset.themeSet); } catch (e) {}
+    syncTheme();
+  });
 
   const overlay = document.getElementById('overlay'), gridBtn = document.getElementById('gridToggle');
   const toggleGrid = () => gridBtn.setAttribute('aria-pressed', String(overlay.classList.toggle('on')));
@@ -140,36 +150,104 @@
     return Math.abs(tx - lens.x) + Math.abs(ty - lens.y) > 0.5;
   }
 
-  // ---- work index: a halftone plate per project ----------------------------
-  const peek = document.getElementById('peek'), px = peek.getContext('2d');
-  function plate(seed) {
-    const w = peek.width, h = peek.height;
-    px.fillStyle = css('--jkd-raised'); px.fillRect(0, 0, w, h);
-    px.fillStyle = css('--jkd-ink'); px.beginPath();
-    const cell = 12, s = seed * 1.7;
-    for (let y = cell / 2; y < h; y += cell) for (let x = cell / 2; x < w; x += cell) {
-      const nx = x / w, ny = y / h;
-      const shapes = [
-        () => Math.max(0, 1 - Math.hypot(nx - 0.35 - 0.1 * Math.sin(s), ny - 0.55) * 2.4),
-        () => (nx + ny * Math.cos(s)) % 0.5 < 0.25 ? 0.85 : 0.05,
-        () => Math.max(0, Math.sin(nx * 9 + s) * 0.5 + ny * 0.7),
-        () => ny > 0.25 + 0.4 * Math.abs(Math.sin(nx * 3 + s)) ? 0.9 : 0.08,
-        () => Math.max(0, 1 - Math.abs(nx - ny) * 3),
-        () => markAt ? markAt((nx - 0.18) / 0.64, (ny - 0.08) / 0.84) : 0,
-      ];
-      const t = Math.min(1, shapes[(seed - 1) % shapes.length]());
-      const r = cell * 0.5 * Math.sqrt(t) * 1.1;
-      if (r > 0.4) { px.moveTo(x + r, y); px.arc(x, y, r, 0, Math.PI * 2); }
+  // ---- his work: real images under a halftone screen ----------------------
+  const WORK = {};
+  const workReady = Promise.all((window.JKD_WORK || []).map(w => new Promise(res => {
+    const im = new Image(); im.onload = () => res(); im.onerror = () => res(); im.src = w.src; WORK[w.id] = { ...w, img: im };
+  })));
+  const sampler = document.createElement('canvas');
+  const sx = sampler.getContext('2d', { willReadFrequently: true });
+
+  // One dot per cell, sized by how much ink the image puts there. `rect` is
+  // where the image sits inside the w by h box. On a black page the screen
+  // is printed in white, so light areas carry the dots instead.
+  function halftoneImage(ctx, img, w, h, rect, { cell = 7, bg = css('--jkd-page') } = {}) {
+    const cols = Math.max(1, Math.ceil(w / cell)), rows = Math.max(1, Math.ceil(h / cell));
+    sampler.width = cols; sampler.height = rows;
+    sx.clearRect(0, 0, cols, rows);
+    sx.drawImage(img, rect.x / cell, rect.y / cell, rect.w / cell, rect.h / cell);
+    const d = sx.getImageData(0, 0, cols, rows).data;
+    const light = isLightColour(css('--jkd-ink'));
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = css('--jkd-ink'); ctx.beginPath();
+    for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+      const k = (j * cols + i) * 4, a = d[k + 3] / 255;
+      if (a < 0.02) continue;
+      const lum = (0.299 * d[k] + 0.587 * d[k + 1] + 0.114 * d[k + 2]) / 255;
+      const t = a * (light ? lum : 1 - lum);
+      const rad = cell * 0.5 * Math.sqrt(t) * 1.15;
+      if (rad > 0.3) { const x = i * cell + cell / 2, y = j * cell + cell / 2; ctx.moveTo(x + rad, y); ctx.arc(x, y, rad, 0, Math.PI * 2); }
     }
-    px.fill();
+    ctx.fill();
   }
-  const showPeek = (li, x, y) => { plate(+li.dataset.seed); peek.classList.add('on');
-    peek.style.left = Math.min(x + 24, innerWidth - 300) + 'px'; peek.style.top = (y - 100) + 'px'; };
+  function isLightColour(c) {
+    const m = c.match(/\d+/g); if (c.startsWith('#')) { const h = c.slice(1); return parseInt(h.length === 3 ? h[0] + h[0] : h.slice(0, 2), 16) > 128; }
+    return m ? +m[0] > 128 : false;
+  }
+  const coverRect = (iw, ih, w, h, contain = false, pad = 0) => {
+    const bw = w - 2 * pad, bh = h - 2 * pad;
+    const k = contain ? Math.min(bw / iw, bh / ih) : Math.max(bw / iw, bh / ih);
+    return { x: pad + (bw - iw * k) / 2, y: pad + (bh - ih * k) / 2, w: iw * k, h: ih * k };
+  };
+
+  // The index: a row shows its project through the screen at the pointer.
+  const peek = document.getElementById('peek'), pctx = peek.getContext('2d');
+  function plate(id) {
+    const w = peek.width, h = peek.height, item = WORK[id];
+    const img = item ? item.img : mark, isLogo = !item || item.group === 'logos';
+    if (!img || !img.naturalWidth) return;
+    scope = root;
+    halftoneImage(pctx, img, w, h, coverRect(img.naturalWidth, img.naturalHeight, w, h, isLogo, isLogo ? 40 : 0), { cell: 9, bg: css(isLogo ? '--jkd-sunken' : '--jkd-raised') });
+  }
+  const showPeek = (li, x, y) => { plate(li.dataset.img); peek.classList.add('on');
+    peek.style.left = Math.min(x + 24, innerWidth - 320) + 'px'; peek.style.top = (y - 110) + 'px'; };
   document.querySelectorAll('.index li').forEach(li => {
     li.addEventListener('pointerenter', e => { if (!quiet()) showPeek(li, e.clientX, e.clientY); });
     li.addEventListener('pointerleave', () => peek.classList.remove('on'));
-    li.addEventListener('pointermove', e => { peek.style.left = Math.min(e.clientX + 24, innerWidth - 300) + 'px'; peek.style.top = (e.clientY - 100) + 'px'; });
+    li.addEventListener('pointermove', e => { peek.style.left = Math.min(e.clientX + 24, innerWidth - 320) + 'px'; peek.style.top = (e.clientY - 110) + 'px'; });
   });
+
+  // The work, in chapters on the 12 column grid. Each piece wears the screen
+  // until you hover, focus or tap it.
+  const CHAPTERS = [
+    ['identity', 'Identity', [['buro-posters', 7], ['buro-guide', 5], ['buro-logotype', 5], ['buro-applications', 7], ['alps-flyer', 5], ['alps-guidelines', 7], ['igpat-guide', 6], ['igpat-clearspace', 6]]],
+    ['posters', 'Posters', [['tb13', 3], ['tb12', 3], ['tb11', 3], ['tb10', 3]]],
+    ['interfaces', 'Interfaces', [['vibe-cover', 6], ['vibe-page', 6], ['map', 8], ['autosort', 4]]],
+    ['type', 'Type studies', [['type-brabo', 4], ['type-clerkenwell', 4], ['type-conrad', 4], ['type-dillon', 6], ['type-emeric', 6]]],
+    ['experiments', 'Experiments', [['shapes-gradient', 4], ['shapes-polygon', 4], ['capture', 4]]],
+    ['logos', 'Logos', (window.JKD_WORK || []).filter(w => w.group === 'logos').map(w => [w.id, 3])],
+  ];
+  const chapters = document.getElementById('chapters');
+  const pieces = [];
+  CHAPTERS.forEach(([key, title, list]) => {
+    const ch = document.createElement('div'); ch.className = 'chapter'; ch.id = 'work-' + key;
+    ch.innerHTML = `<h3>${title} <span class="jkd-caption">${list.length} ${list.length === 1 ? 'piece' : 'pieces'}</span></h3>`;
+    const holder = key === 'logos' ? Object.assign(document.createElement('div'), { className: 'logos' }) : ch;
+    if (holder !== ch) ch.appendChild(holder);
+    list.forEach(([id, span]) => {
+      const w = WORK[id]; if (!w) return;
+      const fig = document.createElement('figure'); fig.className = 'piece';
+      if (key !== 'logos') fig.style.gridColumn = `span ${span}`;
+      fig.innerHTML = `<div class="frame" tabindex="0"><img alt="${w.title}, ${w.caption}" src="${w.src}"><canvas aria-hidden="true"></canvas></div><figcaption><b>${w.title}</b><span class="jkd-caption">${w.caption}</span></figcaption>`;
+      fig.addEventListener('click', () => fig.classList.toggle('open'));
+      holder.appendChild(fig);
+      pieces.push({ fig, id, logo: key === 'logos' });
+    });
+    chapters.appendChild(ch);
+  });
+  function drawPieces() {
+    scope = root;
+    for (const p of pieces) {
+      const img = WORK[p.id].img, frame = p.fig.querySelector('.frame'), el = p.fig.querySelector('img'), cv = p.fig.querySelector('canvas');
+      if (!img.naturalWidth || quiet()) { cv.getContext('2d').clearRect(0, 0, cv.width, cv.height); continue; }
+      const { ctx, w, h } = fit(cv);
+      if (w < 2) continue;
+      const fr = frame.getBoundingClientRect(), ir = el.getBoundingClientRect();
+      halftoneImage(ctx, img, w, h, { x: ir.left - fr.left, y: ir.top - fr.top, w: ir.width, h: ir.height },
+        { cell: w < 320 ? 5 : 6, bg: css(p.logo ? '--jkd-sunken' : '--jkd-page') });
+    }
+  }
+  workReady.then(() => requestAnimationFrame(drawPieces));
 
   // ---- the lab --------------------------------------------------------------
   const labs = [...document.querySelectorAll('.lab')].map(sec => ({
@@ -390,6 +468,7 @@
     if (scrollY < innerHeight * 1.2) again = drawHero() || again;
     for (const l of labs) {
       if (!l.visible && !SHOT) continue;
+      scope = l.sec;
       const { ctx, w, h } = fit(l.canvas);
       if (w < 2 || h < 2) continue;             // hidden (display none) or not laid out yet
       if (l.mask && (l.mask.cssW !== Math.round(w) || l.mask.cssH !== Math.round(h))) l.mask = null;
@@ -399,19 +478,70 @@
       if (quiet() && l.mask) { ctx.clearRect(0, 0, w, h); ctx.drawImage(tint(l.mask), 0, 0, w, h); continue; }
       again = LAB[l.kind](l, ctx, w, h, t) || again;
     }
+    scope = root;
     if (again && !SHOT) wake();
   }
   function wake() { if (!raf) raf = requestAnimationFrame(frame); }
   function rebuild() { labs.forEach(l => { l.mask = null; l.state.sorts = null; }); wake(); }
-  addEventListener('resize', rebuild);
+  let resizeT = 0;
+  addEventListener('resize', () => { rebuild(); clearTimeout(resizeT); resizeT = setTimeout(() => { drawPieces(); drawChrome(); }, 150); });
 
-  // Chrome on the footer mark: the horizon follows the pointer.
-  const chromeMark = document.getElementById('chromeMark');
+  // Chrome on the footer mark. Real chrome is a mirror: a bright sky, a dark
+  // horizon, the ground below, with a bevel that catches light on the upper
+  // left edges and falls into shadow on the lower right. The horizon follows
+  // the pointer, so the mark seems to tilt in your hand.
+  const chromeCv = document.getElementById('chrome');
+  let horizon = 0.46, chromeRaf = 0;
+  function layer(W, H) { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; }
+  function drawChrome() {
+    if (!mark.naturalWidth || !chromeCv) return;
+    scope = root;
+    const { ctx, w, h } = fit(chromeCv);
+    if (w < 2) return;
+    const W = chromeCv.width, H = chromeCv.height, k = W / w;
+    const rect = coverRect(mark.naturalWidth, mark.naturalHeight, W, H, true, 12 * k);
+    const mask = layer(W, H), mx = mask.getContext('2d');
+    mx.drawImage(mark, rect.x, rect.y, rect.w, rect.h);
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H);
+    if (quiet()) { mx.globalCompositeOperation = 'source-in'; mx.fillStyle = css('--jkd-ink'); mx.fillRect(0, 0, W, H); ctx.drawImage(mask, 0, 0); return; }
+    // Chrome is shot against black: the mark sits on its own ink plate.
+    ctx.fillStyle = '#0a0a0a'; ctx.beginPath(); ctx.roundRect(0, 0, W, H, 3 * k); ctx.fill();
+    // The body. Every stroke is treated as a rounded tube: a blur of the mark
+    // is its height, the slope at each pixel is its normal, and the normal
+    // picks what it reflects from a sky, horizon and ground ramp.
+    const cw = Math.round(w), ch = Math.round(h), r1 = coverRect(mark.naturalWidth, mark.naturalHeight, cw, ch, true, 12);
+    const m1 = layer(cw, ch), m1x = m1.getContext('2d', { willReadFrequently: true }); m1x.drawImage(mark, r1.x, r1.y, r1.w, r1.h);
+    const hm = layer(cw, ch), hmx = hm.getContext('2d', { willReadFrequently: true }); hmx.filter = 'blur(5px)'; hmx.drawImage(m1, 0, 0);
+    const A = m1x.getImageData(0, 0, cw, ch).data, Hd = hmx.getImageData(0, 0, cw, ch).data;
+    if (!drawChrome.ramp) {
+      const rc = layer(256, 1), rx = rc.getContext('2d'), rg = rx.createLinearGradient(0, 0, 256, 0);
+      [[0, '#f4f4f4'], [0.28, '#cfcfcf'], [0.44, '#8a8a8a'], [0.495, '#5a5a5a'], [0.5, '#0b0b0b'], [0.57, '#353535'], [0.74, '#9e9e9e'], [0.9, '#f5f5f5'], [1, '#c4c4c4']]
+        .forEach(([o, c]) => rg.addColorStop(o, c));
+      rx.fillStyle = rg; rx.fillRect(0, 0, 256, 1); drawChrome.ramp = rx.getImageData(0, 0, 256, 1).data;
+    }
+    const ramp = drawChrome.ramp, out = m1x.createImageData(cw, ch), O = out.data, hAt = (x, y) => Hd[((y < 0 ? 0 : y >= ch ? ch - 1 : y) * cw + (x < 0 ? 0 : x >= cw ? cw - 1 : x)) * 4 + 3] / 255;
+    const tilt = horizon - 0.46;
+    for (let y = 0; y < ch; y++) for (let x = 0; x < cw; x++) {
+      const i = (y * cw + x) * 4, a = A[i + 3];
+      if (a < 8) continue;
+      const gx = hAt(x + 2, y) - hAt(x - 2, y), gy = hAt(x, y + 2) - hAt(x, y - 2);
+      let t = 0.5 + gy * 2.6 + gx * 0.5 + (y / ch - 0.5) * 0.3 - tilt;
+      t = t < 0 ? 0 : t > 1 ? 1 : t;
+      const j = (t * 255 | 0) * 4, spec = Math.max(0, -gx - gy) * 1.6;
+      O[i] = Math.min(255, ramp[j] + spec * 255); O[i + 1] = Math.min(255, ramp[j + 1] + spec * 255); O[i + 2] = Math.min(255, ramp[j + 2] + spec * 255); O[i + 3] = a;
+    }
+    m1x.putImageData(out, 0, 0);
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(m1, 0, 0, W, H);
+  }
   document.getElementById('footer').addEventListener('pointermove', e => {
     if (reduce) return;
-    const r = chromeMark.getBoundingClientRect();
-    chromeMark.style.setProperty('--h', `${clamp((e.clientY - r.top) / r.height, 0.2, 0.8) * 100}%`);
+    const r = chromeCv.getBoundingClientRect();
+    horizon = clamp((e.clientY - r.top) / r.height, 0.25, 0.75);
+    if (!chromeRaf) chromeRaf = requestAnimationFrame(() => { chromeRaf = 0; drawChrome(); });
   });
+  const markLoaded = () => { drawChrome(); };
+  if (mark.complete) markLoaded(); else mark.addEventListener('load', markLoaded);
 
   // The type scale, live.
   const scale = document.getElementById('scale');
@@ -433,9 +563,10 @@
     const lab = labs.find(l => l.kind === SHOT);
     // Headless screenshots do not keep a scroll position, so the chosen
     // section is shown alone, at the top.
-    const keep = lab ? lab.sec : document.getElementById({ work: 'work', system: 'system', footer: 'footer' }[SHOT] || 'hero');
+    const keep = lab ? lab.sec : document.getElementById({ work: 'index', showcase: 'work', system: 'system', footer: 'footer' }[SHOT] || 'hero');
     document.querySelectorAll('main > section, footer').forEach(e => { if (e !== keep) e.style.display = 'none'; });
-    if (keep.id === 'footer' || keep.id === 'system' || keep.id === 'work') keep.style.paddingTop = '120px';
+    if (keep.id !== 'hero' && !lab) keep.style.paddingTop = '120px';
+    await workReady;
     if (lab) {
       lab.sec.style.height = '100vh';
       shotP = +(params.get('p') || { blob: 0.5, moire: 0.52, slit: 0.5, misreg: 0.5, stick: 0.9 }[SHOT]);
@@ -443,17 +574,24 @@
       if (SHOT === 'misreg') Object.assign(lab.state, { dx: 16, dy: -10, vx: 0, vy: 0 });
       pointer.x = innerWidth * (SHOT === 'moire' ? 0.6 : 0.62); pointer.y = innerHeight * 0.4;
     } else if (SHOT === 'work') {
-      const li = document.querySelector('.index li[data-seed="6"]'), r = li.getBoundingClientRect();
+      const li = document.querySelector('.index li[data-img="tb13"]'), r = li.getBoundingClientRect();
       showPeek(li, r.left + r.width * 0.42, r.top + r.height / 2);
+    } else if (SHOT === 'showcase') {
+      const open = params.get('open'); if (open) document.querySelectorAll('.piece')[+open]?.classList.add('open');
+      if (params.get('chapter')) { const c = document.getElementById('work-' + params.get('chapter')); document.querySelectorAll('.chapter').forEach(x => { if (x !== c) x.style.display = 'none'; }); }
     } else if (SHOT === 'system' || SHOT === 'footer') {
       // nothing to set
     } else {
       pointer.x = innerWidth * 0.7; pointer.y = innerHeight * 0.38; lens.x = pointer.x; lens.y = pointer.y;
     }
-    bar.style.width = ({ hero: 0, work: 22, blob: 40, moire: 50, slit: 60, misreg: 70, stick: 80, system: 90, footer: 100 }[SHOT] || 0) + '%';
+    syncThemeButtons();
+    drawPieces(); drawChrome();
+    bar.style.width = ({ hero: 0, work: 18, showcase: 28, blob: 40, moire: 50, slit: 60, misreg: 70, stick: 80, system: 90, footer: 100 }[SHOT] || 0) + '%';
     labs.forEach(l => l.visible = true);
     frame(); frame();
     document.title = 'ready';
   }
+  function syncThemeButtons() { themeButtons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeSet === (root.dataset.theme || 'light')))); }
+  syncThemeButtons();
   if (SHOT) shot(); else document.fonts.ready.then(() => { rebuild(); syncTheme(); });
 })();

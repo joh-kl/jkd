@@ -191,8 +191,11 @@ is concrete grey, so a slab still reads on black.
 The shared set, implemented in `swift/` and `web/`. Each has a page in
 `references/components.md`.
 
-- **The bar**: a heavy square rule over a word, as wide as the word. Also the
-  progress bar. One per screen, over the most important name.
+- **The bar**: a heavy square rule over a word, as wide as the word, about a
+  sixth of its cap height at display sizes. Also the progress bar. One per
+  screen, over the most important name.
+- **The switch**: white or black, both words always visible. White is the
+  default. A section may invert for effect, once or twice per page.
 - **Caption**: lowercase small label.
 - **Page title**: display size, lowercase, under the bar.
 - **Slab**, **Plate button**, **Quiet button** (words only, underlined on

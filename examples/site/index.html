@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +11,21 @@
 <style>
   body { overflow-x: hidden; }
   .mark { -webkit-mask: var(--mark) center / contain no-repeat; mask: var(--mark) center / contain no-repeat; background: var(--jkd-ink); }
+
+  /* A section that flips the theme: black on a white page, white on a black one. */
+  .invert { --jkd-ink: #fff; --jkd-page: #000; --jkd-raised: #161616; --jkd-sunken: #0d0d0d; --jkd-secondary: #a0a09b;
+            --jkd-rule: #4a4a47; --jkd-boundary: #fff; --jkd-shadow: rgba(151,152,146,.35); --jkd-on-ink: #000; --jkd-hover: rgba(255,255,255,.08);
+            background: var(--jkd-page); color: var(--jkd-ink); }
+  :root[data-theme="dark"] .invert { --jkd-ink: #000; --jkd-page: #fff; --jkd-raised: #fff; --jkd-sunken: #f2f2f0; --jkd-secondary: #5e5e5a;
+            --jkd-rule: #979892; --jkd-boundary: #000; --jkd-shadow: rgba(0,0,0,.22); --jkd-on-ink: #fff; --jkd-hover: rgba(0,0,0,.06); }
+
+  /* White or black: a real switch, not a hidden chip. */
+  .seg { display: inline-flex; background: var(--jkd-sunken); border-radius: var(--jkd-radius); padding: 2px; gap: 2px; }
+  .seg button { font: 500 var(--jkd-small)/1 var(--jkd-font); color: var(--jkd-ink); background: none; border: 0; border-radius: var(--jkd-radius);
+                padding: var(--jkd-s2) var(--jkd-s3); min-height: 32px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--jkd-ink); color: var(--jkd-on-ink); }
+  .seg.big { padding: 4px; gap: 4px; }
+  .seg.big button { font: 800 clamp(2rem, 5vw, 4.5rem)/1 var(--jkd-font); letter-spacing: -0.045em; padding: var(--jkd-s3) var(--jkd-s6) var(--jkd-s4); min-height: 0; }
 
   /* Top: the bar as scroll progress, then a quiet nav. */
   .top { position: fixed; inset: 0 0 auto 0; z-index: 20; background: var(--jkd-page); }
@@ -30,10 +45,10 @@
   .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
   .hero .words { position: relative; z-index: 1; pointer-events: none; max-width: 1440px; margin: 0 auto; width: 100%; }
   .hero h1 { font: 800 clamp(4.5rem, 13vw, 12rem)/0.82 var(--jkd-font); letter-spacing: -0.055em; margin: 0; }
-  .hero h1 .jkd-barred { border-top-width: clamp(6px, 1.3vw, 16px); padding-top: clamp(8px, 1vw, 14px); }
+  .hero h1 .jkd-barred { border-top-width: clamp(12px, 2.3vw, 34px); padding-top: clamp(10px, 1.2vw, 18px); }
   .hero .sub { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--jkd-gutter); margin-top: var(--jkd-s7); }
-  .hero .sub p.jkd-caption { font-size: var(--jkd-caption); line-height: 1.45; }
   .hero .sub p { margin: 0; font-size: var(--jkd-lead); line-height: 1.4; }
+  .hero .sub p.jkd-caption { font-size: var(--jkd-caption); line-height: 1.45; }
   .hero .sub span { background: var(--jkd-page); box-decoration-break: clone; -webkit-box-decoration-break: clone; padding: 0 4px 0 0; }
 
   /* Principles: a stacked headline against the right margin. */
@@ -45,50 +60,71 @@
   .manifesto li { counter-increment: n; padding: var(--jkd-s3) 0; border-top: 1px solid var(--jkd-rule); font-size: var(--jkd-small); }
   .manifesto li::before { content: counter(n, decimal-leading-zero); display: block; font: 500 var(--jkd-caption)/1.4 var(--jkd-font); color: var(--jkd-secondary); }
 
-  /* Work: a typographic index; a row reveals a halftone plate at the pointer. */
+  /* Work index: a typographic list; a row shows its project through the halftone filter. */
   .index ol { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; }
   .index li { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--jkd-gutter); align-items: baseline; padding: var(--jkd-s3) 0; border-top: 1px solid var(--jkd-rule); }
   .index li:last-child { border-bottom: 1px solid var(--jkd-rule); }
+  .index li a { display: contents; color: inherit; text-decoration: none; }
   .index .n { grid-column: 1 / 2; }
   .index .t { grid-column: 2 / 8; font: 700 clamp(1.75rem, 3.6vw, 3.5rem)/1.05 var(--jkd-font); letter-spacing: -0.035em; transition: transform var(--jkd-standard) ease-out; }
   .index .d { grid-column: 8 / 11; font-size: var(--jkd-small); }
   .index .k { grid-column: 11 / -1; text-align: right; }
   .index li:hover .t { transform: translateX(var(--jkd-s5)); }
   .index li:hover { background: var(--jkd-hover); }
-  .peek { position: fixed; width: 280px; height: 200px; pointer-events: none; z-index: 30; opacity: 0; transition: opacity var(--jkd-quick) ease-out;
+  .peek { position: fixed; width: 300px; height: 220px; pointer-events: none; z-index: 30; opacity: 0; transition: opacity var(--jkd-quick) ease-out;
           border-radius: var(--jkd-radius); box-shadow: 6px 6px 0 0 var(--jkd-shadow); border: 1px solid var(--jkd-rule); }
   .peek.on { opacity: 1; }
 
+  /* The work: chapters on the grid; each piece wears the halftone filter until you look closer. */
+  .showcase .chapter { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--jkd-s6) var(--jkd-gutter); margin-bottom: var(--jkd-s9); align-items: start; }
+  .showcase .chapter > h3 { grid-column: 1 / -1; font: 800 clamp(2rem, 4.5vw, 4rem)/0.95 var(--jkd-font); letter-spacing: -0.045em; margin: 0; display: flex; align-items: baseline; gap: var(--jkd-s4); }
+  .showcase .chapter > h3 .jkd-caption { letter-spacing: 0.036em; }
+  .piece { margin: 0; }
+  .piece .frame { position: relative; overflow: hidden; border-radius: var(--jkd-radius); background: var(--jkd-sunken); }
+  .piece img { display: block; width: 100%; height: auto; }
+  .piece canvas { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity var(--jkd-standard) ease-out; }
+  .piece:hover canvas, .piece:focus-within canvas, .piece.open canvas { opacity: 0; }
+  .piece figcaption { display: flex; gap: var(--jkd-s2); align-items: baseline; margin-top: var(--jkd-s2); }
+  .piece figcaption b { font: 700 var(--jkd-small)/1.2 var(--jkd-font); }
+  .logos { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--jkd-gutter); }
+  .logos .frame { aspect-ratio: 4 / 3; display: grid; place-items: center; padding: var(--jkd-s5); box-sizing: border-box; }
+  .logos img { max-width: 100%; max-height: 100%; width: auto; object-fit: contain; }
+
   /* The lab: one experiment per screen, pinned while you scroll through it. */
   .lab { padding: 0; max-width: none; height: 220vh; }
+  .lab.short { height: 140vh; }
   .lab .pin { position: sticky; top: 0; height: 100vh; overflow: hidden; }
   .lab canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
   .lab .about { position: absolute; left: var(--jkd-margin); bottom: var(--jkd-s6); z-index: 2; max-width: 360px; background: var(--jkd-page); padding: var(--jkd-s2) var(--jkd-s3) var(--jkd-s3) 0; }
   .lab .about p { margin: var(--jkd-s2) 0 0; font-size: var(--jkd-small); }
   .lab .about .jkd-caption b { color: var(--jkd-ink); font-weight: 500; }
-  .lab .readout { position: absolute; right: var(--jkd-margin); bottom: var(--jkd-s6); z-index: 2; font: 400 var(--jkd-caption)/1.5 var(--jkd-mono); color: var(--jkd-secondary); text-align: right; white-space: pre; background: var(--jkd-page); padding: var(--jkd-s2) 0 var(--jkd-s2) var(--jkd-s3); }
+  .lab .readout { position: absolute; right: var(--jkd-margin); bottom: var(--jkd-s6); z-index: 2; font: 400 var(--jkd-caption)/1.5 var(--jkd-mono); color: var(--jkd-secondary);
+                  text-align: right; white-space: pre; background: var(--jkd-page); padding: var(--jkd-s2) 0 var(--jkd-s2) var(--jkd-s3); }
   .labintro { padding-bottom: var(--jkd-s7); }
   .labintro h2 { font: 800 clamp(3rem, 8vw, 7.5rem)/0.9 var(--jkd-font); letter-spacing: -0.05em; margin: 0; grid-column: 1 / 10; }
   .labintro p { grid-column: 1 / 6; margin-top: var(--jkd-s5); }
 
-  /* System: the scale and the palette, live. */
-  .system .scale { grid-column: 1 / 9; }
+  /* System: the switch, the scale, the colours and the buttons, each saying what it is for. */
+  .system .switch { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: end; gap: var(--jkd-s5); margin-bottom: var(--jkd-s8); }
+  .system .switch p { margin: 0; max-width: 300px; }
+  .system .scale { grid-column: 1 / 8; }
   .system .scale div { display: flex; align-items: baseline; gap: var(--jkd-s4); border-top: 1px solid var(--jkd-rule); padding: var(--jkd-s2) 0; overflow: hidden; white-space: nowrap; }
   .system .scale .jkd-caption { width: 64px; flex: none; }
-  .system .swatches { grid-column: 9 / -1; display: grid; gap: var(--jkd-s2); align-content: start; }
-  .swatch { display: grid; grid-template-columns: 48px 1fr auto; gap: var(--jkd-s3); align-items: center; font-size: var(--jkd-small); }
+  .system .side { grid-column: 8 / -1; display: grid; gap: var(--jkd-s6); align-content: start; }
+  .swatch { display: grid; grid-template-columns: 48px 1fr; gap: var(--jkd-s3); align-items: center; padding: var(--jkd-s1) 0; }
   .swatch i { height: 48px; border-radius: var(--jkd-radius); border: 1px solid var(--jkd-rule); }
+  .swatch b { display: block; font: 700 var(--jkd-small)/1.3 var(--jkd-font); }
+  .swatch span { font-size: var(--jkd-small); color: var(--jkd-secondary); }
+  .demo { display: flex; gap: var(--jkd-s4); align-items: center; flex-wrap: wrap; margin: var(--jkd-s3) 0; }
 
   /* Footer: the mark in chrome, the name, the contact. */
   footer { padding: var(--jkd-s9) var(--jkd-margin) var(--jkd-s6); max-width: 1440px; margin: 0 auto; box-sizing: border-box; border-top: 1px solid var(--jkd-rule);
            display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--jkd-gutter); align-items: end; }
-  footer .chrome-mark { grid-column: 1 / 6; aspect-ratio: 596 / 510; -webkit-mask: var(--mark) center / contain no-repeat; mask: var(--mark) center / contain no-repeat;
-           background: linear-gradient(180deg, #fafafa 0%, #cfcfcf 26%, #8d8d8d var(--h, 46%), #1f1f1f calc(var(--h, 46%) + 1%), #5a5a5a 64%, #e3e3e3 88%, #9a9a9a 100%); }
-  footer .who { grid-column: 7 / -1; }
+  footer canvas { grid-column: 1 / 7; width: 100%; aspect-ratio: 596 / 510; box-shadow: 6px 6px 0 0 var(--jkd-shadow); border-radius: var(--jkd-radius); }
+  footer .who { grid-column: 8 / -1; }
   footer .name { font: 800 clamp(2.5rem, 6vw, 5.5rem)/0.9 var(--jkd-font); letter-spacing: -0.05em; margin: 0 0 var(--jkd-s5); }
   footer .row { display: flex; flex-wrap: wrap; gap: var(--jkd-s5); align-items: center; }
   footer a { color: var(--jkd-ink); }
-  .todo { outline: 1px dashed var(--jkd-secondary); outline-offset: 3px; }
 
   /* The grid overlay, shown with G. */
   .overlay { position: fixed; inset: 0; z-index: 40; pointer-events: none; display: none; padding: 0 var(--jkd-margin); max-width: 1440px; margin: 0 auto; box-sizing: border-box; }
@@ -98,29 +134,36 @@
 
   @media (max-width: 767px) {
     .hero .sub { grid-template-columns: 1fr; }
-    .manifesto .stack, .manifesto .notes, .system .scale, .system .swatches, .labintro h2, .labintro p { grid-column: 1 / -1; }
+    .manifesto .stack, .manifesto .notes, .system .scale, .system .side, .labintro h2, .labintro p { grid-column: 1 / -1; }
     .manifesto .notes { margin-top: var(--jkd-s7); }
     .index li { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .index .t { grid-column: 1 / -1; order: -1; } .index .n { grid-column: 1 / 2; } .index .d { grid-column: 2 / 4; } .index .k { grid-column: 4 / -1; }
+    .showcase .chapter { grid-template-columns: 1fr; } .showcase .piece { grid-column: 1 / -1 !important; }
     .lab .readout { display: none; }
-    footer .chrome-mark, footer .who { grid-column: 1 / -1; }
+    footer canvas, footer .who { grid-column: 1 / -1; }
     .overlay .jkd-grid i:nth-child(n+5) { display: none; }
     .top nav a.jkd-caption { display: none; }
   }
 </style>
 <script src="assets/mark.js"></script>
-<script>document.documentElement.style.setProperty('--mark', `url(${window.JKD_MARK})`);</script>
+<script src="assets/work.js"></script>
+<script>
+  document.documentElement.style.setProperty('--mark', `url(${window.JKD_MARK})`);
+  // White unless chosen otherwise; ?theme= wins for screenshots.
+  try { const t = new URLSearchParams(location.search).get('theme') || localStorage.getItem('jkd-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
 </head>
 <body>
 <header class="top">
   <div class="jkd-progress" aria-hidden="true"><span id="progress" style="width:0"></span></div>
   <nav aria-label="Main">
     <a class="logo" href="#top" aria-label="jkd, to the top"><i class="mark" aria-hidden="true"></i><b>jkd</b></a>
+    <a class="jkd-caption" href="#index">index</a>
     <a class="jkd-caption" href="#work">work</a>
     <a class="jkd-caption" href="#lab">lab</a>
     <a class="jkd-caption" href="#system">system</a>
     <button class="jkd-chip" id="gridToggle" aria-pressed="false">grid</button>
-    <button class="jkd-chip" id="themeToggle" aria-pressed="false">dark</button>
+    <div class="seg" role="group" aria-label="Colour"><button data-theme-set="light">white</button><button data-theme-set="dark">black</button></div>
   </nav>
 </header>
 
@@ -130,7 +173,7 @@
     <div class="words">
       <h1><span class="jkd-barred">jkd</span></h1>
       <div class="sub">
-        <p><span>Graphic design, interfaces, print and sound.</span></p>
+        <p><span>Graphic design, identities, posters and interfaces.</span></p>
         <p class="jkd-secondary"><span>Swiss typography on a brutalist base. Black and white until colour earns a job.</span></p>
         <p class="jkd-caption" style="align-self:end"><span>local time <span id="clock">00:00</span> · press g for the grid</span></p>
       </div>
@@ -150,91 +193,106 @@
     </div>
   </section>
 
-  <section class="index rule-top" id="work" aria-label="Selected work">
+  <section class="index rule-top" id="index" aria-label="Index of work">
     <div class="jkd-grid">
-      <div class="label jkd-caption"><span>02</span><span>selected work</span></div>
+      <div class="label jkd-caption"><span>02</span><span>index</span></div>
       <ol>
-        <li data-seed="1"><span class="n jkd-caption">001</span><span class="t">büro</span><span class="d jkd-secondary">Brand development guide</span><span class="k jkd-caption">identity</span></li>
-        <li data-seed="2"><span class="n jkd-caption">002</span><span class="t">IG PAT</span><span class="d jkd-secondary">Logomark and styleguide</span><span class="k jkd-caption">identity</span></li>
-        <li data-seed="3"><span class="n jkd-caption">003</span><span class="t">ALPS</span><span class="d jkd-secondary">Logotype, CONF 2025</span><span class="k jkd-caption">identity</span></li>
-        <li data-seed="4"><span class="n jkd-caption">004</span><span class="t">Technobar</span><span class="d jkd-secondary">Club night artwork, a numbered run</span><span class="k jkd-caption">print</span></li>
-        <li data-seed="5"><span class="n jkd-caption">005</span><span class="t">Momo</span><span class="d jkd-secondary">Poster series</span><span class="k jkd-caption">print</span></li>
-        <li data-seed="6"><span class="n jkd-caption">006</span><span class="t">FFU Fest</span><span class="d jkd-secondary">Hood Brawl</span><span class="k jkd-caption">print</span></li>
-        <li data-seed="7"><span class="n jkd-caption">007</span><span class="t">Auto-Sort 2</span><span class="d jkd-secondary">A filing app that learns</span><span class="k jkd-caption">interface</span></li>
-        <li data-seed="8"><span class="n jkd-caption">008</span><span class="t">Augury</span><span class="d jkd-secondary">Card scanner for iPhone</span><span class="k jkd-caption">app</span></li>
-        <li data-seed="9"><span class="n jkd-caption">009</span><span class="t">TGTS Sampler</span><span class="d jkd-secondary">Version 6.1</span><span class="k jkd-caption">sound</span></li>
-        <li data-seed="10"><span class="n jkd-caption">010</span><span class="t">Audioreactive mandala</span><span class="d jkd-secondary">TouchDesigner study</span><span class="k jkd-caption">experiment</span></li>
+        <li data-img="buro-posters"><a href="#work-identity"><span class="n jkd-caption">001</span><span class="t">büro</span><span class="d jkd-secondary">Brand development guide</span><span class="k jkd-caption">identity</span></a></li>
+        <li data-img="igpat-clearspace"><a href="#work-identity"><span class="n jkd-caption">002</span><span class="t">IG PAT</span><span class="d jkd-secondary">Logomark and styleguide</span><span class="k jkd-caption">identity</span></a></li>
+        <li data-img="alps-flyer"><a href="#work-identity"><span class="n jkd-caption">003</span><span class="t">ALPS</span><span class="d jkd-secondary">Logotype and visual guidelines</span><span class="k jkd-caption">identity</span></a></li>
+        <li data-img="logo-forli"><a href="#work-logos"><span class="n jkd-caption">004</span><span class="t">By Förli</span><span class="d jkd-secondary">Logo</span><span class="k jkd-caption">identity</span></a></li>
+        <li data-img="tb13"><a href="#work-posters"><span class="n jkd-caption">005</span><span class="t">Technobar</span><span class="d jkd-secondary">Club night posters and logo, vol. 10 to 13</span><span class="k jkd-caption">print</span></a></li>
+        <li data-img="vibe-page"><a href="#work-interfaces"><span class="n jkd-caption">006</span><span class="t">Vibe Catcher</span><span class="d jkd-secondary">UI and UX concept</span><span class="k jkd-caption">interface</span></a></li>
+        <li data-img="map"><a href="#work-interfaces"><span class="n jkd-caption">007</span><span class="t">City map</span><span class="d jkd-secondary">UI and UX introduction</span><span class="k jkd-caption">interface</span></a></li>
+        <li data-img="autosort"><a href="#work-interfaces"><span class="n jkd-caption">008</span><span class="t">Auto-Sort 2</span><span class="d jkd-secondary">A filing app that learns</span><span class="k jkd-caption">interface</span></a></li>
+        <li data-img="mark"><a href="#lab"><span class="n jkd-caption">009</span><span class="t">Augury</span><span class="d jkd-secondary">Card scanner for iPhone</span><span class="k jkd-caption">app</span></a></li>
+        <li data-img="type-brabo"><a href="#work-type"><span class="n jkd-caption">010</span><span class="t">Type studies</span><span class="d jkd-secondary">Five specimens</span><span class="k jkd-caption">type</span></a></li>
+        <li data-img="shapes-gradient"><a href="#work-experiments"><span class="n jkd-caption">011</span><span class="t">Experiments</span><span class="d jkd-secondary">Generative shapes, TouchDesigner</span><span class="k jkd-caption">experiment</span></a></li>
       </ol>
     </div>
-    <canvas class="peek" id="peek" width="560" height="400" aria-hidden="true"></canvas>
+    <canvas class="peek" id="peek" width="600" height="440" aria-hidden="true"></canvas>
+  </section>
+
+  <section class="showcase rule-top" id="work" aria-label="The work">
+    <div class="jkd-grid" id="chapters">
+      <div class="label jkd-caption"><span>03</span><span>the work · hover to lift the screen</span></div>
+    </div>
   </section>
 
   <section class="labintro rule-top" id="lab" aria-label="Type that reacts">
     <div class="jkd-grid">
-      <div class="label jkd-caption"><span>03</span><span>lab: type that reacts</span></div>
+      <div class="label jkd-caption"><span>04</span><span>lab: type that reacts</span></div>
       <h2>Five processes, no resizing.</h2>
       <p class="jkd-secondary">Each experiment borrows a real process: a tracker, a dot screen, a scanner, a press, a composing stick. Scroll through each one; move the pointer. When nothing moves, the type settles and reads.</p>
     </div>
   </section>
 
-  <section class="lab" data-lab="blob" aria-label="Blob tracking"><div class="pin">
+  <section class="lab invert" data-lab="blob" aria-label="Blob tracking"><div class="pin">
     <canvas aria-hidden="true"></canvas>
-    <div class="about"><span class="jkd-caption"><b>03.1</b> blob tracking</span><p>Every shape the pixels form is found, boxed and numbered, the way a TouchDesigner tracker sees a dancer.</p></div>
+    <div class="about"><span class="jkd-caption"><b>04.1</b> blob tracking</span><p>Every shape the pixels form is found, boxed and numbered, the way a TouchDesigner tracker sees a dancer.</p></div>
     <div class="readout" aria-hidden="true"></div>
   </div></section>
 
   <section class="lab" data-lab="moire" aria-label="Moiré"><div class="pin">
     <canvas aria-hidden="true"></canvas>
-    <div class="about"><span class="jkd-caption"><b>03.2</b> moiré, after Weingart</span><p>The word exists only as a shift between two dot screens. Aligned, it reads. Turned, it dissolves into fringes.</p></div>
+    <div class="about"><span class="jkd-caption"><b>04.2</b> moiré, after Weingart</span><p>The word exists only as a shift between two dot screens. Aligned, it reads. Turned, it dissolves into fringes.</p></div>
     <div class="readout" aria-hidden="true"></div>
   </div></section>
 
-  <section class="lab" data-lab="slit" aria-label="Slit-scan"><div class="pin">
+  <section class="lab short" data-lab="slit" aria-label="Slit-scan"><div class="pin">
     <canvas aria-hidden="true"></canvas>
-    <div class="about"><span class="jkd-caption"><b>03.3</b> slit-scan</span><p>Cut into bands, each a moment behind the one above. Still, it is crisp. Scroll fast and it smears like a scanner.</p></div>
+    <div class="about"><span class="jkd-caption"><b>04.3</b> slit-scan</span><p>Cut into bands, each a moment behind the one above. Still, it is crisp. Scroll fast and it smears like a scanner.</p></div>
     <div class="readout" aria-hidden="true"></div>
   </div></section>
 
   <section class="lab" data-lab="misreg" aria-label="Misregistration"><div class="pin">
     <canvas aria-hidden="true"></canvas>
-    <div class="about"><span class="jkd-caption"><b>03.4</b> misregistration</span><p>Two plates, one word. Speed pulls the halftone plate out of register; stopping snaps it back.</p></div>
+    <div class="about"><span class="jkd-caption"><b>04.4</b> misregistration</span><p>Two plates, one word. Speed pulls the halftone plate out of register; stopping snaps it back.</p></div>
     <div class="readout" aria-hidden="true"></div>
   </div></section>
 
   <section class="lab" data-lab="stick" aria-label="The composing stick"><div class="pin">
     <canvas aria-hidden="true"></canvas>
-    <div class="about"><span class="jkd-caption"><b>03.5</b> the composing stick</span><p>Set by hand, one sort at a time, mirrored, with the spacing quads in grey. Then proofed, and it reads.</p></div>
+    <div class="about"><span class="jkd-caption"><b>04.5</b> the composing stick</span><p>Set by hand, one sort at a time, mirrored, with the spacing quads in grey. Then proofed, and it reads.</p></div>
     <div class="readout" aria-hidden="true"></div>
   </div></section>
 
   <section class="system rule-top" id="system" aria-label="The system">
     <div class="jkd-grid">
-      <div class="label jkd-caption"><span>04</span><span>the system: switzer, black and white</span></div>
+      <div class="label jkd-caption"><span>05</span><span>the system</span></div>
+      <div class="switch">
+        <div class="seg big" role="group" aria-label="Colour"><button data-theme-set="light">white</button><button data-theme-set="dark">black</button></div>
+        <p class="jkd-secondary">The whole system is black and white. Switch it; every colour below follows.</p>
+      </div>
       <div class="scale" id="scale"></div>
-      <div class="swatches">
-        <div class="swatch"><i style="background:var(--jkd-ink)"></i><span>ink</span><span class="jkd-caption">21.0:1</span></div>
-        <div class="swatch"><i style="background:var(--jkd-page)"></i><span>page</span><span class="jkd-caption">layer 0</span></div>
-        <div class="swatch"><i style="background:var(--jkd-sunken)"></i><span>sunken</span><span class="jkd-caption">layer 1</span></div>
-        <div class="swatch"><i style="background:var(--jkd-secondary)"></i><span>secondary</span><span class="jkd-caption">6.5:1</span></div>
-        <div class="swatch"><i style="background:var(--jkd-rule)"></i><span>rule</span><span class="jkd-caption">decorative</span></div>
-        <div class="swatch"><i style="background:repeating-linear-gradient(45deg,var(--jkd-sunken) 0 6px,var(--jkd-page) 6px 12px)"></i><span>primary, accent</span><span class="jkd-caption">not yet</span></div>
-        <div style="margin-top:var(--jkd-s5);display:flex;gap:var(--jkd-s4);align-items:center;flex-wrap:wrap">
-          <button class="jkd-plate">File in VL 2</button>
-          <button class="jkd-quiet">Next guess</button>
+      <div class="side">
+        <div>
+          <div class="jkd-caption" style="margin-bottom:var(--jkd-s3)">the colours, and what each one is for</div>
+          <div class="swatch"><i style="background:var(--jkd-ink)"></i><div><b>Ink</b><span>Text, lines, the bar</span></div></div>
+          <div class="swatch"><i style="background:var(--jkd-page)"></i><div><b>Page</b><span>The background</span></div></div>
+          <div class="swatch"><i style="background:var(--jkd-sunken)"></i><div><b>Sunken</b><span>Fields, chips, wells</span></div></div>
+          <div class="swatch"><i style="background:var(--jkd-secondary)"></i><div><b>Secondary</b><span>Quieter text</span></div></div>
+          <div class="swatch"><i style="background:var(--jkd-rule)"></i><div><b>Rule</b><span>Hairlines only</span></div></div>
+          <div class="swatch"><i style="background:repeating-linear-gradient(45deg,var(--jkd-sunken) 0 6px,var(--jkd-page) 6px 12px)"></i><div><b>Primary, accent</b><span>Colour, to be chosen</span></div></div>
         </div>
-        <div class="jkd-slab jkd-grain" style="margin-top:var(--jkd-s5);min-height:96px"><span class="jkd-caption">a slab, with paper grain</span></div>
+        <div>
+          <div class="jkd-caption">the buttons</div>
+          <div class="demo"><button class="jkd-plate">View project</button><button class="jkd-quiet">Skip</button></div>
+          <span class="jkd-secondary" style="font-size:var(--jkd-small)">One heavy plate per screen for the main action. Everything else is a quiet button: just the words.</span>
+        </div>
+        <div class="jkd-slab jkd-grain" style="min-height:96px"><span class="jkd-caption">a slab, for what you act on, with paper grain</span></div>
       </div>
     </div>
   </section>
 </main>
 
 <footer id="footer">
-  <div class="chrome-mark" id="chromeMark" role="img" aria-label="The JKD brush mark"></div>
+  <canvas id="chrome" aria-label="The JKD brush mark in chrome" role="img"></canvas>
   <div class="who">
     <p class="name">Johannes<br>Klaus Design</p>
     <div class="row">
-      <a class="jkd-caption todo" href="https://instagram.com/" title="Instagram handle to fill in">instagram: @handle</a>
-      <span class="jkd-caption jkd-barred">jkd design system 0.2</span>
+      <a class="jkd-caption" href="https://www.instagram.com/jonny.klaus/" rel="noopener">instagram @jonny.klaus</a>
+      <span class="jkd-caption jkd-barred">jkd design system 0.3</span>
       <span class="jkd-caption">set in switzer by indian type foundry</span>
     </div>
   </div>

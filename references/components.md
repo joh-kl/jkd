@@ -11,11 +11,24 @@ exactly as wide as the word.
 
 - Over the single most important name on a screen (a destination, a page
   title). One per screen.
-- Thickness 6 pt on screen (about the umlaut's weight at display size), the
-  guide's proportion in print.
+- Thickness 6 pt over interface text. Over display type it grows with the
+  word: about a sixth of the cap height (a 190 px headline carries a 30 px
+  bar). A thin bar over a huge word reads as an underline, not as the mark.
 - Square ends, always. It is the mark.
 - As a **progress bar** it fills from the left in ink over a rule track.
 - SwiftUI: `Bar(progress:)`, `Barred { Text(...) }`. CSS: `.jkd-barred`.
+
+## The switch
+
+White or black, as a two part control that always shows both words and fills
+the chosen one. Never a hidden chip or an icon alone. A page remembers the
+choice; the default is white.
+
+## Inverted section
+
+One section may flip the theme for effect (black on a white page, white on a
+black one), when its content is light on dark by nature, such as a tracker's
+readout. Use it once or twice per page, never for text the reader must study.
 
 ## Caption
 
