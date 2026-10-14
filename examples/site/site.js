@@ -196,7 +196,7 @@
     const w = peek.width, h = peek.height, item = WORK[id];
     const img = item ? item.img : mark, isLogo = !item || item.group === 'logos';
     if (!img || !img.naturalWidth) return;
-    scope = root;
+    peek.classList.toggle('light', isLogo); scope = isLogo ? peek : root;
     halftoneImage(pctx, img, w, h, coverRect(img.naturalWidth, img.naturalHeight, w, h, isLogo, isLogo ? 40 : 0), { cell: 9, bg: css(isLogo ? '--jkd-sunken' : '--jkd-raised') });
   }
   const showPeek = (li, x, y) => { plate(li.dataset.img); peek.classList.add('on');
@@ -210,12 +210,12 @@
   // The work, in chapters on the 12 column grid. Each piece wears the screen
   // until you hover, focus or tap it.
   const CHAPTERS = [
-    ['identity', 'Identity', [['buro-posters', 7], ['buro-guide', 5], ['buro-logotype', 5], ['buro-applications', 7], ['alps-flyer', 5], ['alps-guidelines', 7], ['igpat-guide', 6], ['igpat-clearspace', 6]]],
-    ['posters', 'Posters', [['tb13', 3], ['tb12', 3], ['tb11', 3], ['tb10', 3]]],
-    ['interfaces', 'Interfaces', [['vibe-cover', 6], ['vibe-page', 6], ['map', 8], ['autosort', 4]]],
-    ['type', 'Type studies', [['type-brabo', 4], ['type-clerkenwell', 4], ['type-conrad', 4], ['type-dillon', 6], ['type-emeric', 6]]],
-    ['experiments', 'Experiments', [['td-video', 8], ['td-1', 4], ['td-2', 4], ['td-3', 4], ['shapes-gradient', 4], ['shapes-polygon', 6], ['capture', 6]]],
-    ['logos', 'Logos', (window.JKD_WORK || []).filter(w => w.group === 'logos').map(w => [w.id, 3])],
+    ['identity', 'Identity', [['buro-table', 7], ['buro-exploration', 5], ['buro-guide', 5], ['buro-logotype', 7], ['buro-applications', 12], ['logo-alps', 5], ['alps-flyer', 7], ['igpat-guide', 6], ['igpat-clearspace', 6]]],
+    ['posters', 'Posters', [['tb13', 4], ['tb13-trees', 4], ['tb12', 4], ['tb11', 6], ['tb10', 6]]],
+    ['interfaces', 'Interfaces', [['vibe-cover', 6], ['vibe-page', 6], ['autosort', 8]]],
+    ['type', 'Type studies', [['type-brabo', 3], ['type-clerkenwell', 3], ['type-conrad', 3], ['type-dillon', 3]]],
+    ['experiments', 'Experiments', [['td-video', 8], ['td-1', 4], ['td-2', 6], ['td-3', 6]]],
+    ['logos', 'Logos', (window.JKD_WORK || []).filter(w => w.group === 'logos' && w.id !== 'logo-alps').map(w => [w.id, 3])],
   ];
   const chapters = document.getElementById('chapters');
   const pieces = [];
@@ -242,13 +242,15 @@
       fig.innerHTML = `<div class="frame" tabindex="0"><img alt="${w.title}, ${w.caption}" src="${w.src}"><canvas aria-hidden="true"></canvas></div><figcaption><b>${w.title}</b><span class="jkd-caption">${w.caption}</span></figcaption>`;
       fig.addEventListener('click', () => fig.classList.toggle('open'));
       holder.appendChild(fig);
-      pieces.push({ fig, id, logo: key === 'logos' });
+      if (key === 'logos' || id === 'logo-alps') fig.classList.add('light');
+      pieces.push({ fig, id, logo: key === 'logos' || id === 'logo-alps' });
     });
     chapters.appendChild(ch);
   });
   function drawPieces() {
     scope = root;
     for (const p of pieces) {
+      scope = p.logo || p.id === 'logo-alps' ? p.fig : root;
       const img = WORK[p.id].img, frame = p.fig.querySelector('.frame'), el = p.fig.querySelector('img'), cv = p.fig.querySelector('canvas');
       if (!img.naturalWidth || quiet()) { cv.getContext('2d').clearRect(0, 0, cv.width, cv.height); continue; }
       const { ctx, w, h } = fit(cv);

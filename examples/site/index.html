@@ -91,6 +91,9 @@
     -webkit-mask: radial-gradient(circle, #000 40%, transparent 46%) 0 0 / 7px 7px; mask: radial-gradient(circle, #000 40%, transparent 46%) 0 0 / 7px 7px; }
   .piece.video:hover video, .piece.video:focus-within video, .piece.video.open video { -webkit-mask: none; mask: none; }
   @media (prefers-contrast: more), (prefers-reduced-transparency: reduce) { .piece.video video { -webkit-mask: none; mask: none; } }
+  /* Logos are drawn for light paper: their tiles stay light on the black page too. */
+  .light, .peek.light { --jkd-ink: #000; --jkd-page: #fff; --jkd-raised: #fff; --jkd-sunken: #f2f2f0; --jkd-secondary: #5e5e5a; --jkd-rule: #979892; color: var(--jkd-ink); }
+  .light .frame { background: #f2f2f0; }
   .logos { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--jkd-gutter); }
   .logos .frame { aspect-ratio: 4 / 3; display: grid; place-items: center; padding: var(--jkd-s5); box-sizing: border-box; }
   .logos img { max-width: 100%; max-height: 100%; width: auto; object-fit: contain; }
@@ -202,17 +205,16 @@
     <div class="jkd-grid">
       <div class="label jkd-caption"><span>02</span><span>index</span></div>
       <ol>
-        <li data-img="buro-posters"><a href="#work-identity"><span class="n jkd-caption">001</span><span class="t">büro</span><span class="d jkd-secondary">Brand development guide</span><span class="k jkd-caption">identity</span></a></li>
+        <li data-img="buro-table"><a href="#work-identity"><span class="n jkd-caption">001</span><span class="t">büro</span><span class="d jkd-secondary">Brand development guide</span><span class="k jkd-caption">identity</span></a></li>
         <li data-img="igpat-clearspace"><a href="#work-identity"><span class="n jkd-caption">002</span><span class="t">IG PAT</span><span class="d jkd-secondary">Logomark and styleguide</span><span class="k jkd-caption">identity</span></a></li>
         <li data-img="alps-flyer"><a href="#work-identity"><span class="n jkd-caption">003</span><span class="t">ALPS</span><span class="d jkd-secondary">Logotype and visual guidelines</span><span class="k jkd-caption">identity</span></a></li>
         <li data-img="logo-forli"><a href="#work-logos"><span class="n jkd-caption">004</span><span class="t">By Förli</span><span class="d jkd-secondary">Logo</span><span class="k jkd-caption">identity</span></a></li>
         <li data-img="tb13"><a href="#work-posters"><span class="n jkd-caption">005</span><span class="t">Technobar</span><span class="d jkd-secondary">Club night posters and logo, vol. 10 to 13</span><span class="k jkd-caption">print</span></a></li>
         <li data-img="vibe-page"><a href="#work-interfaces"><span class="n jkd-caption">006</span><span class="t">Vibe Catcher</span><span class="d jkd-secondary">UI and UX concept</span><span class="k jkd-caption">interface</span></a></li>
-        <li data-img="map"><a href="#work-interfaces"><span class="n jkd-caption">007</span><span class="t">City map</span><span class="d jkd-secondary">UI and UX introduction</span><span class="k jkd-caption">interface</span></a></li>
-        <li data-img="autosort"><a href="#work-interfaces"><span class="n jkd-caption">008</span><span class="t">Auto-Sort 2</span><span class="d jkd-secondary">A filing app that learns</span><span class="k jkd-caption">interface</span></a></li>
-        <li data-img="mark"><a href="#lab"><span class="n jkd-caption">009</span><span class="t">Augury</span><span class="d jkd-secondary">Card scanner for iPhone</span><span class="k jkd-caption">app</span></a></li>
-        <li data-img="type-brabo"><a href="#work-type"><span class="n jkd-caption">010</span><span class="t">Type studies</span><span class="d jkd-secondary">Five specimens</span><span class="k jkd-caption">type</span></a></li>
-        <li data-img="shapes-gradient"><a href="#work-experiments"><span class="n jkd-caption">011</span><span class="t">Experiments</span><span class="d jkd-secondary">Generative shapes, TouchDesigner</span><span class="k jkd-caption">experiment</span></a></li>
+        <li data-img="autosort"><a href="#work-interfaces"><span class="n jkd-caption">007</span><span class="t">Auto-Sort 2</span><span class="d jkd-secondary">A filing app that learns</span><span class="k jkd-caption">interface</span></a></li>
+        <li data-img="mark"><a href="#lab"><span class="n jkd-caption">008</span><span class="t">Augury</span><span class="d jkd-secondary">Card scanner for iPhone</span><span class="k jkd-caption">app</span></a></li>
+        <li data-img="type-brabo"><a href="#work-type"><span class="n jkd-caption">009</span><span class="t">Type studies</span><span class="d jkd-secondary">Four specimens</span><span class="k jkd-caption">type</span></a></li>
+        <li data-img="td-2"><a href="#work-experiments"><span class="n jkd-caption">010</span><span class="t">Experiments</span><span class="d jkd-secondary">Fluid contours in TouchDesigner</span><span class="k jkd-caption">experiment</span></a></li>
       </ol>
     </div>
     <canvas class="peek" id="peek" width="600" height="440" aria-hidden="true"></canvas>
