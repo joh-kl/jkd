@@ -1,5 +1,5 @@
 ---
-version: "0.1.0"
+version: "0.5.0"
 name: "JKD"
 status: "draft"
 description: >
@@ -19,8 +19,8 @@ colors:
   onInk:      { light: "#FFFFFF", dark: "#000000" }   # text on a plate
   hover:      { light: "#000000@6%",  dark: "#FFFFFF@8%" }
   active:     { light: "#000000@12%", dark: "#FFFFFF@16%" }
-  primary:    "{colors.ink}"     # placeholder until chosen
-  accent:     "{colors.ink}"     # placeholder until chosen
+  accent:     "#C9B69B"          # büro sand (0.5): thin lines only, 3 pt or less, never a fill or a button
+  primary:    "{colors.ink}"     # the primary plate stays ink
   status:
     danger:   "system red"       # destructive actions, errors
     warning:  "system orange"
@@ -50,6 +50,7 @@ typography:
     lead:    { size: 20, weight: regular, ios: title3 }
     title:   { size: 28, weight: bold, tracking: -0.4, ios: title }
     display: { size: 36, weight: bold, tracking: -0.8, ios: largeTitle }
+    headline: { size: 48, weight: bold, tracking: -1.2, ios: largeTitle }   # key numbers, the name that matters (0.5)
     poster:  { size: 72, weight: bold, tracking: -2 }
     monument: { size: 108, weight: bold, tracking: -3 }
   leading: { text: 1.35, display: 1.0 }
@@ -99,10 +100,13 @@ breaks a rule below. Detail lives in `references/`.
 
 1. **The grid decides.** Every position and gap is a multiple of the unit.
    Nothing is nudged by eye.
-2. **Type is the image.** Hierarchy comes from size and weight first, colour
-   last. Few sizes, used consistently.
-3. **Black and white until colour earns a job.** Colour is a signal, not a
-   decoration; status and data may use it, the brand does not yet.
+2. **Type is the image, at poster scale.** Hierarchy comes from size and weight
+   first, colour last. Since 0.5 apps use the poster size for page titles and
+   the 48 pt headline for the number or name that matters: exaggerate the top
+   of the hierarchy, keep the rest quiet.
+3. **Black and white, with sand as a hairline.** Since 0.5 the büro sand is the
+   accent, but only as a thin line (3 pt or less): never a button, a fill or
+   text. Status and data colours keep their jobs.
 4. **Raw, not rough.** Hard edges, hard shadows, honest materials. The 3 pt
    corner is the only softness.
 5. **One expressive moment at most** per screen or page, never on the frequent
@@ -113,9 +117,12 @@ breaks a rule below. Detail lives in `references/`.
 
 ## Colors
 
-The palette is black and white with one grey family (the büro concrete).
-Primary and accent are placeholders that resolve to ink until he picks them;
-code must use the token names, so choosing them later changes one file.
+The palette is black and white with one grey family (the büro concrete), and
+since 0.5 one accent: **büro sand, #C9B69B, only ever a thin line** of 3 pt or
+less (a hover line on a plate, a selection edge, an underline, the links in
+blob tracking). He vetoed sand buttons and fills. Sand is 2.0:1 on white, so it
+is decorative: never text, never the only way something is shown. The primary
+plate stays ink.
 
 - **Layers.** `page` is layer 0. `raised` (slabs, cards) and `sunken` (wells,
   grouped rows) are layer 1. Floating things (menus, popovers, sheets) use the
@@ -191,9 +198,12 @@ is concrete grey, so a slab still reads on black.
 The shared set, implemented in `swift/` and `web/`. Each has a page in
 `references/components.md`.
 
-- **The bar**: a heavy square rule over a word, as wide as the word, about a
-  sixth of its cap height at display sizes. Also the progress bar. One per
-  screen, over the most important name.
+- **The bar**: a heavy square ink rule over a word, as wide as the word: 6 pt
+  over title and display type, **12 pt over headline and poster type** (0.5).
+  Also the progress bar. One per screen, over the most important name.
+- **The band** (0.5): one full-width inverted section per screen (ink, white
+  words) for the loudest thing on it. Never for a list.
+- **The highlight** (0.5): a thin sand underline under the one word that matters.
 - **The switch**: white or black, both words always visible. White is the
   default. A section may invert for effect, once or twice per page.
 - **Caption**: lowercase small label.
@@ -204,7 +214,10 @@ The shared set, implemented in `swift/` and `web/`. Each has a page in
 
 ## Expressive layer
 
-Halftone dots, paper grain and chrome, from his own print work. Rules in
+Halftone dots, paper grain, chrome, and since 0.5 **dither** and **blob
+tracking**, from his own print and TouchDesigner work. Chrome is a real texture
+(liquid chrome after his reference: diagonal currents, eddies, deep blacks, a
+whisper of iridescence) that drifts inside type and leans towards the pointer. Rules in
 `references/expressive.md`: at most one per screen or page; on an empty state,
 an onboarding page, a poster, an app icon, an Easter egg or a celebration; never
 on the frequent path and never behind body text. All three switch off with

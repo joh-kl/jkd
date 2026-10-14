@@ -1,4 +1,9 @@
 import SwiftUI
+#if canImport(AppKit)
+import AppKit
+#else
+import UIKit
+#endif
 
 // The expressive layer: halftone, grain, chrome. At most one per screen, never
 // on the frequent path. Each is hidden from VoiceOver and turns off (or falls
@@ -85,12 +90,28 @@ public struct Grain: ViewModifier {
     }
 }
 
-/// Polished metal on large bold type or a mark: greys with a hard horizon.
-/// Falls back to plain ink with Increase Contrast or Reduce Transparency.
+/// Polished metal on large bold type or a mark. Since 0.5 a real chrome
+/// texture (assets/make_chrome.py: sky, horizon bands, glints) slides inside
+/// the shape, drifting slowly and leaning towards the pointer. Static with
+/// Reduce Motion; plain ink with Increase Contrast or Reduce Transparency.
 public struct Chrome: ViewModifier {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.colorSchemeContrast) private var contrast
+    @State private var lean: CGSize = .zero
     public init() {}
+
+    static let texture: Image? = {
+        #if canImport(AppKit)
+        guard let url = Bundle.module.url(forResource: "chrome", withExtension: "png"),
+              let i = NSImage(contentsOf: url) else { return nil }
+        return Image(nsImage: i)
+        #else
+        guard let url = Bundle.module.url(forResource: "chrome", withExtension: "png"),
+              let i = UIImage(contentsOfFile: url.path) else { return nil }
+        return Image(uiImage: i)
+        #endif
+    }()
 
     public static let gradient = LinearGradient(stops: [
         .init(color: Color(white: 0.97), location: 0),
@@ -105,6 +126,26 @@ public struct Chrome: ViewModifier {
     public func body(content: Content) -> some View {
         if reduceTransparency || contrast == .increased {
             content.foregroundStyle(JKD.Palette.ink.color)
+        } else if let tex = Chrome.texture {
+            TimelineView(.animation(paused: reduceMotion)) { tl in
+                let t = reduceMotion ? 0 : tl.date.timeIntervalSinceReferenceDate
+                return content.foregroundStyle(.clear)
+                    .overlay {
+                        GeometryReader { g in
+                            let side = max(g.size.width, g.size.height) * 0.9
+                            tex.resizable(resizingMode: .tile)
+                                .frame(width: side * 2, height: side * 2)
+                                // the reflection drifts down and leans with the pointer
+                                .offset(x: -side / 2 + lean.width * 0.15,
+                                        y: -side + CGFloat((t * 6).truncatingRemainder(dividingBy: Double(side))) + lean.height * 0.15)
+                        }
+                        .mask(content)
+                    }
+            }
+            .onContinuousHover { phase in
+                if case .active(let p) = phase, !reduceMotion { withAnimation(.easeOut(duration: 0.4)) { lean = CGSize(width: p.x, height: p.y) } }
+            }
+            .accessibilityElement(children: .combine)
         } else {
             content.foregroundStyle(Chrome.gradient)
         }

@@ -13,8 +13,11 @@
   --jkd-on-ink: #ffffff;
   --jkd-hover: rgba(0, 0, 0, 0.06);
   --jkd-active: rgba(0, 0, 0, 0.12);
-  --jkd-primary: var(--jkd-ink);   /* not chosen yet */
-  --jkd-accent: var(--jkd-ink);    /* not chosen yet */
+  --jkd-accent: #c9b69b;           /* büro sand (0.5): thin lines only, 3px or less, never a fill */
+  --jkd-accent-line: 3px;
+  --jkd-on-accent: #000000;
+  --jkd-primary: var(--jkd-ink);   /* the primary plate stays ink */
+  --jkd-on-primary: var(--jkd-on-ink);
   --jkd-danger: #d70015;
   --jkd-warning: #c93400;
   --jkd-success: #248a3d;
@@ -28,6 +31,7 @@
   --jkd-lead: 1.25rem;        /* 20 */
   --jkd-title: 1.75rem;       /* 28 */
   --jkd-display: 2.25rem;     /* 36 */
+  --jkd-headline: 3rem;       /* 48 (0.5) */
   --jkd-poster: 4.5rem;       /* 72 */
   --jkd-monument: 6.75rem;    /* 108 */
 
@@ -39,6 +43,7 @@
   --jkd-gutter: 16px;
   --jkd-radius: 3px;
   --jkd-bar: 6px;
+  --jkd-bar-heavy: 12px;      /* over headline, poster and monument type (0.5) */
   --jkd-quick: 120ms;
   --jkd-standard: 300ms;
   color-scheme: light dark;
@@ -97,7 +102,12 @@ hr, .jkd-rule { border: 0; border-top: 1px solid var(--jkd-rule); margin: var(--
 
 /* The bar over a word, as wide as the word. */
 .jkd-barred { display: inline-block; border-top: var(--jkd-bar) solid var(--jkd-ink); padding-top: var(--jkd-s2); }
-.jkd-page-title { font: 700 var(--jkd-display)/1 var(--jkd-font); letter-spacing: -0.022em; text-transform: lowercase; }
+.jkd-barred.heavy, .jkd-page-title.jkd-barred { border-top-width: var(--jkd-bar-heavy); padding-top: var(--jkd-s3); }
+.jkd-page-title { font: 700 var(--jkd-poster)/1 var(--jkd-font); letter-spacing: -0.028em; text-transform: lowercase; }
+.jkd-headline { font: 700 var(--jkd-headline)/1 var(--jkd-font); letter-spacing: -0.025em; }
+/* 0.5: the band (one inverted section per page) and the highlight (sand marker). */
+.jkd-band { background: var(--jkd-ink); color: var(--jkd-on-ink); padding: var(--jkd-s8) var(--jkd-margin); }
+.jkd-highlight { box-shadow: inset 0 calc(-1 * var(--jkd-accent-line)) 0 0 var(--jkd-accent); padding-bottom: var(--jkd-s1); }
 .jkd-progress { height: var(--jkd-bar); background: var(--jkd-rule); }
 .jkd-progress > span { display: block; height: 100%; background: var(--jkd-ink); transition: width var(--jkd-standard) ease-out; }
 
@@ -107,12 +117,12 @@ hr, .jkd-rule { border: 0; border-top: 1px solid var(--jkd-rule); margin: var(--
   box-shadow: 6px 6px 0 0 var(--jkd-shadow); padding: var(--jkd-s5);
 }
 .jkd-plate {
-  font: 700 var(--jkd-small)/1 var(--jkd-font); color: var(--jkd-on-ink); background: var(--jkd-ink);
+  font: 700 var(--jkd-small)/1 var(--jkd-font); color: var(--jkd-on-primary); background: var(--jkd-primary);
   border: 0; border-radius: var(--jkd-radius); padding: var(--jkd-s3) var(--jkd-s5);
   box-shadow: 4px 4px 0 0 var(--jkd-shadow); cursor: pointer; min-height: 44px;
   transition: transform var(--jkd-quick) ease-out, box-shadow var(--jkd-quick) ease-out;
 }
-.jkd-plate:hover { box-shadow: inset 0 3px 0 0 var(--jkd-on-ink), 4px 4px 0 0 var(--jkd-shadow); }
+.jkd-plate:hover { box-shadow: inset 0 2px 0 0 var(--jkd-accent), 4px 4px 0 0 var(--jkd-shadow); }
 .jkd-plate:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 0 var(--jkd-shadow); }
 .jkd-plate:disabled { opacity: 0.35; box-shadow: none; cursor: default; }
 .jkd-quiet {
@@ -157,3 +167,14 @@ hr, .jkd-rule { border: 0; border-top: 1px solid var(--jkd-rule); margin: var(--
   .jkd-grain::after { display: none; }
   .jkd-chrome { background: none; color: var(--jkd-ink); }
 }
+
+/* 0.5: chrome as a material on large type or a mark. The texture tiles; it
+   drifts slowly. Plain ink when contrast is raised, still with reduced motion. */
+.jkd-chrome {
+  background: url("../assets/textures/chrome.png") 0 0 / 512px 512px repeat;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: jkd-chrome-drift 40s linear infinite;
+}
+@keyframes jkd-chrome-drift { to { background-position: 512px 512px; } }
+@media (prefers-reduced-motion: reduce) { .jkd-chrome { animation: none; } }
+@media (prefers-contrast: more) { .jkd-chrome { background: none; color: var(--jkd-ink); } }

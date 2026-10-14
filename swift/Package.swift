@@ -6,7 +6,7 @@ let package = Package(
     platforms: [.macOS(.v14), .iOS(.v17)],
     products: [.library(name: "JKDDesign", targets: ["JKDDesign"])],
     targets: [
-        .target(name: "JKDDesign"),
+        .target(name: "JKDDesign", resources: [.process("Resources")]),
         .testTarget(name: "JKDDesignTests", dependencies: ["JKDDesign"]),
     ]
 )

@@ -48,8 +48,11 @@ public enum JKD {
         }
     }
 
-    /// Black and white, with the büro concrete greys. Primary and accent are
-    /// placeholders that resolve to ink until they are chosen.
+    /// Black and white, with the büro concrete greys, and sand (from the büro
+    /// guide's palette) as the accent since 0.5. **Sand is only ever a thin
+    /// line, 3 pt or less** (his rule): a hover line, a selection edge, an
+    /// underline. Never a button, never a fill, never text (2.0:1 on white);
+    /// decorative, so never the only way something is shown.
     public enum Palette {
         public static let ink       = Token(Swatch(0x000000), Swatch(0xFFFFFF))
         public static let page      = Token(Swatch(0xFFFFFF), Swatch(0x000000))
@@ -64,10 +67,15 @@ public enum JKD {
         public static let onInk     = Token(Swatch(0xFFFFFF), Swatch(0x000000))
         public static let hover     = Token(Swatch(0x000000, 0.06), Swatch(0xFFFFFF, 0.08))
         public static let active    = Token(Swatch(0x000000, 0.12), Swatch(0xFFFFFF, 0.16))
-        /// Not chosen yet: ink.
+        /// The büro sand, the same in light and dark: thin lines only (3 pt or less).
+        public static let accent    = Token(Swatch(0xC9B69B), Swatch(0xC9B69B))
+        /// If anything ever sits on sand, it is black (10.6:1).
+        public static let onAccent  = Token(Swatch(0x000000), Swatch(0x000000))
+        /// The primary action stays an ink plate (no sand buttons, his veto).
         public static let primary   = ink
-        /// Not chosen yet: ink.
-        public static let accent    = ink
+        public static let onPrimary = onInk
+        /// The thickest a sand line may be.
+        public static let accentLineMax: CGFloat = 3
 
         /// Status colours come from the platform, so they follow Increase
         /// Contrast. Always with a word or a symbol.
@@ -119,8 +127,17 @@ public enum JKD {
         public static var box: RoundedRectangle { RoundedRectangle(cornerRadius: subtle, style: .continuous) }
     }
 
-    /// The bar's thickness on screen.
+    /// The bar's thickness over small display text (title, display).
     public static let barHeight: CGFloat = 6
+    /// The bar over poster and headline type: twice as heavy (0.5).
+    public static let barHeavy: CGFloat = 12
+    /// The bar for a given size: about a sixth of the cap height, on the grid.
+    public static func bar(for style: Style) -> CGFloat {
+        switch style {
+        case .headline, .poster, .monument: barHeavy
+        default: barHeight
+        }
+    }
 
     // MARK: motion
 
@@ -143,7 +160,7 @@ public enum JKD {
 
     /// The scale. Each size has one role; there is no other size.
     public enum Style: CaseIterable, Sendable {
-        case caption, small, body, lead, title, display, poster, monument
+        case caption, small, body, lead, title, display, headline, poster, monument
 
         public var size: CGFloat {
             switch self {
@@ -153,6 +170,7 @@ public enum JKD {
             case .lead: 20
             case .title: 28
             case .display: 36
+            case .headline: 48
             case .poster: 72
             case .monument: 108
             }
@@ -163,7 +181,7 @@ public enum JKD {
             switch self {
             case .caption: JKD.face("Switzer-Medium", "HelveticaNeue-Medium")
             case .small, .body, .lead: JKD.face("Switzer-Regular", "HelveticaNeue")
-            case .title, .display, .poster, .monument: JKD.face("Switzer-Bold", "HelveticaNeue-Bold")
+            case .title, .display, .headline, .poster, .monument: JKD.face("Switzer-Bold", "HelveticaNeue-Bold")
             }
         }
 
@@ -174,6 +192,7 @@ public enum JKD {
             case .small, .body, .lead: 0
             case .title: -0.4
             case .display: -0.8
+            case .headline: -1.2
             case .poster: -2
             case .monument: -3
             }
@@ -187,7 +206,7 @@ public enum JKD {
             case .body: .body
             case .lead: .title3
             case .title: .title
-            case .display, .poster, .monument: .largeTitle
+            case .display, .headline, .poster, .monument: .largeTitle
             }
         }
 

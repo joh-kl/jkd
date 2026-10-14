@@ -7,8 +7,11 @@ import SwiftUI
 public struct Bar: View {
     var progress: Double?
     var color: Color
-    public init(progress: Double? = nil, color: Color = JKD.Palette.ink.color) {
-        self.progress = progress; self.color = color
+    var height: CGFloat
+    /// Ink; 6 pt over small display text, 12 over poster type (0.5).
+    public init(progress: Double? = nil, color: Color = JKD.Palette.ink.color,
+                height: CGFloat = JKD.barHeight) {
+        self.progress = progress; self.color = color; self.height = height
     }
 
     public var body: some View {
@@ -21,7 +24,7 @@ public struct Bar: View {
                 }
             }
         }
-        .frame(height: JKD.barHeight)
+        .frame(height: height)
         .accessibilityHidden(progress == nil)
         .accessibilityLabel(progress.map { "\(Int(($0 * 100).rounded())) percent" } ?? "")
     }
@@ -30,14 +33,17 @@ public struct Bar: View {
 /// A word under the bar, the bar exactly as wide as the word.
 public struct Barred<Content: View>: View {
     var progress: Double?
+    var style: JKD.Style
     var content: Content
-    public init(progress: Double? = nil, @ViewBuilder content: () -> Content) {
-        self.progress = progress; self.content = content()
+    /// `style` is the size of the word under it, which sets the bar's weight.
+    public init(progress: Double? = nil, style: JKD.Style = .display, @ViewBuilder content: () -> Content) {
+        self.progress = progress; self.style = style; self.content = content()
     }
     public var body: some View {
+        let h = JKD.bar(for: style)
         content
-            .padding(.top, JKD.barHeight + JKD.Grid.units(1.5))
-            .overlay(alignment: .top) { Bar(progress: progress) }
+            .padding(.top, h + JKD.Grid.units(style.size >= 48 ? 3 : 1.5))
+            .overlay(alignment: .top) { Bar(progress: progress, height: h) }
     }
 }
 
@@ -52,14 +58,19 @@ public struct Caption: View {
     }
 }
 
-/// A page title: display size, lowercase, under the bar, a header for VoiceOver.
+/// A page title: poster size in apps since 0.5 (display where space is
+/// short), lowercase, under the heavy bar, a header for VoiceOver.
 public struct PageTitle: View {
     let title: String
     var progress: Double?
-    public init(_ title: String, progress: Double? = nil) { self.title = title; self.progress = progress }
+    var style: JKD.Style
+    public init(_ title: String, progress: Double? = nil, style: JKD.Style = .poster) {
+        self.title = title; self.progress = progress; self.style = style
+    }
     public var body: some View {
-        Barred(progress: progress) {
-            Text(title.lowercased()).jkdStyle(.display).foregroundStyle(JKD.Palette.ink.color)
+        Barred(progress: progress, style: style) {
+            Text(title.lowercased()).jkdStyle(style).foregroundStyle(JKD.Palette.ink.color)
+                .lineLimit(1).minimumScaleFactor(0.5)
         }
         .fixedSize(horizontal: true, vertical: false)
         .accessibilityElement(children: .combine)
@@ -88,7 +99,8 @@ public extension View {
 
 // MARK: - Buttons
 
-/// The one primary action: an ink plate with a hard shadow.
+/// The one primary action: an ink plate, white words, a hard shadow; a thin
+/// sand line along the top on hover (0.5).
 public struct PlateButtonStyle: ButtonStyle {
     public init() {}
     public func makeBody(configuration: Configuration) -> some View { Plate(configuration: configuration) }
@@ -100,12 +112,12 @@ public struct PlateButtonStyle: ButtonStyle {
         var body: some View {
             configuration.label
                 .font(.jkd(.small).bold())
-                .foregroundStyle(JKD.Palette.onInk.color)
+                .foregroundStyle(JKD.Palette.onPrimary.color)
                 .padding(.horizontal, JKD.Grid.units(5))
                 .padding(.vertical, JKD.Grid.units(2.5))
-                .background(JKD.Radius.box.fill(JKD.Palette.ink.color.opacity(enabled ? 1 : 0.35)))
+                .background(JKD.Radius.box.fill(JKD.Palette.primary.color.opacity(enabled ? 1 : 0.35)))
                 .overlay(alignment: .top) {
-                    Rectangle().fill(JKD.Palette.onInk.color).frame(height: hover && enabled ? 3 : 0)
+                    Rectangle().fill(JKD.Palette.accent.color).frame(height: hover && enabled ? 2 : 0)
                 }
                 .offset(y: configuration.isPressed ? 1 : 0)
                 .background(JKD.Radius.box.fill(enabled ? JKD.Palette.shadow.color : .clear)
@@ -170,4 +182,41 @@ public struct Chip: View {
         .buttonStyle(.plain)
         .accessibilityAddTraits(isOn ? [.isSelected] : [])
     }
+}
+
+
+// MARK: - 0.5: louder
+
+/// The band: one full-width inverted section per screen, ink with white text
+/// (black with white in light mode, white with black in dark). For the loudest
+/// thing on the page, never for a list.
+public struct Band<Content: View>: View {
+    @ViewBuilder public var content: Content
+    public init(@ViewBuilder content: () -> Content) { self.content = content() }
+    public var body: some View {
+        content
+            .foregroundStyle(JKD.Palette.onInk.color)
+            .padding(.horizontal, JKD.Grid.marginRegular)
+            .padding(.vertical, JKD.Grid.units(8))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(JKD.Palette.ink.color)
+    }
+}
+
+/// A highlight: a thin sand underline (3 pt) under a word. Decorative, so
+/// the word is also the heaviest or largest thing near it.
+public struct Highlight: ViewModifier {
+    public init() {}
+    public func body(content: Content) -> some View {
+        content
+            .padding(.bottom, JKD.Grid.units(1))
+            .overlay(alignment: .bottom) {
+                Rectangle().fill(JKD.Palette.accent.color).frame(height: JKD.Palette.accentLineMax)
+            }
+    }
+}
+
+public extension View {
+    /// A thin sand underline under the most important word. One per screen.
+    func jkdHighlight() -> some View { modifier(Highlight()) }
 }

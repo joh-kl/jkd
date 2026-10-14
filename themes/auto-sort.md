@@ -12,9 +12,9 @@ JKD grew out of it. Its own code is `Sources/AutoSort/Theme.swift`.
 
 ## Where it differs from JKD today (to migrate)
 
-- **Sand (#C9B69B)** is its accent: the bar, selections, the night plate.
-  JKD has dropped sand. Open question for him: should Auto-Sort follow (bar and
-  plate in ink) or keep sand as its own theme colour?
+- **Sand (#C9B69B)** is used as a fill in Auto-Sort (the bar, selections, the
+  night plate). JKD 0.5 decided: sand is a thin line only. Auto-Sort must
+  follow: bar and plates in ink, sand only for hairlines.
 - **Signal orange (#FBAE17)** for "new folder" and warnings. JKD would use
   status warning (system orange) with a word.
 - **Warm paper (#F2F0EB) and ink (#252317)**: JKD's are neutral white and black.

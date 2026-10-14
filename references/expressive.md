@@ -1,4 +1,4 @@
-# The expressive layer: halftone, grain, chrome
+# The expressive layer: halftone, grain, chrome, dither, blob tracking
 
 From his own print work (the JKD assets: halftone generator studies, paper
 textures, filters). Büro is the base; these are seasoning.
@@ -73,3 +73,21 @@ nothing moves, and with Reduce Motion they show that settled state only.
 - **The composing stick** (hand setting): sorts arrive one at a time, mirrored,
   with the spacing quads visible; then the line is proofed and reads the right
   way round. Scrolling back distributes the type again.
+
+
+## 0.5: chrome as a material, dither, blob tracking in apps
+
+- **Chrome** is now a rendered texture (`assets/make_chrome.py`, after his
+  reference: liquid chrome with diagonal currents, eddies, deep black pools and
+  a whisper of teal and violet). `.chrome()` slides it inside type or a mark,
+  drifting slowly and leaning towards the pointer; static with Reduce Motion,
+  plain ink with Increase Contrast or Reduce Transparency. Web: `.jkd-chrome`.
+  Use on poster type, a mark, an app icon, a celebration.
+- **Dither** (`Dither`): ordered 8 by 8 Bayer dots from an image or a tone,
+  ink on the page. For empty states, previews of pictures, a hero.
+- **Blob tracking** (`BlobTracking`): words drift; real connected-component
+  detection boxes each shape in a 1 pt rule, numbers it, joins it to the next
+  with a thin sand line, and reads out its position in a mono face. For an
+  empty state, a loading moment, an onboarding page, a celebration.
+
+The one-per-screen rule still holds: pick the effect that fits the moment.

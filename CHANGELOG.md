@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.0 (15 Oct 2026): louder, sand as a hairline, three effects
+
+- **Poster scale in apps**: page titles at 72 pt, a new 48 pt headline step,
+  the bar 12 pt over them, one inverted **band** per screen, a **highlight**.
+- **Sand returns, as a hairline only** (his decision, then his veto on sand
+  buttons): `accent` #C9B69B, 3 pt or less, never a fill, a button or text.
+  Black on sand 10.6:1, sand on white 2.0:1. The primary plate stays ink,
+  with a thin sand line on hover.
+- **Chrome** is a real liquid chrome texture after his reference, drifting and
+  leaning to the pointer. New **Dither** and **BlobTracking** views (real
+  detection). CSS: `.jkd-chrome`, `.jkd-band`, `.jkd-highlight`, `--jkd-headline`.
+- Tests: sand pairs, the line limit, the new size in the scale.
+
 ## 0.4.0 (14 Oct 2026)
 
 His second round. büro shows the table poster and a logotype exploration

@@ -23,6 +23,18 @@ struct ContrastTests {
         #expect(JKD.contrast(P.onInk.dark, P.ink.dark) >= 4.5)
     }
 
+    /// Sand is a thin line only; if anything sits on it, black. Never text on white.
+    @Test func sandCarriesBlack() {
+        #expect(JKD.Palette.accentLineMax <= 3)
+        #expect(JKD.contrast(P.onAccent.light, P.accent.light) >= 4.5)
+        #expect(JKD.contrast(P.onAccent.dark, P.accent.dark) >= 4.5)
+        func r(_ x: Double) -> Double { (x * 10).rounded() / 10 }
+        #expect(r(JKD.contrast(P.onAccent.light, P.accent.light)) == 10.6)
+        #expect(r(JKD.contrast(P.accent.light, P.page.light)) == 2.0)      // why it is never text on white
+        #expect(JKD.contrast(P.onPrimary.light, P.primary.light) >= 4.5)
+        #expect(JKD.contrast(P.onPrimary.dark, P.primary.dark) >= 4.5)
+    }
+
     @Test func neededEdgesReachThreeToOne() {
         for (_, s) in Self.surfaces {
             #expect(JKD.contrast(P.boundary.light, s.light) >= 3)
@@ -42,6 +54,6 @@ struct ContrastTests {
     @Test func theScaleIsOnTheGrid() {
         // Sizes are free, but every spacing step is a whole number of units.
         for s in JKD.Grid.spacing { #expect(s.truncatingRemainder(dividingBy: JKD.Grid.unit) == 0) }
-        #expect(JKD.Style.allCases.map(\.size) == [11, 13, 17, 20, 28, 36, 72, 108])
+        #expect(JKD.Style.allCases.map(\.size) == [11, 13, 17, 20, 28, 36, 48, 72, 108])
     }
 }

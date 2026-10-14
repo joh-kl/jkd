@@ -27,7 +27,8 @@ readings of a request lead to different work.
   dependency). `JKD.Palette`, `JKD.Grid`, `JKD.Radius`, `Font.jkd(_:)` and `.jkdStyle(_:)` and the
   components (`Bar`, `Barred`, `Caption`, `PageTitle`, `.slab()`,
   `PlateButtonStyle`, `QuietButtonStyle`, `Chip`) plus the expressive views
-  (`Halftone`, `.grain()`, `.chrome()`).
+  (`Halftone`, `.grain()`, `.chrome()` with the liquid chrome texture,
+  `Dither`, `BlobTracking`), plus `Band` and `.jkdHighlight()`.
 - **Web**: `web/jkd.css` (custom properties, light and dark, the same
   components as classes). Load it, then write layout.
 - **Print and slides**: the values in `DESIGN.md` and `references/platforms.md`.
@@ -37,8 +38,11 @@ colour (a user's label, a mana colour, a chart series).
 
 ## Non-negotiables
 
-- Black and white. Primary and accent resolve to ink until he chooses them.
-  Never reintroduce the old sand beige.
+- Black and white, with büro sand (#C9B69B) **only as thin lines, 3 pt or
+  less**: never a button, a fill or text (his veto). The primary plate is ink.
+- Exaggerate the top of the hierarchy (0.5): page titles at the 72 pt poster
+  size, the number or name that matters at the 48 pt headline, the 12 pt bar
+  over them, one inverted band per screen. Keep everything else quiet.
 - One family (Switzer; Space Mono only for technical readouts), the scale in `DESIGN.md`, flush left.
 - Every gap a multiple of 4; corners 0 or 3 pt (full round only for a count or
   an avatar).
