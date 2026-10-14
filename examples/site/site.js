@@ -199,12 +199,19 @@
     peek.classList.toggle('light', isLogo); scope = isLogo ? peek : root;
     halftoneImage(pctx, img, w, h, coverRect(img.naturalWidth, img.naturalHeight, w, h, isLogo, isLogo ? 40 : 0), { cell: 9, bg: css(isLogo ? '--jkd-sunken' : '--jkd-raised') });
   }
-  const showPeek = (li, x, y) => { plate(li.dataset.img); peek.classList.add('on');
-    peek.style.left = Math.min(x + 24, innerWidth - 320) + 'px'; peek.style.top = (y - 110) + 'px'; };
+  // A row with a moving piece shows it moving; Reduce Motion keeps the still.
+  const peekVideo = document.getElementById('peekVideo');
+  const peekEl = li => li.dataset.video && !reduce ? peekVideo : peek;
+  const showPeek = (li, x, y) => {
+    const el = peekEl(li);
+    if (el === peekVideo) { if (!peekVideo.src.endsWith(li.dataset.video)) peekVideo.src = li.dataset.video; peekVideo.play().catch(() => {}); }
+    else plate(li.dataset.img);
+    el.classList.add('on'); el.style.left = Math.min(x + 24, innerWidth - 320) + 'px'; el.style.top = (y - 110) + 'px';
+  };
   document.querySelectorAll('.index li').forEach(li => {
     li.addEventListener('pointerenter', e => { if (!quiet()) showPeek(li, e.clientX, e.clientY); });
-    li.addEventListener('pointerleave', () => peek.classList.remove('on'));
-    li.addEventListener('pointermove', e => { peek.style.left = Math.min(e.clientX + 24, innerWidth - 320) + 'px'; peek.style.top = (e.clientY - 110) + 'px'; });
+    li.addEventListener('pointerleave', () => { peek.classList.remove('on'); peekVideo.classList.remove('on'); peekVideo.pause(); });
+    li.addEventListener('pointermove', e => { const el = peekEl(li); el.style.left = Math.min(e.clientX + 24, innerWidth - 320) + 'px'; el.style.top = (e.clientY - 110) + 'px'; });
   });
 
   // The work, in chapters on the 12 column grid. Each piece wears the screen
