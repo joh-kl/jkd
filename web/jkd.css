@@ -9,7 +9,7 @@
   --jkd-secondary: #5e5e5a;
   --jkd-rule: #979892;
   --jkd-boundary: #000000;
-  --jkd-shadow: rgba(0, 0, 0, 0.22);
+  --jkd-shadow: #000000;            /* solid, offset, no blur (0.6) */
   --jkd-on-ink: #ffffff;
   --jkd-hover: rgba(0, 0, 0, 0.06);
   --jkd-active: rgba(0, 0, 0, 0.12);
@@ -31,9 +31,10 @@
   --jkd-lead: 1.25rem;        /* 20 */
   --jkd-title: 1.75rem;       /* 28 */
   --jkd-display: 2.25rem;     /* 36 */
-  --jkd-headline: 3rem;       /* 48 (0.5) */
+  --jkd-headline: 4rem;       /* 64, Black (0.6) */
   --jkd-poster: 4.5rem;       /* 72 */
-  --jkd-monument: 6.75rem;    /* 108 */
+  --jkd-monument: 6.75rem;    /* 108: page titles (0.6) */
+  --jkd-giant: 10rem;         /* 160: posters, empty states (0.6) */
 
   --jkd-unit: 4px;
   --jkd-cube: 8px;
@@ -41,9 +42,12 @@
   --jkd-s6: 32px; --jkd-s7: 48px; --jkd-s8: 64px; --jkd-s9: 96px;
   --jkd-margin: 16px;
   --jkd-gutter: 16px;
-  --jkd-radius: 3px;
-  --jkd-bar: 6px;
-  --jkd-bar-heavy: 12px;      /* over headline, poster and monument type (0.5) */
+  --jkd-radius: 0;            /* square since 0.6 */
+  --jkd-bar: 6px;             /* the thinnest bar; .jkd-barred follows the type size */
+  --jkd-bar-heavy: 12px;      /* kept for 0.5 pages */
+  --jkd-slab-border: 2px;
+  --jkd-offset: 8px;          /* the hard shadow under slabs and plates */
+  --jkd-rule-heavy: 6px;      /* sections divided across the column */
   --jkd-quick: 120ms;
   --jkd-standard: 300ms;
   color-scheme: light dark;
@@ -57,7 +61,7 @@
   :root:not([data-theme="light"]) {
     --jkd-ink: #ffffff; --jkd-page: #000000; --jkd-raised: #161616; --jkd-sunken: #0d0d0d;
     --jkd-secondary: #a0a09b; --jkd-rule: #4a4a47; --jkd-boundary: #ffffff;
-    --jkd-shadow: rgba(151, 152, 146, 0.35); --jkd-on-ink: #000000;
+    --jkd-shadow: #ffffff; --jkd-on-ink: #000000;
     --jkd-hover: rgba(255, 255, 255, 0.08); --jkd-active: rgba(255, 255, 255, 0.16);
     --jkd-danger: #ff6961; --jkd-warning: #ffb340; --jkd-success: #30d158;
   }
@@ -65,7 +69,7 @@
 :root[data-theme="dark"] {
   --jkd-ink: #ffffff; --jkd-page: #000000; --jkd-raised: #161616; --jkd-sunken: #0d0d0d;
   --jkd-secondary: #a0a09b; --jkd-rule: #4a4a47; --jkd-boundary: #ffffff;
-  --jkd-shadow: rgba(151, 152, 146, 0.35); --jkd-on-ink: #000000;
+  --jkd-shadow: #ffffff; --jkd-on-ink: #000000;
   --jkd-hover: rgba(255, 255, 255, 0.08); --jkd-active: rgba(255, 255, 255, 0.16);
   --jkd-danger: #ff6961; --jkd-warning: #ffb340; --jkd-success: #30d158;
 }
@@ -86,8 +90,9 @@ h2, .jkd-title   { font: 700 var(--jkd-title)/1.07 var(--jkd-font); letter-spaci
 h3, .jkd-lead    { font: 400 var(--jkd-lead)/1.4 var(--jkd-font); margin: var(--jkd-s5) 0 var(--jkd-s3); }
 p { max-width: 68ch; margin: 0 0 var(--jkd-s4); }
 small, .jkd-small { font-size: var(--jkd-small); line-height: 1.38; }
-.jkd-poster   { font: 700 var(--jkd-poster)/1 var(--jkd-font); letter-spacing: -0.028em; }
-.jkd-monument { font: 700 var(--jkd-monument)/0.95 var(--jkd-font); letter-spacing: -0.028em; }
+.jkd-poster   { font: 900 var(--jkd-poster)/0.9 var(--jkd-font); letter-spacing: -0.04em; }
+.jkd-monument { font: 900 var(--jkd-monument)/0.9 var(--jkd-font); letter-spacing: -0.04em; }
+.jkd-giant    { font: 900 var(--jkd-giant)/0.88 var(--jkd-font); letter-spacing: -0.04em; }
 .jkd-caption {
   font: 500 var(--jkd-caption)/1.45 var(--jkd-font);
   letter-spacing: 0.036em; text-transform: lowercase; color: var(--jkd-secondary);
@@ -100,12 +105,20 @@ hr, .jkd-rule { border: 0; border-top: 1px solid var(--jkd-rule); margin: var(--
 .jkd-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--jkd-gutter); }
 @media (min-width: 768px) { .jkd-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); } }
 
-/* The bar over a word, as wide as the word. */
-.jkd-barred { display: inline-block; border-top: var(--jkd-bar) solid var(--jkd-ink); padding-top: var(--jkd-s2); }
-.jkd-barred.heavy, .jkd-page-title.jkd-barred { border-top-width: var(--jkd-bar-heavy); padding-top: var(--jkd-s3); }
-.jkd-page-title { font: 700 var(--jkd-poster)/1 var(--jkd-font); letter-spacing: -0.028em; text-transform: lowercase; }
-.jkd-headline { font: 700 var(--jkd-headline)/1 var(--jkd-font); letter-spacing: -0.025em; }
-/* 0.5: the band (one inverted section per page) and the highlight (sand marker). */
+/* The bar over a word, as wide as the word, hugging it (0.6): a sixth of the
+   type size thick, a twelfth away, so bar and word are one block. */
+.jkd-barred { display: inline-block; border-top: max(var(--jkd-bar), 0.1667em) solid var(--jkd-ink); padding-top: max(var(--jkd-s1), 0.0833em); }
+.jkd-page-title { font: 900 var(--jkd-monument)/0.9 var(--jkd-font); letter-spacing: -0.04em; text-transform: lowercase; }
+@media (max-width: 767px) { .jkd-page-title { font-size: var(--jkd-poster); } }
+.jkd-headline { font: 900 var(--jkd-headline)/0.92 var(--jkd-font); letter-spacing: -0.0375em; }
+/* 0.6: structure made visible. A heavy rule between sections, a section's number in an ink square. */
+.jkd-rule-heavy { border: 0; height: var(--jkd-rule-heavy); background: var(--jkd-ink); margin: var(--jkd-s6) 0; }
+.jkd-index {
+  display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; box-sizing: border-box;
+  font: 900 var(--jkd-display)/1 var(--jkd-font); letter-spacing: -0.022em; font-variant-numeric: tabular-nums;
+  color: var(--jkd-on-ink); background: var(--jkd-ink);
+}
+/* The band (up to two inverted sections per page since 0.6) and the highlight (sand marker). */
 .jkd-band { background: var(--jkd-ink); color: var(--jkd-on-ink); padding: var(--jkd-s8) var(--jkd-margin); }
 .jkd-highlight { box-shadow: inset 0 calc(-1 * var(--jkd-accent-line)) 0 0 var(--jkd-accent); padding-bottom: var(--jkd-s1); }
 .jkd-progress { height: var(--jkd-bar); background: var(--jkd-rule); }
@@ -113,17 +126,17 @@ hr, .jkd-rule { border: 0; border-top: 1px solid var(--jkd-rule); margin: var(--
 
 /* Slab and plate. */
 .jkd-slab {
-  background: var(--jkd-raised); border: 1px solid var(--jkd-rule); border-radius: var(--jkd-radius);
-  box-shadow: 6px 6px 0 0 var(--jkd-shadow); padding: var(--jkd-s5);
+  background: var(--jkd-raised); border: var(--jkd-slab-border) solid var(--jkd-boundary); border-radius: var(--jkd-radius);
+  box-shadow: var(--jkd-offset) var(--jkd-offset) 0 0 var(--jkd-shadow); padding: var(--jkd-s5);
 }
 .jkd-plate {
   font: 700 var(--jkd-small)/1 var(--jkd-font); color: var(--jkd-on-primary); background: var(--jkd-primary);
   border: 0; border-radius: var(--jkd-radius); padding: var(--jkd-s3) var(--jkd-s5);
-  box-shadow: 4px 4px 0 0 var(--jkd-shadow); cursor: pointer; min-height: 44px;
+  box-shadow: var(--jkd-offset) var(--jkd-offset) 0 0 var(--jkd-shadow); cursor: pointer; min-height: 44px;
   transition: transform var(--jkd-quick) ease-out, box-shadow var(--jkd-quick) ease-out;
 }
-.jkd-plate:hover { box-shadow: inset 0 2px 0 0 var(--jkd-accent), 4px 4px 0 0 var(--jkd-shadow); }
-.jkd-plate:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 0 var(--jkd-shadow); }
+.jkd-plate:hover { box-shadow: inset 0 2px 0 0 var(--jkd-accent), var(--jkd-offset) var(--jkd-offset) 0 0 var(--jkd-shadow); }
+.jkd-plate:active { transform: translate(6px, 6px); box-shadow: 2px 2px 0 0 var(--jkd-shadow); }
 .jkd-plate:disabled { opacity: 0.35; box-shadow: none; cursor: default; }
 .jkd-quiet {
   font: 500 var(--jkd-small)/1 var(--jkd-font); color: var(--jkd-ink); background: none; border: 0;

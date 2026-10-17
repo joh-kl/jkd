@@ -12,7 +12,9 @@ JKD grew out of it. Its own code is `Sources/AutoSort/Theme.swift`.
 
 ## Where it differs from JKD today (to migrate)
 
-- **Follows 0.5** (15 Oct 2026): colours and Switzer from this package, sand
+- **Follows 0.6** (17 Oct 2026): monument titles in Black, square slabs
+  and plates with the solid 8 pt shadow, the bar hugging its word, heavy rules
+  and numbered sections on Tidy and Review a Vault. Before that, **0.5** (15 Oct 2026): colours and Switzer from this package, sand
   only as 3 pt lines, ink bar and plates, poster titles, the headline-size
   destination name. Effects: blob tracking on first run, chrome on Help and
   "all sorted", dither while Train deals.

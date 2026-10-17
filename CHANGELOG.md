@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.6.0 (17 Oct 2026)
+
+Brutal, his request ("more extreme: big fonts, big accent blocks, the chunky
+line, more Swiss, the grid, all in"). His choices:
+
+- **Monument type in Black.** Page titles at 108 pt, the key number or name at
+  64 pt (was 48), a new 160 pt giant for posters and empty states; headline,
+  poster, monument and giant in Switzer Black; display leading 0.9, tracking
+  about -4%.
+- **Square and hard.** Every corner 0 (was 3 pt on slabs, plates, chips).
+  Slabs: a 2 pt ink edge (was a grey hairline) and a solid shadow offset 8 pt
+  (was 22% grey at 6). Plates: the same solid shadow; pressed, they sink into it.
+- **The bar hugs its word.** Thickness about a sixth of the type size, gap
+  about a twelfth (`JKD.bar(forSize:)`, `barGap(forSize:)`, CSS in `em`), so
+  bar and word are one block at every size.
+- **Structure made visible.** `HeavyRule` / `.jkd-rule-heavy` (6 pt ink across
+  the column between sections) and `SectionIndex` / `.jkd-index` (the
+  section's number in an ink square). Up to two ink bands per screen.
+- Sand stays a thin line only (3 pt or less), as before.
+
 ## 0.5.0 (15 Oct 2026): louder, sand as a hairline, three effects
 
 - **Poster scale in apps**: page titles at 72 pt, a new 48 pt headline step,

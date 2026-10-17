@@ -20,7 +20,7 @@ iOS), web pages and print, packaged as a Claude Code skill.
 ## At a glance
 
 1. **The grid decides.** Unit 4, the büro reference cube 8, 4 columns on a phone and 12 everywhere else.
-2. **Type is the image, at poster scale.** One family, Switzer, in nine sizes, flush left. Page titles at 72 pt, the name that matters at 48, the heavy bar over them.
+2. **Type is the image, at poster scale.** One family, Switzer, in nine sizes, flush left. Page titles at 108 pt Black, the name that matters at 64, the bar hugging the word (0.6).
 3. **Black and white, with sand as a hairline.** The büro sand (#C9B69B) appears only as thin lines of 3 pt or less, never as a button or a fill. Every text pair is tested for contrast.
 4. **Raw, not rough.** Hard edges, hard shadows, a 3 point corner, and the bar over the most important word.
 5. **One loud moment per screen.** Halftone, grain, liquid chrome, dither, blob tracking and type that reacts, never on the path you take daily.

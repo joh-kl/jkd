@@ -54,6 +54,15 @@ struct ContrastTests {
     @Test func theScaleIsOnTheGrid() {
         // Sizes are free, but every spacing step is a whole number of units.
         for s in JKD.Grid.spacing { #expect(s.truncatingRemainder(dividingBy: JKD.Grid.unit) == 0) }
-        #expect(JKD.Style.allCases.map(\.size) == [11, 13, 17, 20, 28, 36, 48, 72, 108])
+        #expect(JKD.Style.allCases.map(\.size) == [11, 13, 17, 20, 28, 36, 64, 72, 108, 160])
+    }
+
+    /// 0.6: the bar hugs its word, thickness and gap growing with the size.
+    @Test func theBarHugsItsWord() {
+        #expect(JKD.bar(forSize: 108) == 18 && JKD.barGap(forSize: 108) == 9)
+        #expect(JKD.bar(forSize: 72) == 12 && JKD.barGap(forSize: 72) == 6)
+        #expect(JKD.bar(forSize: 28) == 6 && JKD.barGap(forSize: 28) == 4)
+        #expect(JKD.Radius.subtle == 0)
+        #expect(JKD.Structure.shadowOffset.truncatingRemainder(dividingBy: JKD.Grid.unit) == 0)
     }
 }

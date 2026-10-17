@@ -40,11 +40,13 @@ colour (a user's label, a mana colour, a chart series).
 
 - Black and white, with büro sand (#C9B69B) **only as thin lines, 3 pt or
   less**: never a button, a fill or text (his veto). The primary plate is ink.
-- Exaggerate the top of the hierarchy (0.5): page titles at the 72 pt poster
-  size, the number or name that matters at the 48 pt headline, the 12 pt bar
-  over them, one inverted band per screen. Keep everything else quiet.
+- Exaggerate the top of the hierarchy hard (0.6, brutal): page titles at 108 pt
+  in Switzer Black, the number or name that matters at the 64 pt headline
+  (Black), the bar hugging its word (a sixth of the size thick, a twelfth away),
+  up to two ink bands per screen, heavy 6 pt rules and numbered ink blocks
+  (01, 02) structuring sections. Keep everything else quiet.
 - One family (Switzer; Space Mono only for technical readouts), the scale in `DESIGN.md`, flush left.
-- Every gap a multiple of 4; corners 0 or 3 pt (full round only for a count or
+- Every gap a multiple of 4; corners square (full round only for a count or
   an avatar).
 - At most one expressive moment per screen or page, never on the frequent path.
 - No dashes as punctuation in anything a person reads.

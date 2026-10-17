@@ -8,7 +8,7 @@ public struct Bar: View {
     var progress: Double?
     var color: Color
     var height: CGFloat
-    /// Ink; 6 pt over small display text, 12 over poster type (0.5).
+    /// Ink; its thickness follows the word under it (`JKD.bar(forSize:)`).
     public init(progress: Double? = nil, color: Color = JKD.Palette.ink.color,
                 height: CGFloat = JKD.barHeight) {
         self.progress = progress; self.color = color; self.height = height
@@ -42,7 +42,7 @@ public struct Barred<Content: View>: View {
     public var body: some View {
         let h = JKD.bar(for: style)
         content
-            .padding(.top, h + JKD.Grid.units(style.size >= 48 ? 3 : 1.5))
+            .padding(.top, h + JKD.barGap(forSize: style.size))
             .overlay(alignment: .top) { Bar(progress: progress, height: h) }
     }
 }
@@ -58,13 +58,13 @@ public struct Caption: View {
     }
 }
 
-/// A page title: poster size in apps since 0.5 (display where space is
-/// short), lowercase, under the heavy bar, a header for VoiceOver.
+/// A page title: monument size in Black since 0.6 (poster or display where
+/// space is short), lowercase, under the bar that hugs it, a header for VoiceOver.
 public struct PageTitle: View {
     let title: String
     var progress: Double?
     var style: JKD.Style
-    public init(_ title: String, progress: Double? = nil, style: JKD.Style = .poster) {
+    public init(_ title: String, progress: Double? = nil, style: JKD.Style = .monument) {
         self.title = title; self.progress = progress; self.style = style
     }
     public var body: some View {
@@ -80,16 +80,17 @@ public struct PageTitle: View {
 
 // MARK: - Slab
 
-/// What you act on: raised fill, a hairline, a hard shadow with no blur.
+/// What you act on (0.6): raised fill, a 2 pt ink edge, square, a solid
+/// shadow offset 8 pt with no blur.
 public struct Slab: ViewModifier {
     var lifted: Bool
     public init(lifted: Bool = true) { self.lifted = lifted }
     public func body(content: Content) -> some View {
+        let o = JKD.Structure.shadowOffset
         content
-            .background(JKD.Radius.box.fill(JKD.Palette.raised.color))
-            .overlay(JKD.Radius.box.strokeBorder(JKD.Palette.rule.color, lineWidth: 1))
-            .background(JKD.Radius.box.fill(lifted ? JKD.Palette.shadow.color : .clear)
-                .offset(x: JKD.Grid.units(1.5), y: JKD.Grid.units(1.5)))
+            .background(Rectangle().fill(JKD.Palette.raised.color))
+            .overlay(Rectangle().strokeBorder(JKD.Palette.boundary.color, lineWidth: JKD.Structure.slabBorder))
+            .background(Rectangle().fill(lifted ? JKD.Palette.shadow.color : .clear).offset(x: o, y: o))
     }
 }
 
@@ -120,8 +121,9 @@ public struct PlateButtonStyle: ButtonStyle {
                     Rectangle().fill(JKD.Palette.accent.color).frame(height: hover && enabled ? 2 : 0)
                 }
                 .offset(y: configuration.isPressed ? 1 : 0)
-                .background(JKD.Radius.box.fill(enabled ? JKD.Palette.shadow.color : .clear)
-                    .offset(x: configuration.isPressed ? 1 : 4, y: configuration.isPressed ? 1 : 4))
+                .background(Rectangle().fill(enabled ? JKD.Palette.shadow.color : .clear)
+                    .offset(x: configuration.isPressed ? 2 : JKD.Structure.shadowOffset,
+                            y: configuration.isPressed ? 2 : JKD.Structure.shadowOffset))
                 .onHover { hover = $0 }
                 .animation(.easeOut(duration: JKD.Motion.quick), value: hover)
                 .contentShape(Rectangle())
@@ -219,4 +221,37 @@ public struct Highlight: ViewModifier {
 public extension View {
     /// A thin sand underline under the most important word. One per screen.
     func jkdHighlight() -> some View { modifier(Highlight()) }
+}
+
+
+// MARK: - 0.6: brutal structure
+
+/// A heavy ink rule across the column (6 pt): sections divided the way
+/// Swiss posters divide them. Decoration with a job: it is the grid made
+/// visible. Not for every row: between sections.
+public struct HeavyRule: View {
+    var weight: CGFloat
+    public init(weight: CGFloat = JKD.Structure.rule) { self.weight = weight }
+    public var body: some View {
+        Rectangle().fill(JKD.Palette.ink.color).frame(height: weight).frame(maxWidth: .infinity)
+            .accessibilityHidden(true)
+    }
+}
+
+/// A section's number in a solid ink square ("01"), opening a section: the
+/// page reads as a sequence. The number is tabular, the square on the grid.
+public struct SectionIndex: View {
+    let number: Int
+    var style: JKD.Style
+    public init(_ number: Int, style: JKD.Style = .display) { self.number = number; self.style = style }
+    public var body: some View {
+        let side = (style.size * 1.6 / JKD.Grid.unit).rounded() * JKD.Grid.unit
+        Text(String(format: "%02d", number))
+            .font(.custom(JKD.face("Switzer-Black", "HelveticaNeue-Bold"), size: style.size, relativeTo: style.textStyle))
+            .tracking(style.tracking).monospacedDigit()
+            .foregroundStyle(JKD.Palette.onInk.color)
+            .frame(width: side, height: side)
+            .background(Rectangle().fill(JKD.Palette.ink.color))
+            .accessibilityLabel("Section \(number)")
+    }
 }

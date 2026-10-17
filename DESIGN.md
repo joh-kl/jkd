@@ -1,5 +1,5 @@
 ---
-version: "0.5.0"
+version: "0.6.0"
 name: "JKD"
 status: "draft"
 description: >
@@ -15,7 +15,7 @@ colors:
   secondary:  { light: "#5E5E5A", dark: "#A0A09B" }   # secondary text
   rule:       { light: "#979892", dark: "#4A4A47" }   # hairlines, decorative only
   boundary:   { light: "#000000", dark: "#FFFFFF" }   # an edge that must be seen (3:1 or more)
-  shadow:     { light: "#000000@22%", dark: "#979892@35%" }  # hard offset, no blur
+  shadow:     { light: "#000000", dark: "#FFFFFF" }   # solid, offset 8, no blur (0.6)
   onInk:      { light: "#FFFFFF", dark: "#000000" }   # text on a plate
   hover:      { light: "#000000@6%",  dark: "#FFFFFF@8%" }
   active:     { light: "#000000@12%", dark: "#FFFFFF@16%" }
@@ -35,11 +35,11 @@ contrast:   # computed, WCAG 2.x
   rule/page: "2.9:1 light, 2.4:1 dark (decorative, never the only edge)"
 typography:
   family:          # Switzer, Indian Type Foundry, Fontshare licence (credit ITF)
-    display: "Switzer Bold"
+    display: "Switzer Bold"               # title and display
+    black:   "Switzer Black"              # headline, poster, monument, giant (0.6)
     text:    "Switzer Regular"
     medium:  "Switzer Medium"
     light:   "Switzer Light"              # 16 pt and up only
-    stamp:   "Switzer Black"              # expressive only
     mono:    "Space Mono"                 # technical readouts only (OFL)
     fallback: "Helvetica Neue, Helvetica, Arial"
     web:     "Switzer, \"Helvetica Neue\", Helvetica, Arial, sans-serif"
@@ -50,10 +50,11 @@ typography:
     lead:    { size: 20, weight: regular, ios: title3 }
     title:   { size: 28, weight: bold, tracking: -0.4, ios: title }
     display: { size: 36, weight: bold, tracking: -0.8, ios: largeTitle }
-    headline: { size: 48, weight: bold, tracking: -1.2, ios: largeTitle }   # key numbers, the name that matters (0.5)
-    poster:  { size: 72, weight: bold, tracking: -2 }
-    monument: { size: 108, weight: bold, tracking: -3 }
-  leading: { text: 1.35, display: 1.0 }
+    headline: { size: 64, weight: black, tracking: -2.4, ios: largeTitle }   # key numbers, the name that matters (0.6)
+    poster:  { size: 72, weight: black, tracking: -2.9 }
+    monument: { size: 108, weight: black, tracking: -4.3 }   # page titles in apps (0.6)
+    giant:   { size: 160, weight: black, tracking: -6.4 }    # posters, empty states (0.6)
+  leading: { text: 1.35, display: 0.9 }
   numbers: tabular
 layout:
   unit: 4          # every value is a multiple
@@ -64,12 +65,12 @@ layout:
   gutter: { compact: 16, regular: 24, print: "5 mm" }
 rounded:
   none: 0          # the bar, rules, images
-  subtle: 3        # slabs, plates, fields: cast concrete, not cut paper
+  subtle: 0        # slabs, plates, fields, chips: square since 0.6 (the name stays for themes)
   full: "100%"     # only for something round by meaning: a count badge, an avatar
 elevation:
   flat: "page"
-  slab: "raised + 1 pt rule + hard shadow offset 6 pt"
-  plate: "ink fill + hard shadow offset 4 pt"
+  slab: "raised + 2 pt boundary edge + solid shadow offset 8 pt"
+  plate: "ink fill + solid shadow offset 8 pt"
   float: "system material (menus, popovers, sheets)"
 motion:
   quick: 0.12      # hover, press
@@ -100,15 +101,16 @@ breaks a rule below. Detail lives in `references/`.
 
 1. **The grid decides.** Every position and gap is a multiple of the unit.
    Nothing is nudged by eye.
-2. **Type is the image, at poster scale.** Hierarchy comes from size and weight
-   first, colour last. Since 0.5 apps use the poster size for page titles and
-   the 48 pt headline for the number or name that matters: exaggerate the top
-   of the hierarchy, keep the rest quiet.
+2. **Type is the image, at monument scale.** Hierarchy comes from size and
+   weight first, colour last. Since 0.6 apps set page titles at 108 pt in
+   Switzer Black and the number or name that matters at the 64 pt headline,
+   also Black: exaggerate the top of the hierarchy hard, keep the rest quiet.
+   Scale contrast is the whole look.
 3. **Black and white, with sand as a hairline.** Since 0.5 the büro sand is the
    accent, but only as a thin line (3 pt or less): never a button, a fill or
    text. Status and data colours keep their jobs.
-4. **Raw, not rough.** Hard edges, hard shadows, honest materials. The 3 pt
-   corner is the only softness.
+4. **Brutal, not rough** (0.6). Square corners, 2 pt ink edges, solid
+   shadows offset 8 pt, heavy rules that make the grid visible. No softness.
 5. **One expressive moment at most** per screen or page, never on the frequent
    path, never under text that must be read.
 6. **Show, don't tell.** Numbers, symbols, piles and pictures before sentences.
@@ -150,14 +152,15 @@ such as the coordinates of a blob tracker. The full Swiss rules are in
 - **Flush left, ragged right.** No justified text, no centred paragraphs.
   Centre only a single line on a poster or an empty state.
 - **The scale above, and only it.** Each size has a role; do not invent a 15.
-- **Bold for headings, regular for text, medium for captions and labels.**
+- **Black for the top of the hierarchy** (headline, poster, monument, giant;
+  0.6), **bold for titles, regular for text, medium for captions and labels.**
   Light only at 16 pt and up: thin strokes at small sizes fail people with low
   vision. No bold or italic inside a sentence.
 - **Lowercase captions** (11 pt medium, tracked +0.4) for small labels, as the
   guide's page labels are. Buttons and menu items follow the platform's own
   capitalisation.
-- **Tight display, open text.** Display sizes at leading 1.0 with negative
-  tracking; body text at 1.35.
+- **Tight display, open text.** Display sizes at leading 0.9 with about -4%
+  tracking (0.6); body text at 1.35.
 - **Numbers are tabular** wherever they change or line up.
 - **It scales.** On iOS every size is tied to a text style (`relativeTo`), so
   Dynamic Type works; layouts reflow rather than truncate.
@@ -180,29 +183,36 @@ such as the coordinates of a blob tracker. The full Swiss rules are in
 
 ## Elevation & Depth
 
-Mostly flat. A **slab** (raised fill, 1 pt rule, hard shadow offset 6 pt with
-no blur) is for the one or two things on a screen that you act on: a card being
-sorted, a proposal. A **plate** (ink fill, white text, hard shadow 4 pt) is the
-primary action. Everything else sits on the page. In dark mode the hard shadow
-is concrete grey, so a slab still reads on black.
+Mostly flat. A **slab** (raised fill, a 2 pt ink edge, a solid shadow offset
+8 pt with no blur, square) is for the one or two things on a screen that you act
+on: a card being sorted, a proposal. A **plate** (ink fill, white text, the same
+solid 8 pt shadow) is the primary action; pressed, it sinks into its shadow.
+Everything else sits on the page. In dark mode the shadow is white.
 
 ## Shapes
 
-- **0**: the bar, rules, images, the page's own edges.
-- **3 pt continuous**: slabs, plates, fields, chips. Never larger: a bigger
-  radius is a different character.
+- **0**: everything since 0.6: the bar, rules, images, slabs, plates, fields,
+  chips. (0.5 had a 3 pt corner on slabs and plates; he chose square.)
 - **Full**: only where the shape means something (a count, an avatar).
+- Platform controls keep their own shapes.
 
 ## Components
 
 The shared set, implemented in `swift/` and `web/`. Each has a page in
 `references/components.md`.
 
-- **The bar**: a heavy square ink rule over a word, as wide as the word: 6 pt
-  over title and display type, **12 pt over headline and poster type** (0.5).
-  Also the progress bar. One per screen, over the most important name.
-- **The band** (0.5): one full-width inverted section per screen (ink, white
-  words) for the loudest thing on it. Never for a list.
+- **The bar**: a heavy square ink rule over a word, as wide as the word, that
+  **hugs** it (0.6): about a sixth of the type size thick and a twelfth away
+  (18 pt over a 108 pt title, gap 9; never thinner than 6, never further than
+  needed), so bar and word read as one block. Also the progress bar. One per
+  screen, over the most important name.
+- **The band**: a full-width inverted section (ink, white words) for the
+  loudest thing; **up to two per screen** since 0.6. Never for a list.
+- **The heavy rule** (0.6): a 6 pt ink rule across the column between
+  sections, the grid made visible, as on Swiss posters. Between sections, never
+  between rows.
+- **The section index** (0.6): a section's number (01, 02, 03) in a solid ink
+  square, tabular, Black, opening the section; the page reads as a sequence.
 - **The highlight** (0.5): a thin sand underline under the one word that matters.
 - **The switch**: white or black, both words always visible. White is the
   default. A section may invert for effect, once or twice per page.
@@ -238,8 +248,7 @@ menu bar on a Mac, touch targets 44 pt on iOS.
 
 ## Adaptations
 
-- A platform without the 3 pt continuous corner uses square corners, never a
-  larger round.
+- Corners are square everywhere; a platform control keeps its own shape.
 - Without Switzer: Helvetica Neue, then Helvetica, then Arial, then the system
   grotesk. Never a geometric or humanist face as a
   stand in.

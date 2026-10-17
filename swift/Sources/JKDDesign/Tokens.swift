@@ -63,7 +63,8 @@ public enum JKD {
         public static let rule      = Token(Swatch(0x979892), Swatch(0x4A4A47))
         /// An edge a person must see to use the thing.
         public static let boundary  = Token(Swatch(0x000000), Swatch(0xFFFFFF))
-        public static let shadow    = Token(Swatch(0x000000, 0.22), Swatch(0x979892, 0.35))
+        /// Solid, offset, no blur (0.6): black by day, white at night.
+        public static let shadow    = Token(Swatch(0x000000), Swatch(0xFFFFFF))
         public static let onInk     = Token(Swatch(0xFFFFFF), Swatch(0x000000))
         public static let hover     = Token(Swatch(0x000000, 0.06), Swatch(0xFFFFFF, 0.08))
         public static let active    = Token(Swatch(0x000000, 0.12), Swatch(0xFFFFFF, 0.16))
@@ -122,21 +123,35 @@ public enum JKD {
 
     public enum Radius {
         public static let none: CGFloat = 0
-        /// Slabs, plates, fields, chips: cast concrete, not cut paper.
-        public static let subtle: CGFloat = 3
+        /// Slabs, plates, fields, chips. Square since 0.6 (brutal): the
+        /// name stays so themes keep working.
+        public static let subtle: CGFloat = 0
         public static var box: RoundedRectangle { RoundedRectangle(cornerRadius: subtle, style: .continuous) }
     }
 
-    /// The bar's thickness over small display text (title, display).
+    /// The thinnest bar (over title and display text).
     public static let barHeight: CGFloat = 6
-    /// The bar over poster and headline type: twice as heavy (0.5).
+    /// Kept for themes written for 0.5; the bar now follows the size.
     public static let barHeavy: CGFloat = 12
-    /// The bar for a given size: about a sixth of the cap height, on the grid.
-    public static func bar(for style: Style) -> CGFloat {
-        switch style {
-        case .headline, .poster, .monument: barHeavy
-        default: barHeight
-        }
+    /// The bar hugs its word (0.6): about a sixth of the type size thick, on
+    /// whole points, never under 6 (18 over a 108 pt title, 27 over 160).
+    public static func bar(forSize size: CGFloat) -> CGFloat { max(barHeight, (size / 6).rounded()) }
+    /// The gap between bar and word: about a twelfth of the size, at least 4,
+    /// so bar and word read as one block.
+    public static func barGap(forSize size: CGFloat) -> CGFloat { max(Grid.unit, (size / 12).rounded()) }
+    public static func bar(for style: Style) -> CGFloat { bar(forSize: style.size) }
+
+    // MARK: structure (0.6)
+
+    public enum Structure {
+        /// A slab's edge: an ink line you can see, not a hairline.
+        public static let slabBorder: CGFloat = 2
+        /// The hard shadow's offset under slabs and plates.
+        public static let shadowOffset: CGFloat = 8
+        /// The heavy rule that divides sections across the column (4 to 8).
+        public static let rule: CGFloat = 6
+        /// Bands per screen, at most.
+        public static let bandsPerScreen = 2
     }
 
     // MARK: motion
@@ -160,7 +175,7 @@ public enum JKD {
 
     /// The scale. Each size has one role; there is no other size.
     public enum Style: CaseIterable, Sendable {
-        case caption, small, body, lead, title, display, headline, poster, monument
+        case caption, small, body, lead, title, display, headline, poster, monument, giant
 
         public var size: CGFloat {
             switch self {
@@ -170,9 +185,10 @@ public enum JKD {
             case .lead: 20
             case .title: 28
             case .display: 36
-            case .headline: 48
+            case .headline: 64
             case .poster: 72
             case .monument: 108
+            case .giant: 160
             }
         }
 
@@ -181,7 +197,9 @@ public enum JKD {
             switch self {
             case .caption: JKD.face("Switzer-Medium", "HelveticaNeue-Medium")
             case .small, .body, .lead: JKD.face("Switzer-Regular", "HelveticaNeue")
-            case .title, .display, .headline, .poster, .monument: JKD.face("Switzer-Bold", "HelveticaNeue-Bold")
+            case .title, .display: JKD.face("Switzer-Bold", "HelveticaNeue-Bold")
+            // The top of the hierarchy in Black (0.6): density is the image.
+            case .headline, .poster, .monument, .giant: JKD.face("Switzer-Black", "HelveticaNeue-Bold")
             }
         }
 
@@ -192,9 +210,10 @@ public enum JKD {
             case .small, .body, .lead: 0
             case .title: -0.4
             case .display: -0.8
-            case .headline: -1.2
-            case .poster: -2
-            case .monument: -3
+            case .headline: -2.4
+            case .poster: -2.9
+            case .monument: -4.3
+            case .giant: -6.4
             }
         }
 
@@ -206,7 +225,7 @@ public enum JKD {
             case .body: .body
             case .lead: .title3
             case .title: .title
-            case .display, .headline, .poster, .monument: .largeTitle
+            case .display, .headline, .poster, .monument, .giant: .largeTitle
             }
         }
 
