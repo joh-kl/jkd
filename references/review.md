@@ -14,7 +14,8 @@ Read `DESIGN.md` and the relevant references first. Look at the real thing
 3. **The grid**: every gap on the unit, alignments true, columns respected.
 4. **Type**: only scale sizes, hierarchy by size and weight, flush left,
    lowercase captions, tabular numbers, no dashes.
-5. **Colour**: black and white, tokens only, data colours only for data,
+5. **Colour**: black and white until colour earns a job (`DESIGN.md › Colors ›
+   When colour earns a job`: does it pass all four?), tokens only, data colours only for data,
    status colours with words.
 6. **Components**: one bar, one plate, slabs only where you act, piles for many.
 7. **Expressive**: at most one moment, not on the frequent path, switches off

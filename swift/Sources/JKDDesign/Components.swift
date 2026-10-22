@@ -255,3 +255,46 @@ public struct SectionIndex: View {
             .accessibilityLabel("Section \(number)")
     }
 }
+
+
+// MARK: - 0.6.1: change marks
+
+/// What a change removes and adds, inside running text: a tint of the
+/// platform's red behind what goes (struck through), of its green behind what
+/// comes (underlined), ink text on both. Colour with a job; never alone.
+public enum ChangeMark: Sendable {
+    case goes, comes
+
+    public var tint: Color { self == .goes ? JKD.Palette.goes : JKD.Palette.comes }
+
+    /// Marks one run of an attributed string.
+    public func apply(to run: inout AttributedString) {
+        run.backgroundColor = tint
+        run.foregroundColor = JKD.Palette.ink.color
+        if self == .goes { run.strikethroughStyle = .single } else { run.underlineStyle = .single }
+    }
+
+    public func marked(_ text: String) -> AttributedString {
+        var run = AttributedString(text)
+        apply(to: &run)
+        return run
+    }
+}
+
+/// The key to the change marks, once per surface that uses them. `extra`
+/// names any symbols the product adds (such as ↵ for a line break).
+public struct ChangeKey: View {
+    var extra: String?
+    public init(extra: String? = nil) { self.extra = extra }
+    public var body: some View {
+        HStack(spacing: JKD.Grid.units(4)) {
+            Text(ChangeMark.goes.marked("goes"))
+            Text(ChangeMark.comes.marked("comes"))
+            if let extra { Text(extra) }
+        }
+        .font(.jkdMedium(.caption))
+        .foregroundStyle(JKD.Palette.ink.color)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Struck through goes, underlined comes" + (extra.map { ", " + $0 } ?? ""))
+    }
+}

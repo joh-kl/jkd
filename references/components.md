@@ -93,6 +93,23 @@ an ink circle, and one caption saying how the pile is split. Two is not a pile.
 Anything different stands alone. Acting on a pile asks how many first, with
 minus, number and plus, starting at nothing.
 
+## Change marks (0.6.1)
+
+What a change removes and adds, inside running text. Colour with a job: see
+`DESIGN.md › Colors › When colour earns a job` for the test and the story.
+
+- **Goes**: `status.danger` at 28% behind the text, ink text, struck through.
+  A line break that goes is drawn as ↵ in the same mark.
+- **Comes**: `status.success` at 28% behind the text, ink text, underlined.
+  A space that joins two lines is drawn as · in the same mark.
+- **Granularity**: whole words (and single spaces, line breaks, punctuation),
+  so one respelled word lights up, not the sentence.
+- **A key** on every surface that uses them: "goes" and "comes" in their own
+  marks (`ChangeKey` / `.jkd-change-key`).
+- Only for showing a change. Never a button, a status, a fill or decoration.
+- SwiftUI: `ChangeMark.goes.apply(to: &run)` on an `AttributedString` run,
+  `ChangeKey()`. Web: `<del class="jkd-goes">`, `<ins class="jkd-comes">`.
+
 ## Numbers
 
 Counts and money are tabular figures, and change with a numeric content

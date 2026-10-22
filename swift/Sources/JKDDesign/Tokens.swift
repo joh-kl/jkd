@@ -89,6 +89,15 @@ public enum JKD {
         public static let warning = Color(nsColor: .systemOrange)
         public static let success = Color(nsColor: .systemGreen)
         #endif
+
+        /// Change marks (0.6.1): the platform's red and green as a light tint
+        /// behind ink text. Colour that earns its job (DESIGN.md › Colors).
+        public static let changeTint: Double = 0.28
+        public static var goes: Color { danger.opacity(changeTint) }
+        public static var comes: Color { success.opacity(changeTint) }
+        /// The system colours' sRGB values, light and dark, for the contrast test.
+        static let dangerReference  = Token(Swatch(0xFF3B30), Swatch(0xFF453A))
+        static let successReference = Token(Swatch(0x34C759), Swatch(0x30D158))
     }
 
     /// WCAG 2.x contrast ratio of two opaque colours.

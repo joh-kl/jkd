@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.6.1 (22 Oct 2026)
+
+Black and white **until colour earns a job**, his motto, now written down
+with its first case.
+
+- **The test** (`DESIGN.md › Colors › When colour earns a job`): colour gets
+  in only when it carries information, black and white cannot do the job as
+  well, a second cue says the same, and it comes from the platform or the
+  content, not the brand. Each admitted colour is recorded with its story.
+- **Change marks**, the first case: in a before and after, a 28% tint of the
+  system red behind what goes (struck through) and of the system green behind
+  what comes (underlined), ink text, a key. From Auto-Sort's Review a Vault,
+  where comparing two grey columns by eye failed two of Nielsen's heuristics.
+  `ChangeMark`, `ChangeKey`, `JKD.Palette.goes` and `.comes`;
+  `.jkd-goes`, `.jkd-comes`, `.jkd-change-key`. Contrast tested: ink keeps
+  12.7:1 or more on both tints, light and dark.
+- Principle 3, the README, SKILL.md and the review checklist name the motto.
+
 ## 0.6.0 (17 Oct 2026)
 
 Brutal, his request ("more extreme: big fonts, big accent blocks, the chunky

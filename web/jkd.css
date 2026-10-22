@@ -191,3 +191,18 @@ hr, .jkd-rule { border: 0; border-top: 1px solid var(--jkd-rule); margin: var(--
 @keyframes jkd-chrome-drift { to { background-position: 512px 512px; } }
 @media (prefers-reduced-motion: reduce) { .jkd-chrome { animation: none; } }
 @media (prefers-contrast: more) { .jkd-chrome { background: none; color: var(--jkd-ink); } }
+
+/* Change marks (0.6.1): colour that earns its job. What goes and what comes in
+   a before and after; each also has a line style, so colour is never alone.
+   DESIGN.md › Colors › When colour earns a job. */
+.jkd-goes, del.jkd-goes {
+  background: color-mix(in srgb, var(--jkd-danger) 28%, transparent);
+  color: var(--jkd-ink);
+  text-decoration: line-through;
+}
+.jkd-comes, ins.jkd-comes {
+  background: color-mix(in srgb, var(--jkd-success) 28%, transparent);
+  color: var(--jkd-ink);
+  text-decoration: underline;
+}
+.jkd-change-key { display: flex; gap: var(--jkd-s4); font-size: var(--jkd-caption); font-weight: 500; }

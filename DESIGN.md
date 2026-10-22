@@ -1,5 +1,5 @@
 ---
-version: "0.6.0"
+version: "0.6.1"
 name: "JKD"
 status: "draft"
 description: >
@@ -7,7 +7,7 @@ description: >
   brand guide), black and white, with halftone, texture and chrome as an
   occasional expressive layer. Themes change values, never names.
 colors:
-  # Brand palette: black and white until primary and secondary are chosen.
+  # Brand palette: black and white until colour earns a job (0.6.1, see Colors).
   ink:        { light: "#000000", dark: "#FFFFFF" }   # text, plates, the bar
   page:       { light: "#FFFFFF", dark: "#000000" }   # layer 0
   raised:     { light: "#FFFFFF", dark: "#161616" }   # layer 1: slabs, cards
@@ -26,6 +26,9 @@ colors:
     warning:  "system orange"
     success:  "system green"
     info:     "{colors.ink}"
+  change:     # change marks (0.6.1): a colour with a job, see Colors › When colour earns a job
+    goes:     "status.danger at 28% behind ink text, struck through"
+    comes:    "status.success at 28% behind ink text, underlined"
 contrast:   # computed, WCAG 2.x
   ink/page: "21.0:1"
   ink/sunken (light): "18.7:1"
@@ -33,6 +36,8 @@ contrast:   # computed, WCAG 2.x
   secondary/page: "6.5:1 light, 8.0:1 dark"
   secondary/sunken or raised: "5.8:1 light, 6.9:1 dark"
   rule/page: "2.9:1 light, 2.4:1 dark (decorative, never the only edge)"
+  ink/goes tint: "14.3:1 light, 15.3:1 dark (on page)"
+  ink/comes tint: "16.7:1 light, 12.7:1 dark (on page)"
 typography:
   family:          # Switzer, Indian Type Foundry, Fontshare licence (credit ITF)
     display: "Switzer Bold"               # title and display
@@ -106,9 +111,11 @@ breaks a rule below. Detail lives in `references/`.
    Switzer Black and the number or name that matters at the 64 pt headline,
    also Black: exaggerate the top of the hierarchy hard, keep the rest quiet.
    Scale contrast is the whole look.
-3. **Black and white, with sand as a hairline.** Since 0.5 the büro sand is the
-   accent, but only as a thin line (3 pt or less): never a button, a fill or
-   text. Status and data colours keep their jobs.
+3. **Black and white until colour earns a job.** Since 0.5 the büro sand is
+   the accent, but only as a thin line (3 pt or less): never a button, a fill
+   or text. Any other colour has to earn its place by doing a job black and
+   white cannot do as well (the test is under Colors). Status, data and change
+   colours keep their jobs.
 4. **Brutal, not rough** (0.6). Square corners, 2 pt ink edges, solid
    shadows offset 8 pt, heavy rules that make the grid visible. No softness.
 5. **One expressive moment at most** per screen or page, never on the frequent
@@ -133,11 +140,69 @@ plate stays ink.
   4.5:1 on every layer (see the contrast table above).
 - **Edges.** `rule` is a decorative hairline (2.9:1). An edge a person must see
   to use the thing (a field, a toggle track) uses `boundary` or a fill.
+- **Change marks** (0.6.1) show what a change removes and adds: a light tint of
+  the platform's red behind what goes (struck through) and of its green behind
+  what comes (underlined), ink text on both. The first colour admitted by the
+  test below; the story is told there.
 - **Status** colours come from the platform (system red, orange, green) so they
   adapt to Increase Contrast; each one always carries a word or a symbol.
 - **Data colours** belong to the content, not the brand: a user's label
   colours, Magic's five mana colours, a chart's series. They are allowed
   anywhere and are never used for chrome or brand elements.
+
+### When colour earns a job
+
+JKD's default is black and white. Colour gets in only when it passes all four:
+
+1. **It carries information**, not mood. Taking it away would lose something a
+   person needs, or make them compare by eye what the screen could show.
+2. **Black and white cannot do it as well.** Weight, size, an ink block, a
+   rule, a symbol or position were tried first and are worse at this job.
+3. **It is never alone.** A second cue (a line style, a symbol, a word) says
+   the same, so it works without colour vision and in greyscale print.
+4. **It comes from the platform or the content**, not the brand: system
+   colours that follow Increase Contrast and dark mode, or the data's own
+   colours. The brand stays black and white, with sand as a hairline.
+
+Each admitted colour is written down here with its case, so the next one is
+judged against a precedent and not against taste.
+
+#### The worked example: change marks (Auto-Sort, 22 Oct 2026)
+
+**The situation.** Auto-Sort's *Review a Vault* goes through a notes vault and
+offers each fix as a card: join lines that a paragraph was broken into, Swiss
+spelling (ss for ß), a callout title on its own line. Each card shows the note
+*now* and *after* side by side, in black and grey type.
+
+**The problem.** Looking at the real window, Johannes said it was not clear
+what was happening. Checked against Nielsen's ten usability heuristics, two
+failed: *visibility of system status* (the card did not show what the fix
+changes) and *recognition rather than recall* (to see the change, you had to
+read both columns and compare them in your head). On a line-join card, the
+only difference is a few invisible line breaks; on a spelling card, one letter
+in a long sentence.
+
+**What black and white could do.** Bold for the changed words fails: the
+after column is already set in medium, and bold inside a sentence breaks the
+type rules. An ink block with white text (a reversed plate) marks change but
+not its *direction*: what goes and what comes look the same, and an inverted
+word in running text reads as a button. Underlines alone are too quiet at
+12 pt and already mean a link or the sand highlight.
+
+**The decision.** He was asked which text to highlight, chose "what changes",
+and then said: "you are allowed to use a colour here". Red for what goes and
+green for what comes is the convention every diff, track-changes view and code
+review already uses, so it is read without a key (heuristic: *match between
+system and the real world*). It passes the test: it carries the change (1),
+black and white could not show direction as well (2), each mark also has a
+line style, struck through or underlined, and a line break that goes shows
+as ↵ (3), and the colours are the platform's own red and green at a 28% tint,
+with ink text that keeps 12.7:1 or more on the page (4). He then made it the model case:
+"Black and white until colour earns a job: this is a great example."
+
+**The rules that came with it.** Only on text that shows a change; a key on
+the card ("goes", "comes"); the tint behind the text, never the text itself
+in colour; never for a button, a status or decoration.
 
 ## Typography
 
@@ -221,6 +286,8 @@ The shared set, implemented in `swift/` and `web/`. Each has a page in
 - **Slab**, **Plate button**, **Quiet button** (words only, underlined on
   hover), **Chip** (a choice as a button, never a fragile toggle in a sheet).
 - **Pile**: many of one thing, as one with a count.
+- **Change marks** (0.6.1): what goes and what comes in a before and after,
+  red and green tints with a line style each, plus a key.
 
 ## Expressive layer
 

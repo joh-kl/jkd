@@ -35,6 +35,24 @@ struct ContrastTests {
         #expect(JKD.contrast(P.onPrimary.dark, P.primary.dark) >= 4.5)
     }
 
+    /// Change marks (0.6.1): ink text on the red and green tints, over every
+    /// layer, light and dark. Printed so DESIGN.md can quote the page figures.
+    @Test func changeMarksKeepInkReadable() {
+        func blend(_ base: JKD.Swatch, over s: JKD.Swatch, _ a: Double) -> JKD.Swatch {
+            func ch(_ x: Double, _ y: Double) -> UInt32 { UInt32(((x * a + y * (1 - a)) * 255).rounded()) }
+            return JKD.Swatch(ch(base.r, s.r) << 16 | ch(base.g, s.g) << 8 | ch(base.b, s.b))
+        }
+        for (mark, base) in [("goes", P.dangerReference), ("comes", P.successReference)] {
+            for (name, s) in Self.surfaces {
+                let light = JKD.contrast(P.ink.light, blend(base.light, over: s.light, P.changeTint))
+                let dark = JKD.contrast(P.ink.dark, blend(base.dark, over: s.dark, P.changeTint))
+                #expect(light >= 7, "ink on \(mark) over \(name), light: \(light)")
+                #expect(dark >= 7, "ink on \(mark) over \(name), dark: \(dark)")
+                if name == "page" { print("CHANGE \(mark) page light \(String(format: "%.1f", light)) dark \(String(format: "%.1f", dark))") }
+            }
+        }
+    }
+
     @Test func neededEdgesReachThreeToOne() {
         for (_, s) in Self.surfaces {
             #expect(JKD.contrast(P.boundary.light, s.light) >= 3)

@@ -9,6 +9,9 @@ JKD grew out of it. Its own code is `Sources/AutoSort/Theme.swift`.
 - **Swipe cards** (Card Sort): slabs that fly off with a stamp; the one
   orchestrated motion in the app.
 - Confidence in words (Very likely, Likely, Possible, Unsure).
+- **Change marks** on Review a Vault's fix cards (0.6.1): where JKD's
+  "colour earns a job" rule comes from. Auto-Sort adds two symbols in the
+  marks, ↵ for a line break that goes and · where two lines join.
 
 ## Where it differs from JKD today (to migrate)
 

@@ -38,8 +38,11 @@ colour (a user's label, a mana colour, a chart series).
 
 ## Non-negotiables
 
-- Black and white, with büro sand (#C9B69B) **only as thin lines, 3 pt or
-  less**: never a button, a fill or text (his veto). The primary plate is ink.
+- Black and white until colour earns a job: büro sand (#C9B69B) **only as
+  thin lines, 3 pt or less**, never a button, a fill or text (his veto); any
+  other colour must pass the four questions in `DESIGN.md › Colors › When
+  colour earns a job` (precedent: change marks, red goes and green comes). The
+  primary plate is ink.
 - Exaggerate the top of the hierarchy hard (0.6, brutal): page titles at 108 pt
   in Switzer Black, the number or name that matters at the 64 pt headline
   (Black), the bar hugging its word (a sixth of the size thick, a twelfth away),
