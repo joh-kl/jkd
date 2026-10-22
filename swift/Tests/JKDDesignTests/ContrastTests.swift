@@ -29,8 +29,8 @@ struct ContrastTests {
         #expect(JKD.contrast(P.onAccent.light, P.accent.light) >= 4.5)
         #expect(JKD.contrast(P.onAccent.dark, P.accent.dark) >= 4.5)
         func r(_ x: Double) -> Double { (x * 10).rounded() / 10 }
-        #expect(r(JKD.contrast(P.onAccent.light, P.accent.light)) == 10.6)
-        #expect(r(JKD.contrast(P.accent.light, P.page.light)) == 2.0)      // why it is never text on white
+        #expect(r(JKD.contrast(P.onAccent.light, P.accent.light)) == 8.7)
+        #expect(r(JKD.contrast(P.accent.light, P.page.light)) == 1.8)      // why it is never text on white
         #expect(JKD.contrast(P.onPrimary.light, P.primary.light) >= 4.5)
         #expect(JKD.contrast(P.onPrimary.dark, P.primary.dark) >= 4.5)
     }
@@ -63,10 +63,10 @@ struct ContrastTests {
     /// The figures quoted in DESIGN.md, so the document cannot drift.
     @Test func documentedFiguresHold() {
         func r(_ x: Double) -> Double { (x * 10).rounded() / 10 }
-        #expect(r(JKD.contrast(P.secondary.light, P.page.light)) == 6.5)
-        #expect(r(JKD.contrast(P.secondary.dark, P.page.dark)) == 8.0)
-        #expect(r(JKD.contrast(P.rule.light, P.page.light)) == 2.9)
-        #expect(r(JKD.contrast(P.ink.dark, P.raised.dark)) == 18.1)
+        #expect(r(JKD.contrast(P.secondary.light, P.page.light)) == 6.3)
+        #expect(r(JKD.contrast(P.secondary.dark, P.page.dark)) == 6.9)
+        #expect(r(JKD.contrast(P.rule.light, P.page.light)) == 2.7)
+        #expect(r(JKD.contrast(P.ink.dark, P.raised.dark)) == 13.9)
     }
 
     @Test func theScaleIsOnTheGrid() {

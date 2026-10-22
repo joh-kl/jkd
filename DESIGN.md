@@ -1,5 +1,5 @@
 ---
-version: "0.6.2"
+version: "0.7.0"
 name: "JKD"
 status: "draft"
 description: >
@@ -8,17 +8,18 @@ description: >
   occasional expressive layer. Themes change values, never names.
 colors:
   # Brand palette: black and white until colour earns a job (0.6.1, see Colors).
-  ink:        { light: "#000000", dark: "#FFFFFF" }   # text, plates, the bar
-  page:       { light: "#FFFFFF", dark: "#000000" }   # layer 0
-  raised:     { light: "#FFFFFF", dark: "#161616" }   # layer 1: slabs, cards
-  sunken:     { light: "#F2F2F0", dark: "#0D0D0D" }   # layer 1 alternative: wells, grouped rows
-  secondary:  { light: "#5E5E5A", dark: "#A0A09B" }   # secondary text
-  rule:       { light: "#979892", dark: "#4A4A47" }   # hairlines, decorative only
-  boundary:   { light: "#000000", dark: "#FFFFFF" }   # an edge that must be seen (3:1 or more)
-  shadow:     { light: "#000000", dark: "#FFFFFF" }   # solid, offset 8, no blur (0.6)
-  onInk:      { light: "#FFFFFF", dark: "#000000" }   # text on a plate
-  hover:      { light: "#000000@6%",  dark: "#FFFFFF@8%" }
-  active:     { light: "#000000@12%", dark: "#FFFFFF@16%" }
+  # Soft ink and paper (0.7): never pure #000 or #FFF, so large black type does not glare.
+  ink:        { light: "#1B1B1A", dark: "#ECECE8" }   # text, plates, the bar
+  page:       { light: "#F5F5F2", dark: "#161615" }   # layer 0
+  raised:     { light: "#FBFBF9", dark: "#1F1F1E" }   # layer 1: slabs, cards
+  sunken:     { light: "#EAEAE6", dark: "#111110" }   # layer 1 alternative: wells, grouped rows
+  secondary:  { light: "#5A5A56", dark: "#A0A09B" }   # secondary text
+  rule:       { light: "#979892", dark: "#555552" }   # hairlines, decorative only
+  boundary:   { light: "#1B1B1A", dark: "#ECECE8" }   # an edge that must be seen (3:1 or more)
+  shadow:     { light: "#1B1B1A", dark: "#ECECE8" }   # solid, offset 8, no blur
+  onInk:      { light: "#F5F5F2", dark: "#161615" }   # text on a plate
+  hover:      { light: "#1B1B1A@6%",  dark: "#ECECE8@8%" }
+  active:     { light: "#1B1B1A@12%", dark: "#ECECE8@16%" }
   accent:     "#C9B69B"          # sand (0.5): thin lines only, 3 pt or less, never a fill or a button
   primary:    "{colors.ink}"     # the primary plate stays ink
   status:
@@ -29,15 +30,15 @@ colors:
   change:     # change marks (0.6.1): a colour with a job, see section 2.3
     goes:     "status.danger at 28% behind ink text, struck through"
     comes:    "status.success at 28% behind ink text, underlined"
-contrast:   # computed, WCAG 2.x
-  ink/page: "21.0:1"
-  ink/sunken (light): "18.7:1"
-  ink/raised (dark): "18.1:1"
-  secondary/page: "6.5:1 light, 8.0:1 dark"
-  secondary/sunken or raised: "5.8:1 light, 6.9:1 dark"
-  rule/page: "2.9:1 light, 2.4:1 dark (decorative, never the only edge)"
-  ink/goes tint: "14.3:1 light, 15.3:1 dark (on page)"
-  ink/comes tint: "16.7:1 light, 12.7:1 dark (on page)"
+contrast:   # computed, WCAG 2.x (swift test pins these)
+  ink/page: "15.8:1 light, 15.3:1 dark"
+  ink/raised: "16.6:1 light, 13.9:1 dark"
+  ink/sunken: "14.3:1 light, 16.0:1 dark"
+  secondary/page: "6.3:1 light, 6.9:1 dark"
+  secondary/sunken or raised: "5.7:1 or more"
+  rule/page: "2.7:1 light, 2.0:1 dark (decorative, never the only edge)"
+  ink/goes tint: "11.0:1 light, 10.6:1 dark (on page)"
+  ink/comes tint: "12.8:1 light, 8.6:1 dark (on page)"
 typography:
   family:          # Switzer, Indian Type Foundry, Fontshare licence (credit ITF)
     display: "Switzer Bold"               # title and display
@@ -65,7 +66,7 @@ layout:
   unit: 4          # every value is a multiple
   cube: 8          # b², the reference cube, 2 units
   spacing: [4, 8, 12, 16, 24, 32, 48, 64, 96]
-  margin: { compact: 16, regular: 32, print: "25 mm" }
+  margin: { compact: 16, regular: 32, print: "20 mm top and sides, 25 mm bottom" }
   columns: { compact: 4, regular: 12, print: 12 }
   gutter: { compact: 16, regular: 24, print: "5 mm" }
 rounded:
@@ -130,19 +131,39 @@ apps (macOS, iOS), web pages, slides and print.
 
 ### 2.1 The palette
 
-| Token | Light | Dark | Use | Contrast |
+Grouped by role. Light is the White theme, Dark the Black theme.
+
+**Base**
+
+| Token | White | Black | Use | Contrast |
 | --- | --- | --- | --- | --- |
-| `ink` | #000000 | #FFFFFF | Text, the bar, plates, rules | 21:1 on page |
-| `page` | #FFFFFF | #000000 | Layer 0, the background | |
-| `raised` | #FFFFFF | #161616 | Layer 1: slabs, cards | |
-| `sunken` | #F2F2F0 | #0D0D0D | Layer 1: wells, fields, chips | ink 18.7:1 |
-| `secondary` | #5E5E5A | #A0A09B | Quieter text, captions | 6.5:1 light, 8.0:1 dark |
-| `rule` | #979892 | #4A4A47 | Decorative hairlines only | 2.9:1, 2.4:1 |
-| `boundary` | #000000 | #FFFFFF | An edge a person must see | 21:1 |
-| `onInk` | #FFFFFF | #000000 | Text on a plate | 21:1 |
-| `accent` (sand) | #C9B69B | #C9B69B | Thin lines only, 3 pt or less | 2.0:1 (decorative) |
-| `status` | system red, orange, green | | Errors, warnings, success, with a word | |
-| `change` | red / green at 28% | | What goes / what comes (2.4) | ink 12.7:1 or more |
+| `ink` | #1B1B1A | #ECECE8 | Text, the bar, plates, heavy rules | 15.8:1 / 15.3:1 on page |
+| `page` | #F5F5F2 | #161615 | Layer 0, the background | |
+| `raised` | #FBFBF9 | #1F1F1E | Layer 1: slabs, cards | ink 16.6:1 / 13.9:1 |
+| `sunken` | #EAEAE6 | #111110 | Layer 1: wells, fields, chips | ink 14.3:1 / 16.0:1 |
+
+**Text and lines**
+
+| Token | White | Black | Use | Contrast |
+| --- | --- | --- | --- | --- |
+| `secondary` | #5A5A56 | #A0A09B | Quieter text, captions | 6.3:1 / 6.9:1 on page |
+| `onInk` | #F5F5F2 | #161615 | Text on a plate or band | 15.8:1 |
+| `rule` | #979892 | #555552 | Decorative hairlines only | 2.7:1 / 2.0:1 |
+| `boundary` | = ink | = ink | An edge a person must see | as ink |
+| `shadow` | = ink | = ink | The solid shadow under slabs and plates | |
+
+**Accent, states and meaning**
+
+| Token | Value | Use | Contrast |
+| --- | --- | --- | --- |
+| `accent` (sand) | #C9B69B | Thin lines only, 3 pt or less | 1.8:1 on page (decorative) |
+| `hover`, `active` | ink at 6% / 12% (8% / 16% in Black) | Row and surface washes | |
+| `status` | system red, orange, green | Errors, warnings, success, with a word | |
+| `change` | red / green at 28% | What goes / what comes (2.4) | ink 8.6:1 or more |
+
+Why not pure black and white: at poster sizes, #000 on #FFF glares and leaves an
+afterimage. Soft ink on soft paper still reads as black and white, keeps
+contrast near 16:1, and is easier on the eye for long sessions.
 
 ### 2.2 Rules
 
@@ -154,8 +175,7 @@ apps (macOS, iOS), web pages, slides and print.
 - The primary action is an ink plate, never a coloured one.
 - Status colours come from the platform so they follow Increase Contrast and
   dark mode. Each MUST carry a word or a symbol too.
-- Data colours (a user's labels, a chart's series, a card game's mana colours)
-  belong to the content. They MAY appear wherever that content does, and
+- Data colours (a user's labels, a chart's series) belong to the content. They MAY appear wherever that content does, and
   NEVER on brand elements or controls.
 - Layers: `page` is layer 0; `raised` and `sunken` are layer 1. NEVER nest a
   slab in a slab. Menus, popovers and sheets use the platform's material.
@@ -181,11 +201,12 @@ judged against a precedent and not against taste.
 
 ### 2.4 Case: change marks (October 2026)
 
-**Situation.** Auto-Sort, a Mac app that tidies documents and notes, has a
-feature that reviews a notes vault and offers each fix as a card: joining lines
-that one paragraph was broken into, Swiss spelling (ss for ß), a callout title
-on its own line. Each card showed the text *now* and *after* in two columns of
-black and grey type.
+**Situation.** A review screen offers fixes to a set of notes, one card per
+fix: joining lines that one paragraph was broken into, Swiss spelling (ss for
+ß), a heading on its own line. Each card showed the text *now* and *after* in
+two columns of black and grey type.
+
+![Four ways to show what a fix changes: bold, an ink block, an underline, and the change marks](assets/colour-job-options.png)
 
 **Problem.** In the real window it was not clear what each card would do.
 Measured against Nielsen's ten usability heuristics, two failed: *visibility of
@@ -207,7 +228,9 @@ track changes view and code review, so it reads without learning
 the change (1); black and white could not show direction as well (2); every
 mark also has a line style, struck through or underlined, and a removed line
 break shows as ↵ (3); the colours are the platform's red and green at a 28%
-tint behind ink text, which keeps 12.7:1 or more (4).
+tint behind ink text, which keeps 8.6:1 or more (4).
+
+![A fix card with change marks: the line breaks that go in red with ↵, the joins in green with ·, and a key](assets/colour-job-card.png)
 
 **Rules that came with it.** Only on text that shows a change. The tint goes
 behind the text; the text itself stays ink. A key ("goes", "comes") on every
@@ -258,8 +281,8 @@ it; pages load it from Fontshare. Fallback: Helvetica Neue, Helvetica, Arial.
   spacing steps: 4, 8, 12, 16, 24, 32, 48, 64, 96.
 - **Columns**: 4 on a phone, 12 on a Mac window, a web page and print. Content
   aligns to column edges; images bleed to an edge or sit on a column.
-- **Margins**: 16 on iPhone (the system list inset), 32 in a Mac content pane,
-  25 mm in print.
+- **Margins**: 16 on iPhone (the system list inset), 32 in a Mac content pane;
+  in print 20 mm at the top and sides and a 25 mm chin at the bottom.
 - **Asymmetry is the default.** Weight to the left and the top; leave whole
   columns empty rather than filling to the edge.
 - **Nothing important below a long list.** Actions go above it or in the
@@ -311,6 +334,17 @@ Halftone, paper grain, liquid chrome, ordered dither and blob tracking, from the
 studio's print and TouchDesigner work. Details in `references/expressive.md`.
 
 - At most **one** per screen or page.
+- Each effect has its own jobs:
+
+| Effect | Use it for | Example | Never |
+| --- | --- | --- | --- |
+| **Halftone** | Turning a picture or a tone into the brand's one ink; a hover reveal of the original | Project thumbnails, a cover photo, a poster image | Text that must be read sits on it |
+| **Grain** | Making a surface feel printed | A cover slide, a poster, a printed page's background | Behind body text on screen |
+| **Chrome** | One celebratory word or mark | "all sorted", a finished milestone, an app icon, a title on a cover | Anything someone reads twice a day |
+| **Dither** | Something being worked on: loading, dealing, rendering | A deck being shuffled, an image preparing | Static decoration |
+| **Blob tracking** | Showing that the system sees or detects | First run, a scan, a camera or detection view | Lists, forms, settings |
+| **Reacting type** (moiré, slit-scan, misregistration) | A section opener or an Easter egg that rewards play | A portfolio section title | Navigation, labels |
+
 - MAY appear on an empty state, onboarding, a celebration, an app icon, a
   poster, a cover slide, a section opener or an Easter egg.
 - NEVER on the frequent path, behind body text, on a control, or as the only
@@ -352,8 +386,8 @@ Details in `references/platforms.md`.
 - **iOS**: body 17 with Dynamic Type; margin 16; controls in real toolbars.
 - **Web**: load `web/jkd.css` and Switzer from Fontshare; respect the reduced
   motion, contrast and transparency settings.
-- **Print and slides**: 25 mm margins, 12 columns, one idea per slide, fonts
-  embedded.
+- **Print and slides**: 20 mm top and sides, a 25 mm chin; 12 columns; one
+  idea per slide; fonts embedded.
 - Without Switzer: Helvetica Neue, then Helvetica, then Arial. NEVER a
   geometric or humanist face.
 - A dense tool MAY halve the spacing steps it uses; it keeps the 4 pt unit.

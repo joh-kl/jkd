@@ -35,7 +35,7 @@ readings of a request lead to different work.
 - **Print and slides**: the values in `DESIGN.md` and `references/platforms.md`.
 
 A hard-coded colour, size or gap in product code is a bug unless it is a data
-colour (a user's label, a mana colour, a chart series).
+colour (a user's label, a chart series).
 
 ## Non-negotiables
 

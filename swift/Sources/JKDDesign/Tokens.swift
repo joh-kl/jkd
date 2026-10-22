@@ -54,24 +54,24 @@ public enum JKD {
     /// underline. Never a button, never a fill, never text (2.0:1 on white);
     /// decorative, so never the only way something is shown.
     public enum Palette {
-        public static let ink       = Token(Swatch(0x000000), Swatch(0xFFFFFF))
-        public static let page      = Token(Swatch(0xFFFFFF), Swatch(0x000000))
-        public static let raised    = Token(Swatch(0xFFFFFF), Swatch(0x161616))
-        public static let sunken    = Token(Swatch(0xF2F2F0), Swatch(0x0D0D0D))
-        public static let secondary = Token(Swatch(0x5E5E5A), Swatch(0xA0A09B))
+        public static let ink       = Token(Swatch(0x1B1B1A), Swatch(0xECECE8))
+        public static let page      = Token(Swatch(0xF5F5F2), Swatch(0x161615))
+        public static let raised    = Token(Swatch(0xFBFBF9), Swatch(0x1F1F1E))
+        public static let sunken    = Token(Swatch(0xEAEAE6), Swatch(0x111110))
+        public static let secondary = Token(Swatch(0x5A5A56), Swatch(0xA0A09B))
         /// Decorative hairlines only (2.9:1 light, 2.4:1 dark).
-        public static let rule      = Token(Swatch(0x979892), Swatch(0x4A4A47))
+        public static let rule      = Token(Swatch(0x979892), Swatch(0x555552))
         /// An edge a person must see to use the thing.
-        public static let boundary  = Token(Swatch(0x000000), Swatch(0xFFFFFF))
+        public static let boundary  = Token(Swatch(0x1B1B1A), Swatch(0xECECE8))
         /// Solid, offset, no blur (0.6): black by day, white at night.
-        public static let shadow    = Token(Swatch(0x000000), Swatch(0xFFFFFF))
-        public static let onInk     = Token(Swatch(0xFFFFFF), Swatch(0x000000))
-        public static let hover     = Token(Swatch(0x000000, 0.06), Swatch(0xFFFFFF, 0.08))
-        public static let active    = Token(Swatch(0x000000, 0.12), Swatch(0xFFFFFF, 0.16))
+        public static let shadow    = Token(Swatch(0x1B1B1A), Swatch(0xECECE8))
+        public static let onInk     = Token(Swatch(0xF5F5F2), Swatch(0x161615))
+        public static let hover     = Token(Swatch(0x1B1B1A, 0.06), Swatch(0xECECE8, 0.08))
+        public static let active    = Token(Swatch(0x1B1B1A, 0.12), Swatch(0xECECE8, 0.16))
         /// Sand, the same in light and dark: thin lines only (3 pt or less).
         public static let accent    = Token(Swatch(0xC9B69B), Swatch(0xC9B69B))
         /// If anything ever sits on sand, it is black (10.6:1).
-        public static let onAccent  = Token(Swatch(0x000000), Swatch(0x000000))
+        public static let onAccent  = Token(Swatch(0x1B1B1A), Swatch(0x1B1B1A))
         /// The primary action stays an ink plate (no sand buttons, his veto).
         public static let primary   = ink
         public static let onPrimary = onInk

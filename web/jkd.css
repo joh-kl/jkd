@@ -2,20 +2,20 @@
    Light and dark follow the system; data-theme="light|dark" on <html> forces one. */
 
 :root {
-  --jkd-ink: #000000;
-  --jkd-page: #ffffff;
-  --jkd-raised: #ffffff;
-  --jkd-sunken: #f2f2f0;
-  --jkd-secondary: #5e5e5a;
+  --jkd-ink: #1b1b1a;              /* soft ink: not pure black, easier on the eye (0.7) */
+  --jkd-page: #f5f5f2;             /* soft paper: not pure white (0.7) */
+  --jkd-raised: #fbfbf9;
+  --jkd-sunken: #eaeae6;
+  --jkd-secondary: #5a5a56;
   --jkd-rule: #979892;
-  --jkd-boundary: #000000;
-  --jkd-shadow: #000000;            /* solid, offset, no blur (0.6) */
-  --jkd-on-ink: #ffffff;
-  --jkd-hover: rgba(0, 0, 0, 0.06);
-  --jkd-active: rgba(0, 0, 0, 0.12);
+  --jkd-boundary: #1b1b1a;
+  --jkd-shadow: #1b1b1a;            /* solid, offset, no blur (0.6) */
+  --jkd-on-ink: #f5f5f2;
+  --jkd-hover: rgba(27, 27, 26, 0.06);
+  --jkd-active: rgba(27, 27, 26, 0.12);
   --jkd-accent: #c9b69b;           /* sand (0.5): thin lines only, 3px or less, never a fill */
   --jkd-accent-line: 3px;
-  --jkd-on-accent: #000000;
+  --jkd-on-accent: #1b1b1a;
   --jkd-primary: var(--jkd-ink);   /* the primary plate stays ink */
   --jkd-on-primary: var(--jkd-on-ink);
   --jkd-danger: #d70015;
@@ -59,18 +59,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --jkd-ink: #ffffff; --jkd-page: #000000; --jkd-raised: #161616; --jkd-sunken: #0d0d0d;
-    --jkd-secondary: #a0a09b; --jkd-rule: #4a4a47; --jkd-boundary: #ffffff;
-    --jkd-shadow: #ffffff; --jkd-on-ink: #000000;
-    --jkd-hover: rgba(255, 255, 255, 0.08); --jkd-active: rgba(255, 255, 255, 0.16);
+    --jkd-ink: #ecece8; --jkd-page: #161615; --jkd-raised: #1f1f1e; --jkd-sunken: #111110;
+    --jkd-secondary: #a0a09b; --jkd-rule: #555552; --jkd-boundary: #ecece8;
+    --jkd-shadow: #ecece8; --jkd-on-ink: #161615;
+    --jkd-hover: rgba(236, 236, 232, 0.08); --jkd-active: rgba(236, 236, 232, 0.16);
     --jkd-danger: #ff6961; --jkd-warning: #ffb340; --jkd-success: #30d158;
   }
 }
 :root[data-theme="dark"] {
-  --jkd-ink: #ffffff; --jkd-page: #000000; --jkd-raised: #161616; --jkd-sunken: #0d0d0d;
-  --jkd-secondary: #a0a09b; --jkd-rule: #4a4a47; --jkd-boundary: #ffffff;
-  --jkd-shadow: #ffffff; --jkd-on-ink: #000000;
-  --jkd-hover: rgba(255, 255, 255, 0.08); --jkd-active: rgba(255, 255, 255, 0.16);
+  --jkd-ink: #ecece8; --jkd-page: #161615; --jkd-raised: #1f1f1e; --jkd-sunken: #111110;
+  --jkd-secondary: #a0a09b; --jkd-rule: #555552; --jkd-boundary: #ecece8;
+  --jkd-shadow: #ecece8; --jkd-on-ink: #161615;
+  --jkd-hover: rgba(236, 236, 232, 0.08); --jkd-active: rgba(236, 236, 232, 0.16);
   --jkd-danger: #ff6961; --jkd-warning: #ffb340; --jkd-success: #30d158;
 }
 

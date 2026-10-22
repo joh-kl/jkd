@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.7.0 (22 Oct 2026): soft ink and paper
+
+- **No pure black or white.** Ink #1B1B1A on paper #F5F5F2, and #ECECE8 on
+  #161615 in Black: still black and white, contrast near 16:1, without the
+  glare of #000 on #FFF at poster sizes. Raised, sunken, secondary, boundary,
+  shadow, onInk, hover and active follow; the black hairline is a touch
+  lighter. Every figure re-measured and pinned by `swift test`.
+- **Colour earns a job** now shows its case in pictures: the four ways tried
+  (`assets/colour-job-options.png`) and the fix card
+  (`assets/colour-job-card.png`). The case is told without naming a product.
+- **Expressive layer**: a table of what each effect is for, with an example
+  and a never.
+- **Print**: 20 mm at the top and sides, a 25 mm chin at the bottom.
+- The palette table is grouped by role. No other projects named in the rules.
+
 ## 0.6.2 (22 Oct 2026): the guidelines, rewritten to be read
 
 No value changed. `DESIGN.md` is now a numbered spec that a designer or an AI

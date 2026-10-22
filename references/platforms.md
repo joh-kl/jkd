@@ -50,7 +50,8 @@ without the files still looks right, just less so.
 
 Page set up:
 
-- A4 or A3, page margins **25 mm** on all four sides.
+- A4 or A3. Page margins **20 mm** at the top and both sides and a **25 mm
+  chin** at the bottom: the extra room below steadies the page.
 - The reference cube **b²** is 4.7 cm (the stem of the "b" at 108.6 pt); every
   placement is a whole number of cubes; the logo sits 3 b² from the left and
   the top.

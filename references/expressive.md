@@ -5,6 +5,8 @@ textures, filters). The Swiss base comes first; these are seasoning.
 
 ## When
 
+Which effect for which job: the table in `DESIGN.md`, section 7.
+
 - **At most one per screen or page.** Two expressive effects compete and both
   lose.
 - **Where**: an empty state, onboarding, a celebration (a finished session, a
