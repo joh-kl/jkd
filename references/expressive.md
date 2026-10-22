@@ -1,7 +1,7 @@
 # The expressive layer: halftone, grain, chrome, dither, blob tracking
 
 From his own print work (the JKD assets: halftone generator studies, paper
-textures, filters). Büro is the base; these are seasoning.
+textures, filters). The Swiss base comes first; these are seasoning.
 
 ## When
 

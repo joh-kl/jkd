@@ -3,8 +3,8 @@ version: "0.6.1"
 name: "JKD"
 status: "draft"
 description: >
-  The JKD house style: Swiss typography on a brutalist base (from the büro
-  brand guide), black and white, with halftone, texture and chrome as an
+  The JKD house style: Swiss typography on a brutalist base, black and
+  white, with halftone, texture and chrome as an
   occasional expressive layer. Themes change values, never names.
 colors:
   # Brand palette: black and white until colour earns a job (0.6.1, see Colors).
@@ -19,7 +19,7 @@ colors:
   onInk:      { light: "#FFFFFF", dark: "#000000" }   # text on a plate
   hover:      { light: "#000000@6%",  dark: "#FFFFFF@8%" }
   active:     { light: "#000000@12%", dark: "#FFFFFF@16%" }
-  accent:     "#C9B69B"          # büro sand (0.5): thin lines only, 3 pt or less, never a fill or a button
+  accent:     "#C9B69B"          # sand (0.5): thin lines only, 3 pt or less, never a fill or a button
   primary:    "{colors.ink}"     # the primary plate stays ink
   status:
     danger:   "system red"       # destructive actions, errors
@@ -63,7 +63,7 @@ typography:
   numbers: tabular
 layout:
   unit: 4          # every value is a multiple
-  cube: 8          # b², the büro reference cube, 2 units
+  cube: 8          # b², the reference cube, 2 units
   spacing: [4, 8, 12, 16, 24, 32, 48, 64, 96]
   margin: { compact: 16, regular: 32, print: "25 mm" }
   columns: { compact: 4, regular: 12, print: 12 }
@@ -91,10 +91,10 @@ motion:
 JKD is his studio label, and this is its one house style for apps, pages and print.
 It is **Swiss typography on a brutalist base**. From the Swiss style: an
 objective grid, a grotesk in few sizes, flush left and ragged right, hierarchy
-made by size and weight, white space as a material. From the büro brand guide:
-the reference cube, heavy bold headings, lowercase captions, raw black and
-white, grayscale photography, slabs with hard shadows, and **the bar**, the
-wordmark's full-length umlaut. The mark is his round brush logo with the two
+made by size and weight, white space as a material. Its own on top: the
+reference cube, heavy bold headings, lowercase captions, raw black and white,
+grayscale photography, slabs with hard shadows, and **the bar**, a full-length
+umlaut laid over the word that matters. The mark is his round brush logo with the two
 horns. Now and then, on purpose, an **expressive layer**:
 halftone, paper texture, chrome.
 
@@ -111,7 +111,7 @@ breaks a rule below. Detail lives in `references/`.
    Switzer Black and the number or name that matters at the 64 pt headline,
    also Black: exaggerate the top of the hierarchy hard, keep the rest quiet.
    Scale contrast is the whole look.
-3. **Black and white until colour earns a job.** Since 0.5 the büro sand is
+3. **Black and white until colour earns a job.** Since 0.5 sand is
    the accent, but only as a thin line (3 pt or less): never a button, a fill
    or text. Any other colour has to earn its place by doing a job black and
    white cannot do as well (the test is under Colors). Status, data and change
@@ -126,8 +126,8 @@ breaks a rule below. Detail lives in `references/`.
 
 ## Colors
 
-The palette is black and white with one grey family (the büro concrete), and
-since 0.5 one accent: **büro sand, #C9B69B, only ever a thin line** of 3 pt or
+The palette is black and white with one grey family (concrete), and
+since 0.5 one accent: **sand, #C9B69B, only ever a thin line** of 3 pt or
 less (a hover line on a plate, a selection edge, an underline, the links in
 blob tracking). He vetoed sand buttons and fills. Sand is 2.0:1 on white, so it
 is decorative: never text, never the only way something is shown. The primary
@@ -232,8 +232,8 @@ such as the coordinates of a blob tracker. The full Swiss rules are in
 
 ## Layout
 
-- **Unit 4, cube 8.** All spacing comes from `layout.spacing`. The cube is the
-  büro b² at screen scale; print uses the guide's own b² and 25 mm margins.
+- **Unit 4, cube 8.** All spacing comes from `layout.spacing`. The cube is b²
+  at screen scale; print uses a b² of its own and 25 mm margins.
 - **Columns.** 4 on a phone, 12 on a Mac window and a page, gutters as listed.
   Content aligns to column edges; images bleed to an edge or sit on a column,
   never float in between.

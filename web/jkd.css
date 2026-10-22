@@ -13,7 +13,7 @@
   --jkd-on-ink: #ffffff;
   --jkd-hover: rgba(0, 0, 0, 0.06);
   --jkd-active: rgba(0, 0, 0, 0.12);
-  --jkd-accent: #c9b69b;           /* büro sand (0.5): thin lines only, 3px or less, never a fill */
+  --jkd-accent: #c9b69b;           /* sand (0.5): thin lines only, 3px or less, never a fill */
   --jkd-accent-line: 3px;
   --jkd-on-accent: #000000;
   --jkd-primary: var(--jkd-ink);   /* the primary plate stays ink */

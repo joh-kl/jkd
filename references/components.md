@@ -6,7 +6,7 @@ platform controls; these are the brand pieces around them.
 
 ## The bar
 
-The büro wordmark's full-length umlaut: a heavy square rule laid over a word,
+A full-length umlaut: a heavy square rule laid over a word,
 exactly as wide as the word.
 
 - Over the single most important name on a screen (a destination, a page

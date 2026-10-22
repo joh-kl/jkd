@@ -48,8 +48,8 @@ public enum JKD {
         }
     }
 
-    /// Black and white, with the büro concrete greys, and sand (from the büro
-    /// guide's palette) as the accent since 0.5. **Sand is only ever a thin
+    /// Black and white, with concrete greys, and sand as the
+    /// accent since 0.5. **Sand is only ever a thin
     /// line, 3 pt or less** (his rule): a hover line, a selection edge, an
     /// underline. Never a button, never a fill, never text (2.0:1 on white);
     /// decorative, so never the only way something is shown.
@@ -68,7 +68,7 @@ public enum JKD {
         public static let onInk     = Token(Swatch(0xFFFFFF), Swatch(0x000000))
         public static let hover     = Token(Swatch(0x000000, 0.06), Swatch(0xFFFFFF, 0.08))
         public static let active    = Token(Swatch(0x000000, 0.12), Swatch(0xFFFFFF, 0.16))
-        /// The büro sand, the same in light and dark: thin lines only (3 pt or less).
+        /// Sand, the same in light and dark: thin lines only (3 pt or less).
         public static let accent    = Token(Swatch(0xC9B69B), Swatch(0xC9B69B))
         /// If anything ever sits on sand, it is black (10.6:1).
         public static let onAccent  = Token(Swatch(0x000000), Swatch(0x000000))
@@ -115,7 +115,7 @@ public enum JKD {
     public enum Grid {
         /// Every value is a multiple of this.
         public static let unit: CGFloat = 4
-        /// b², the büro reference cube at screen scale.
+        /// b², the reference cube at screen scale.
         public static let cube: CGFloat = 8
         public static let spacing: [CGFloat] = [4, 8, 12, 16, 24, 32, 48, 64, 96]
         /// Matches the iPhone list inset, so custom views line up with rows.

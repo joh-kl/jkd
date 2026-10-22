@@ -18,8 +18,8 @@ Ruder, Hofmann) is the centre of JKD. These are the rules as they apply here.
 
 ## The type
 
-- **One grotesk.** Switzer, a neo-grotesk in the line of the büro guide's
-  Akzidenz Grotesk, from Thin to Black. No second family for "personality": personality
+- **One grotesk.** Switzer, a neo-grotesk in the line of Akzidenz
+  Grotesk, from Thin to Black. No second family for "personality": personality
   comes from size, weight and placement.
 - **Few sizes, big jumps.** Use the scale (11, 13, 17, 20, 28, 36, 72, 108). A
   headline should be clearly bigger, not a little bigger. Two or three sizes on
@@ -29,7 +29,7 @@ Ruder, Hofmann) is the centre of JKD. These are the rules as they apply here.
 - **Flush left, ragged right.** No justification (it opens rivers), no centred
   body text. Watch the rag: avoid a single short word on the last line of a
   heading; break headlines by meaning ("Necessity / Fueling / Creative / Drive").
-- **Stacked headlines** are a büro and Swiss move: one or two words per line,
+- **Stacked headlines** are a Swiss move: one or two words per line,
   bold, tight leading (1.0), aligned to one edge. Right aligned stacks are fine
   on a poster when they sit against the right margin.
 - **Lowercase** for captions, page labels and page titles in app chrome (the

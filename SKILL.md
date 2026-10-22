@@ -1,6 +1,6 @@
 ---
 name: jkd-design
-description: The JKD house style (Swiss typography on a brutalist base, black and white, with an occasional halftone, texture or chrome moment) for Johannes's apps, web pages and print. Use when designing, building, restyling or reviewing anything of his that people see: a SwiftUI screen on macOS or iOS, an HTML page or artifact, a slide, a poster, a PDF. Also use when a project's CLAUDE.md points to JKD, or he says "in my style", "JKD", "büro look" or "house style". Not for his clients' own brands.
+description: The JKD house style (Swiss typography on a brutalist base, black and white, with an occasional halftone, texture or chrome moment) for Johannes's apps, web pages and print. Use when designing, building, restyling or reviewing anything of his that people see: a SwiftUI screen on macOS or iOS, an HTML page or artifact, a slide, a poster, a PDF. Also use when a project's CLAUDE.md points to JKD, or he says "in my style", "JKD" or "house style". Not for his clients' own brands.
 ---
 
 # JKD design
@@ -38,7 +38,7 @@ colour (a user's label, a mana colour, a chart series).
 
 ## Non-negotiables
 
-- Black and white until colour earns a job: büro sand (#C9B69B) **only as
+- Black and white until colour earns a job: sand (#C9B69B) **only as
   thin lines, 3 pt or less**, never a button, a fill or text (his veto); any
   other colour must pass the four questions in `DESIGN.md › Colors › When
   colour earns a job` (precedent: change marks, red goes and green comes). The

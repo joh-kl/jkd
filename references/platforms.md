@@ -49,7 +49,7 @@ without the files still looks right, just less so.
 
 ## Print and slides
 
-From the büro guide:
+Page set up:
 
 - A4 or A3, page margins **25 mm** on all four sides.
 - The reference cube **b²** is 4.7 cm (the stem of the "b" at 108.6 pt); every

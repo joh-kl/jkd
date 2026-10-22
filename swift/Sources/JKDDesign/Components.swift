@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - The bar
 
-/// The büro wordmark's full-length umlaut: a heavy square rule. With a
+/// A full-length umlaut: a heavy square rule. With a
 /// `progress` it is a progress bar, filling from the left.
 public struct Bar: View {
     var progress: Double?

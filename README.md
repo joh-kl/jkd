@@ -8,7 +8,7 @@
 **Swiss typography on a brutalist base, black and white. The design system of Johannes Klaus Design.**
 
 The house style of Johannes Klaus Design: **Swiss typography on a brutalist
-base** (from the büro brand guide), set in **Switzer**, black and white, with an
+base**, set in **Switzer**, black and white, with an
 occasional halftone, dither, liquid chrome or blob tracking moment. One system for his apps (macOS,
 iOS), web pages and print, packaged as a Claude Code skill.
 
@@ -19,10 +19,10 @@ iOS), web pages and print, packaged as a Claude Code skill.
 
 ## At a glance
 
-1. **The grid decides.** Unit 4, the büro reference cube 8, 4 columns on a phone and 12 everywhere else.
+1. **The grid decides.** Unit 4, the reference cube 8, 4 columns on a phone and 12 everywhere else.
 2. **Type is the image, at poster scale.** One family, Switzer, in nine sizes, flush left. Page titles at 108 pt Black, the name that matters at 64, the bar hugging the word (0.6).
-3. **Black and white until colour earns a job.** The büro sand (#C9B69B) appears only as thin lines of 3 pt or less, never as a button or a fill. Any other colour must pass a four-question test and is written down with its case; the first is the change marks (red for what goes, green for what comes), see `DESIGN.md › Colors`. Every text pair is tested for contrast.
-4. **Raw, not rough.** Hard edges, hard shadows, a 3 point corner, and the bar over the most important word.
+3. **Black and white until colour earns a job.** Sand (#C9B69B) appears only as thin lines of 3 pt or less, never as a button or a fill. Any other colour must pass a four-question test and is written down with its case; the first is the change marks (red for what goes, green for what comes), see `DESIGN.md › Colors`. Every text pair is tested for contrast.
+4. **Brutal, not rough.** Square corners, 2 pt ink edges, solid shadows offset 8 pt, heavy 6 pt rules and numbered sections, and the bar over the most important word.
 5. **One loud moment per screen.** Halftone, grain, liquid chrome, dither, blob tracking and type that reacts, never on the path you take daily.
 
 ## The showcase site
@@ -44,7 +44,7 @@ shows.
 
 | | |
 | --- | --- |
-| ![Identity: the büro guide pages, one lifted to show the original](assets/site-work-identity.png) | ![Posters: four Technobar club night posters](assets/site-work-posters.png) |
+| ![Identity: a brand guide case study, one page lifted to show the original](assets/site-work-identity.png) | ![Posters: four Technobar club night posters](assets/site-work-posters.png) |
 | ![Interfaces: Vibe Catcher and Auto-Sort](assets/site-work-interfaces.png) | ![Logos keep light tiles even on the black page](assets/site-work-logos.png) |
 | ![Experiments: the TouchDesigner fluid contours looping through a dot screen, with three stills](assets/site-work-experiments.png) | |
 
@@ -122,8 +122,8 @@ the images, and add a line to `CHANGELOG.md`.
 ## Credits and sources
 
 Switzer by Indian Type Foundry (Fontshare licence). Space Mono by Colophon
-Foundry (Open Font License), for readouts only. The büro Brand Development
-Guide and the brush mark are his own. The Swiss International Typographic
+Foundry (Open Font License), for readouts only. The brush mark and the
+work shown are his own. The Swiss International Typographic
 Style, Wolfgang Weingart's work in Basel, Augury's interface rules, and the
 apple-design skill's review lenses shaped the rest. Two confidential design
 documents he has access to were read for structure only; nothing from them is
@@ -147,11 +147,12 @@ LICENSE              all rights reserved, and the font licences
 
 ## Versions
 
-Current: **0.5**. See [`CHANGELOG.md`](CHANGELOG.md). 0.5 made the style louder
-(poster titles, a 48 pt headline, the heavy bar, one inverted band per screen),
-chose büro sand as the accent, only ever as a thin line, and added a rendered
-liquid chrome texture, ordered dither and a blob tracking view to the SwiftUI
-package. The primary button stays an ink plate.
+Current: **0.6.1**. See [`CHANGELOG.md`](CHANGELOG.md). 0.6 made it brutal:
+monument titles in Switzer Black, square slabs and plates with a solid shadow,
+the bar hugging its word, heavy rules and numbered sections. 0.6.1 wrote down
+the colour rule, black and white until colour earns a job, with its first
+case: change marks, red for what goes and green for what comes. Sand stays a
+thin line only, and the primary button stays an ink plate.
 
 ## Licence
 
