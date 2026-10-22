@@ -21,7 +21,7 @@ iOS), web pages and print, packaged as a Claude Code skill.
 
 1. **The grid decides.** Unit 4, the reference cube 8, 4 columns on a phone and 12 everywhere else.
 2. **Type is the image, at poster scale.** One family, Switzer, in nine sizes, flush left. Page titles at 108 pt Black, the name that matters at 64, the bar hugging the word (0.6).
-3. **Black and white until colour earns a job.** Sand (#C9B69B) appears only as thin lines of 3 pt or less, never as a button or a fill. Any other colour must pass a four-question test and is written down with its case; the first is the change marks (red for what goes, green for what comes), see `DESIGN.md › Colors`. Every text pair is tested for contrast.
+3. **Black and white until colour earns a job.** Sand (#C9B69B) appears only as thin lines of 3 pt or less, never as a button or a fill. Any other colour must pass a four-question test and is written down with its case; the first is the change marks (red for what goes, green for what comes), see `DESIGN.md` section 2. Every text pair is tested for contrast.
 4. **Brutal, not rough.** Square corners, 2 pt ink edges, solid shadows offset 8 pt, heavy 6 pt rules and numbered sections, and the bar over the most important word.
 5. **One loud moment per screen.** Halftone, grain, liquid chrome, dither, blob tracking and type that reacts, never on the path you take daily.
 
@@ -147,7 +147,7 @@ LICENSE              all rights reserved, and the font licences
 
 ## Versions
 
-Current: **0.6.1**. See [`CHANGELOG.md`](CHANGELOG.md). 0.6 made it brutal:
+Current: **0.6.2** (the guidelines rewritten to be read; values as in 0.6.1). See [`CHANGELOG.md`](CHANGELOG.md). 0.6 made it brutal:
 monument titles in Switzer Black, square slabs and plates with a solid shadow,
 the bar hugging its word, heavy rules and numbered sections. 0.6.1 wrote down
 the colour rule, black and white until colour earns a job, with its first

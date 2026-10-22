@@ -21,7 +21,7 @@ Ruder, Hofmann) is the centre of JKD. These are the rules as they apply here.
 - **One grotesk.** Switzer, a neo-grotesk in the line of Akzidenz
   Grotesk, from Thin to Black. No second family for "personality": personality
   comes from size, weight and placement.
-- **Few sizes, big jumps.** Use the scale (11, 13, 17, 20, 28, 36, 72, 108). A
+- **Few sizes, big jumps.** Use the scale (11, 13, 17, 20, 28, 36, 64, 72, 108, 160). A
   headline should be clearly bigger, not a little bigger. Two or three sizes on
   one screen is plenty.
 - **Weight carries hierarchy** with size: bold headings, regular text, medium
@@ -36,7 +36,7 @@ Ruder, Hofmann) is the centre of JKD. These are the rules as they apply here.
   guide's "final logotype", "brand applications"). Sentence case for text.
   Platform capitalisation for buttons and menus.
 - **Line length** 45 to 75 characters for reading text.
-- **Tracking**: negative on display sizes (-0.8 at 36, -2 at 72), slightly
+- **Tracking**: negative on display sizes (-0.8 at 36, -2.9 at 72, -4.3 at 108), slightly
   positive on small lowercase captions (+0.4). Never letterspace body text.
 - **Figures**: tabular for anything that changes or lines up in a column.
 - **Quotes and marks**: typographic quotes (« » in German texts, “ ” in English),

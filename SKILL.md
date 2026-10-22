@@ -11,7 +11,8 @@ readings of a request lead to different work.
 
 ## Read first, in this order
 
-1. `DESIGN.md`: the tokens (front matter) and the rules. Always.
+1. `DESIGN.md`: the tokens (front matter) and the rules. Always. Section 1
+   is the rules on one page; section 12 is the review checklist.
 2. The reference for the job:
    - typography or layout: `references/swiss-typography.md`
    - a component: `references/components.md`
@@ -40,8 +41,7 @@ colour (a user's label, a mana colour, a chart series).
 
 - Black and white until colour earns a job: sand (#C9B69B) **only as
   thin lines, 3 pt or less**, never a button, a fill or text (his veto); any
-  other colour must pass the four questions in `DESIGN.md › Colors › When
-  colour earns a job` (precedent: change marks, red goes and green comes). The
+  other colour must pass the four questions in `DESIGN.md` section 2.3 (precedent: change marks, red goes and green comes). The
   primary plate is ink.
 - Exaggerate the top of the hierarchy hard (0.6, brutal): page titles at 108 pt
   in Switzer Black, the number or name that matters at the 64 pt headline

@@ -23,14 +23,13 @@ without the files still looks right, just less so.
 
 - Body 17 pt (`body`), every size scaled with Dynamic Type.
 - Margin 16, matching the system list inset, so custom views line up with
-  rows (Augury's `Metrics.margin`).
+  rows.
 - **Controls go in real toolbars** (`topBarLeading`, `topBarTrailing`) and text
   in the navigation subtitle. On iOS 26 the bars float over content and
-  anything you position yourself under them loses its taps (Augury, gotcha 5).
+  anything you position yourself under them loses its taps.
 - Native navigation titles stay native; the bar goes over the first content
   heading instead.
-- In sheets, choices are `Chip`s and buttons, never `Toggle` or `Picker`
-  (Augury, gotcha 3).
+- In sheets, choices are `Chip`s and buttons, never `Toggle` or `Picker`.
 - Actions above long lists or in the toolbar, never below them.
 
 ## Web (HTML, artifacts)
@@ -59,6 +58,5 @@ Page set up:
   Switzer Light at 16 or 13 pt (Light is fine in print at these sizes).
 - Grayscale architecture or clean studio photography.
 - Slides: 16:9, a 12 column grid, one idea per slide, the headline as a stacked
-  bold block, a lowercase caption top left as the section label (as on the
-  guide's pages), page numbers bottom corner in caption style.
+  bold block, a lowercase caption top left as the section label, page numbers bottom corner in caption style.
 - Export PDFs with fonts embedded; halftone at 45 to 85 lpi.

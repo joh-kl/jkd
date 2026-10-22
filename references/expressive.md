@@ -1,6 +1,6 @@
 # The expressive layer: halftone, grain, chrome, dither, blob tracking
 
-From his own print work (the JKD assets: halftone generator studies, paper
+From the studio's own print work (the JKD assets: halftone generator studies, paper
 textures, filters). The Swiss base comes first; these are seasoning.
 
 ## When
@@ -10,7 +10,7 @@ textures, filters). The Swiss base comes first; these are seasoning.
 - **Where**: an empty state, onboarding, a celebration (a finished session, a
   milestone), an app icon, a poster, a cover slide, a section opener, an
   Easter egg.
-- **Never**: on the frequent path (a list he scrolls daily, a form), behind
+- **Never**: on the frequent path (a list people scroll daily, a form), behind
   body text, on a control, or as the only carrier of meaning.
 
 ## Halftone
@@ -77,7 +77,7 @@ nothing moves, and with Reduce Motion they show that settled state only.
 
 ## 0.5: chrome as a material, dither, blob tracking in apps
 
-- **Chrome** is now a rendered texture (`assets/make_chrome.py`, after his
+- **Chrome** is now a rendered texture (`assets/make_chrome.py`, after the studio's
   reference: liquid chrome with diagonal currents, eddies, deep black pools and
   a whisper of teal and violet). `.chrome()` slides it inside type or a mark,
   drifting slowly and leaning towards the pointer; static with Reduce Motion,

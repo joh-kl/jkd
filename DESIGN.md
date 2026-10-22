@@ -1,5 +1,5 @@
 ---
-version: "0.6.1"
+version: "0.6.2"
 name: "JKD"
 status: "draft"
 description: >
@@ -26,7 +26,7 @@ colors:
     warning:  "system orange"
     success:  "system green"
     info:     "{colors.ink}"
-  change:     # change marks (0.6.1): a colour with a job, see Colors › When colour earns a job
+  change:     # change marks (0.6.1): a colour with a job, see section 2.3
     goes:     "status.danger at 28% behind ink text, struck through"
     comes:    "status.success at 28% behind ink text, underlined"
 contrast:   # computed, WCAG 2.x
@@ -84,241 +84,308 @@ motion:
   reduceMotion: "cross-fade or none"
 ---
 
-# JKD
+# JKD design guidelines
 
-## Overview
+JKD is the design system of Johannes Klaus Design: **Swiss typography on a
+brutalist base, in black and white**. Type is the image, the grid is visible,
+edges are hard, and colour appears only when it has a job. One system serves
+apps (macOS, iOS), web pages, slides and print.
 
-JKD is his studio label, and this is its one house style for apps, pages and print.
-It is **Swiss typography on a brutalist base**. From the Swiss style: an
-objective grid, a grotesk in few sizes, flush left and ragged right, hierarchy
-made by size and weight, white space as a material. Its own on top: the
-reference cube, heavy bold headings, lowercase captions, raw black and white,
-grayscale photography, slabs with hard shadows, and **the bar**, a full-length
-umlaut laid over the word that matters. The mark is his round brush logo with the two
-horns. Now and then, on purpose, an **expressive layer**:
-halftone, paper texture, chrome.
+## How to read this document
 
-Every product is a **theme** of JKD. A theme may change values (a colour, a
-density) and add a signature element of its own; it never renames a token or
-breaks a rule below. Detail lives in `references/`.
+- **The tokens at the top of this file are the source of truth.** Every value
+  below (a colour, a size, a gap) is defined there once. Code reads them from
+  `swift/` (SwiftUI) and `web/jkd.css` (HTML); never type a value by hand.
+- **Rule words.** **MUST** and **NEVER** are hard rules: breaking one is a
+  defect. **SHOULD** is the default: depart from it only with a reason you can
+  state. **MAY** is allowed, not required.
+- **Units.** Sizes are in points (pt). On the web 1 pt = 1 CSS px.
+- **Detail lives in `references/`**: typography, components, the expressive
+  layer, words, accessibility, platforms, review. This file is complete on its
+  own; the references add how and why.
+- **Products are themes** (`themes/`). A theme MAY change a value or add one
+  signature element; it MUST NOT rename a token or break a rule here.
+- **Versions** are in `CHANGELOG.md`; this file states the rules as they are now.
 
-## Principles
+## 1. The rules on one page
 
-1. **The grid decides.** Every position and gap is a multiple of the unit.
-   Nothing is nudged by eye.
-2. **Type is the image, at monument scale.** Hierarchy comes from size and
-   weight first, colour last. Since 0.6 apps set page titles at 108 pt in
-   Switzer Black and the number or name that matters at the 64 pt headline,
-   also Black: exaggerate the top of the hierarchy hard, keep the rest quiet.
-   Scale contrast is the whole look.
-3. **Black and white until colour earns a job.** Since 0.5 sand is
-   the accent, but only as a thin line (3 pt or less): never a button, a fill
-   or text. Any other colour has to earn its place by doing a job black and
-   white cannot do as well (the test is under Colors). Status, data and change
-   colours keep their jobs.
-4. **Brutal, not rough** (0.6). Square corners, 2 pt ink edges, solid
-   shadows offset 8 pt, heavy rules that make the grid visible. No softness.
-5. **One expressive moment at most** per screen or page, never on the frequent
-   path, never under text that must be read.
-6. **Show, don't tell.** Numbers, symbols, piles and pictures before sentences.
-7. **Accessible by construction.** Contrast computed, colour never alone,
-   every size scales, every command reachable by keyboard.
+1. **The grid decides.** Every gap and position is a multiple of 4 pt.
+2. **Type is the image.** One family (Switzer), the scale in section 3,
+   hierarchy by size and weight. The top of the hierarchy is huge; everything
+   else is quiet.
+3. **Black and white until colour earns a job** (section 2.3).
+4. **Sand is a hairline.** The accent #C9B69B is only ever a line of 3 pt or
+   less. NEVER a fill, a button or text.
+5. **Brutal, not rough.** Square corners, 2 pt ink edges, solid shadows offset
+   8 pt with no blur, heavy 6 pt rules between sections.
+6. **One bar per screen**, over the most important word.
+7. **One primary action per view**, as an ink plate.
+8. **At most one expressive moment per screen**, never on the path people use
+   every day.
+9. **Show, don't tell.** Numbers, symbols and piles before sentences.
+10. **Accessible by construction.** Contrast computed, colour never alone,
+    everything reachable by keyboard, every size scales.
 
-## Colors
+## 2. Colour
 
-The palette is black and white with one grey family (concrete), and
-since 0.5 one accent: **sand, #C9B69B, only ever a thin line** of 3 pt or
-less (a hover line on a plate, a selection edge, an underline, the links in
-blob tracking). He vetoed sand buttons and fills. Sand is 2.0:1 on white, so it
-is decorative: never text, never the only way something is shown. The primary
-plate stays ink.
+### 2.1 The palette
 
-- **Layers.** `page` is layer 0. `raised` (slabs, cards) and `sunken` (wells,
-  grouped rows) are layer 1. Floating things (menus, popovers, sheets) use the
-  platform's own material. Do not nest a slab in a slab.
-- **Text** is `ink` or `secondary`, nothing else. Secondary keeps at least
-  4.5:1 on every layer (see the contrast table above).
-- **Edges.** `rule` is a decorative hairline (2.9:1). An edge a person must see
-  to use the thing (a field, a toggle track) uses `boundary` or a fill.
-- **Change marks** (0.6.1) show what a change removes and adds: a light tint of
-  the platform's red behind what goes (struck through) and of its green behind
-  what comes (underlined), ink text on both. The first colour admitted by the
-  test below; the story is told there.
-- **Status** colours come from the platform (system red, orange, green) so they
-  adapt to Increase Contrast; each one always carries a word or a symbol.
-- **Data colours** belong to the content, not the brand: a user's label
-  colours, Magic's five mana colours, a chart's series. They are allowed
-  anywhere and are never used for chrome or brand elements.
+| Token | Light | Dark | Use | Contrast |
+| --- | --- | --- | --- | --- |
+| `ink` | #000000 | #FFFFFF | Text, the bar, plates, rules | 21:1 on page |
+| `page` | #FFFFFF | #000000 | Layer 0, the background | |
+| `raised` | #FFFFFF | #161616 | Layer 1: slabs, cards | |
+| `sunken` | #F2F2F0 | #0D0D0D | Layer 1: wells, fields, chips | ink 18.7:1 |
+| `secondary` | #5E5E5A | #A0A09B | Quieter text, captions | 6.5:1 light, 8.0:1 dark |
+| `rule` | #979892 | #4A4A47 | Decorative hairlines only | 2.9:1, 2.4:1 |
+| `boundary` | #000000 | #FFFFFF | An edge a person must see | 21:1 |
+| `onInk` | #FFFFFF | #000000 | Text on a plate | 21:1 |
+| `accent` (sand) | #C9B69B | #C9B69B | Thin lines only, 3 pt or less | 2.0:1 (decorative) |
+| `status` | system red, orange, green | | Errors, warnings, success, with a word | |
+| `change` | red / green at 28% | | What goes / what comes (2.4) | ink 12.7:1 or more |
 
-### When colour earns a job
+### 2.2 Rules
 
-JKD's default is black and white. Colour gets in only when it passes all four:
+- Text MUST be `ink` or `secondary`. Both keep at least 4.5:1 on every layer.
+- `rule` is decoration. An edge a person needs in order to use something (a
+  field, a toggle track, a focus ring) MUST use `boundary` or a fill.
+- Sand MUST stay a line of 3 pt or less (a hover line on a plate, a selection
+  edge, the highlight under one word). NEVER a fill, a button or text.
+- The primary action is an ink plate, never a coloured one.
+- Status colours come from the platform so they follow Increase Contrast and
+  dark mode. Each MUST carry a word or a symbol too.
+- Data colours (a user's labels, a chart's series, a card game's mana colours)
+  belong to the content. They MAY appear wherever that content does, and
+  NEVER on brand elements or controls.
+- Layers: `page` is layer 0; `raised` and `sunken` are layer 1. NEVER nest a
+  slab in a slab. Menus, popovers and sheets use the platform's material.
 
-1. **It carries information**, not mood. Taking it away would lose something a
-   person needs, or make them compare by eye what the screen could show.
-2. **Black and white cannot do it as well.** Weight, size, an ink block, a
-   rule, a symbol or position were tried first and are worse at this job.
-3. **It is never alone.** A second cue (a line style, a symbol, a word) says
-   the same, so it works without colour vision and in greyscale print.
-4. **It comes from the platform or the content**, not the brand: system
-   colours that follow Increase Contrast and dark mode, or the data's own
-   colours. The brand stays black and white, with sand as a hairline.
+### 2.3 When colour earns a job
 
-Each admitted colour is written down here with its case, so the next one is
+The default is black and white. A new colour is admitted only if it passes
+**all four** questions:
+
+1. **Does it carry information?** Taking it away would lose something a
+   person needs, or force them to compare by eye what the screen could show.
+   Mood and decoration do not count.
+2. **Can black and white not do it as well?** Weight, size, an ink block, a
+   rule, a symbol and position were tried first and are worse at this job.
+3. **Is it never alone?** A second cue (a line style, a symbol, a word) says
+   the same thing, so it works without colour vision and in greyscale print.
+4. **Does it come from the platform or the content?** System colours that
+   follow accessibility settings, or the data's own colours. Not a new brand
+   colour.
+
+Every admitted colour is recorded below with its case, so the next request is
 judged against a precedent and not against taste.
 
-#### The worked example: change marks (Auto-Sort, 22 Oct 2026)
+### 2.4 Case: change marks (October 2026)
 
-**The situation.** Auto-Sort's *Review a Vault* goes through a notes vault and
-offers each fix as a card: join lines that a paragraph was broken into, Swiss
-spelling (ss for ß), a callout title on its own line. Each card shows the note
-*now* and *after* side by side, in black and grey type.
+**Situation.** Auto-Sort, a Mac app that tidies documents and notes, has a
+feature that reviews a notes vault and offers each fix as a card: joining lines
+that one paragraph was broken into, Swiss spelling (ss for ß), a callout title
+on its own line. Each card showed the text *now* and *after* in two columns of
+black and grey type.
 
-**The problem.** Looking at the real window, Johannes said it was not clear
-what was happening. Checked against Nielsen's ten usability heuristics, two
-failed: *visibility of system status* (the card did not show what the fix
-changes) and *recognition rather than recall* (to see the change, you had to
-read both columns and compare them in your head). On a line-join card, the
-only difference is a few invisible line breaks; on a spelling card, one letter
-in a long sentence.
+**Problem.** In the real window it was not clear what each card would do.
+Measured against Nielsen's ten usability heuristics, two failed: *visibility of
+system status* (the card did not show what the fix changes) and *recognition
+rather than recall* (to see the change, a person had to read both columns and
+compare them in their head). On a line-join card the only difference is a few
+invisible line breaks; on a spelling card, one letter in a long sentence.
 
-**What black and white could do.** Bold for the changed words fails: the
-after column is already set in medium, and bold inside a sentence breaks the
-type rules. An ink block with white text (a reversed plate) marks change but
-not its *direction*: what goes and what comes look the same, and an inverted
-word in running text reads as a button. Underlines alone are too quiet at
-12 pt and already mean a link or the sand highlight.
+**What black and white could do.** Bold changed words: the after column is
+already medium weight, and bold inside a sentence breaks the type rules. An ink
+block with white text: it marks *that* something changed but not *which way*,
+and an inverted word in running text reads as a button. An underline alone: too
+quiet at 12 pt, and it already means a link or the sand highlight.
 
-**The decision.** He was asked which text to highlight, chose "what changes",
-and then said: "you are allowed to use a colour here". Red for what goes and
-green for what comes is the convention every diff, track-changes view and code
-review already uses, so it is read without a key (heuristic: *match between
-system and the real world*). It passes the test: it carries the change (1),
-black and white could not show direction as well (2), each mark also has a
-line style, struck through or underlined, and a line break that goes shows
-as ↵ (3), and the colours are the platform's own red and green at a 28% tint,
-with ink text that keeps 12.7:1 or more on the page (4). He then made it the model case:
-"Black and white until colour earns a job: this is a great example."
+**Decision.** The designer chose to mark "what changes" and allowed colour for
+it. Red for what goes and green for what comes is the convention of every diff,
+track changes view and code review, so it reads without learning
+(*match between system and the real world*). It passes the test: it carries
+the change (1); black and white could not show direction as well (2); every
+mark also has a line style, struck through or underlined, and a removed line
+break shows as ↵ (3); the colours are the platform's red and green at a 28%
+tint behind ink text, which keeps 12.7:1 or more (4).
 
-**The rules that came with it.** Only on text that shows a change; a key on
-the card ("goes", "comes"); the tint behind the text, never the text itself
-in colour; never for a button, a status or decoration.
+**Rules that came with it.** Only on text that shows a change. The tint goes
+behind the text; the text itself stays ink. A key ("goes", "comes") on every
+surface that uses the marks. NEVER on a button, a status or decoration.
+Component: section 6.
 
-## Typography
+## 3. Typography
 
-One family, **Switzer** (Indian Type Foundry, free under the Fontshare licence
-for commercial, app and web use; credit the foundry), a neo-grotesk in the
-Swiss line of the guide's Akzidenz Grotesk, cut from Thin to Black. Apps bundle
-it; pages load it from Fontshare. If it is missing, Helvetica Neue stands in.
-**Space Mono** (open licence) is allowed for one job only: technical readouts,
-such as the coordinates of a blob tracker. The full Swiss rules are in
-`references/swiss-typography.md`; the short version:
+**Switzer** (Indian Type Foundry, Fontshare licence: free for commercial, app
+and web use, credit the foundry), a neo-grotesk from Thin to Black. Apps bundle
+it; pages load it from Fontshare. Fallback: Helvetica Neue, Helvetica, Arial.
+**Space Mono** MAY be used for one job only: technical readouts.
 
-- **Flush left, ragged right.** No justified text, no centred paragraphs.
-  Centre only a single line on a poster or an empty state.
-- **The scale above, and only it.** Each size has a role; do not invent a 15.
-- **Black for the top of the hierarchy** (headline, poster, monument, giant;
-  0.6), **bold for titles, regular for text, medium for captions and labels.**
-  Light only at 16 pt and up: thin strokes at small sizes fail people with low
-  vision. No bold or italic inside a sentence.
-- **Lowercase captions** (11 pt medium, tracked +0.4) for small labels, as the
-  guide's page labels are. Buttons and menu items follow the platform's own
-  capitalisation.
-- **Tight display, open text.** Display sizes at leading 0.9 with about -4%
-  tracking (0.6); body text at 1.35.
-- **Numbers are tabular** wherever they change or line up.
-- **It scales.** On iOS every size is tied to a text style (`relativeTo`), so
-  Dynamic Type works; layouts reflow rather than truncate.
+### 3.1 The scale
 
-## Layout
+| Step | Size | Weight | Tracking | Use |
+| --- | --- | --- | --- | --- |
+| caption | 11 | Medium, lowercase | +0.4 | Labels, counts, metadata |
+| small | 13 | Regular | 0 | macOS body text |
+| body | 17 | Regular | 0 | iOS and web body text |
+| lead | 20 | Regular | 0 | An opening paragraph |
+| title | 28 | Bold | -0.4 | Section titles |
+| display | 36 | Bold | -0.8 | Large titles |
+| headline | 64 | Black | -2.4 | The one number or name that matters |
+| poster | 72 | Black | -2.9 | Narrow page titles, posters |
+| monument | 108 | Black | -4.3 | Page titles in apps |
+| giant | 160 | Black | -6.4 | Posters, empty states |
 
-- **Unit 4, cube 8.** All spacing comes from `layout.spacing`. The cube is b²
-  at screen scale; print uses a b² of its own and 25 mm margins.
-- **Columns.** 4 on a phone, 12 on a Mac window and a page, gutters as listed.
-  Content aligns to column edges; images bleed to an edge or sit on a column,
-  never float in between.
-- **Margins** are generous and equal on a page; on a screen they match the
-  platform's own list inset (16 on iPhone) so custom views and rows line up.
-- **Asymmetry is the default.** Weight goes to the left and the top; the guide
-  places the logo 3 cubes from the left and the top.
+### 3.2 Rules
+
+- Use only the scale. NEVER invent an in-between size.
+- Text MUST be flush left, ragged right. NEVER justified; centre only a single
+  line on a poster or an empty state.
+- Black weight for headline and larger; Bold for titles; Regular for text;
+  Medium for captions and labels. Light only at 16 pt and up. NEVER bold or
+  italic inside a sentence.
+- Captions and page titles are lowercase. Body text is sentence case. Buttons
+  and menus follow the platform (title case on a Mac).
+- Display sizes: leading 0.9. Text: leading 1.35. Reading lines 45 to 75
+  characters.
+- Numbers that change or line up MUST be tabular.
+- One screen SHOULD use two or three sizes, with big jumps between them.
+- Sizes MUST scale (Dynamic Type on iOS); layouts reflow instead of truncating.
+
+## 4. Layout
+
+- **Unit 4 pt; the cube is 8 pt** (two units). Every gap comes from the
+  spacing steps: 4, 8, 12, 16, 24, 32, 48, 64, 96.
+- **Columns**: 4 on a phone, 12 on a Mac window, a web page and print. Content
+  aligns to column edges; images bleed to an edge or sit on a column.
+- **Margins**: 16 on iPhone (the system list inset), 32 in a Mac content pane,
+  25 mm in print.
+- **Asymmetry is the default.** Weight to the left and the top; leave whole
+  columns empty rather than filling to the edge.
 - **Nothing important below a long list.** Actions go above it or in the
-  toolbar (Augury's rule, now a house rule).
-- **Many of the same is a pile, not a row** (Augury's rule): three or more
-  identical things are drawn as one with a count.
+  toolbar.
+- **Many of the same is a pile** (section 6): three or more identical things are
+  drawn once with a count.
+- Pages MUST work at 320 pt wide without horizontal scrolling. Side-by-side
+  layouts stack when they no longer fit.
 
-## Elevation & Depth
+## 5. Shape and depth
 
-Mostly flat. A **slab** (raised fill, a 2 pt ink edge, a solid shadow offset
-8 pt with no blur, square) is for the one or two things on a screen that you act
-on: a card being sorted, a proposal. A **plate** (ink fill, white text, the same
-solid 8 pt shadow) is the primary action; pressed, it sinks into its shadow.
-Everything else sits on the page. In dark mode the shadow is white.
+- **Corners are square** (0) on everything the brand draws: the bar, rules,
+  images, slabs, plates, fields, chips. Round only where the shape means
+  something: a count badge, an avatar. Platform controls keep their own shapes.
+- **Mostly flat.** Things sit on the page.
+- **Slab**: the one or two things on a screen that a person acts on. Raised
+  fill, 2 pt ink edge, solid shadow offset 8 pt with no blur.
+- **Plate**: the primary action. Ink fill, onInk text, the same solid shadow;
+  pressed, it sinks into the shadow.
+- In dark mode the shadow is white.
 
-## Shapes
+## 6. Components
 
-- **0**: everything since 0.6: the bar, rules, images, slabs, plates, fields,
-  chips. (0.5 had a 3 pt corner on slabs and plates; he chose square.)
-- **Full**: only where the shape means something (a count, an avatar).
-- Platform controls keep their own shapes.
+Implemented in `swift/Sources/JKDDesign` and `web/jkd.css`; details in
+`references/components.md`. Platform controls (lists, menus, toolbars, text
+fields) stay platform controls; these are the brand pieces around them.
 
-## Components
+| Component | What it is | Use it for | Never |
+| --- | --- | --- | --- |
+| **Bar** | A heavy square ink rule over a word, as wide as the word, hugging it: about 1/6 of the type size thick, 1/12 away | The single most important name on a screen; also the progress bar | More than one per screen; rounded ends |
+| **Page title** | Lowercase monument (108) under its bar | The page's name | Sentence case; two per page |
+| **Band** | A full-width inverted section | The loudest thing on a screen, at most two | A list; text to study |
+| **Heavy rule** | A 6 pt ink rule across the column | Between sections | Between rows |
+| **Section index** | The section's number (01, 02) in an ink square | Pages a person goes through in order | A lone section |
+| **Slab** | Raised, 2 pt ink edge, solid 8 pt shadow | What you act on: a card, a proposal | Every row; a slab in a slab |
+| **Plate button** | Ink fill, white words, solid shadow | The one primary action per view | Two per view; colour |
+| **Quiet button** | Words only, underlined on hover | Secondary actions | A box around it |
+| **Chip** | A square choice button with a checkmark when on | Choices, especially in iOS sheets | Colour as the only on/off cue |
+| **Caption** | 11 pt lowercase label | Labels, counts ("filed 4 · trash 1") | Dashes; sentences |
+| **Highlight** | A 3 pt sand underline | The one word that matters | Fills; more than one per screen |
+| **Switch** | White or black, both words visible | The page theme | An icon alone |
+| **Pile** | One item with two offset copies and a count | Three or more identical things | Two items; different items |
+| **Change marks** | Red tint and struck through (goes), green tint and underlined (comes), ink text, a key | Showing what a change removes and adds | Buttons, status, decoration |
+| **Numbers** | Tabular figures; unknown shows — | Counts, money, anything that changes | A made-up value |
 
-The shared set, implemented in `swift/` and `web/`. Each has a page in
-`references/components.md`.
+## 7. Expressive layer
 
-- **The bar**: a heavy square ink rule over a word, as wide as the word, that
-  **hugs** it (0.6): about a sixth of the type size thick and a twelfth away
-  (18 pt over a 108 pt title, gap 9; never thinner than 6, never further than
-  needed), so bar and word read as one block. Also the progress bar. One per
-  screen, over the most important name.
-- **The band**: a full-width inverted section (ink, white words) for the
-  loudest thing; **up to two per screen** since 0.6. Never for a list.
-- **The heavy rule** (0.6): a 6 pt ink rule across the column between
-  sections, the grid made visible, as on Swiss posters. Between sections, never
-  between rows.
-- **The section index** (0.6): a section's number (01, 02, 03) in a solid ink
-  square, tabular, Black, opening the section; the page reads as a sequence.
-- **The highlight** (0.5): a thin sand underline under the one word that matters.
-- **The switch**: white or black, both words always visible. White is the
-  default. A section may invert for effect, once or twice per page.
-- **Caption**: lowercase small label.
-- **Page title**: display size, lowercase, under the bar.
-- **Slab**, **Plate button**, **Quiet button** (words only, underlined on
-  hover), **Chip** (a choice as a button, never a fragile toggle in a sheet).
-- **Pile**: many of one thing, as one with a count.
-- **Change marks** (0.6.1): what goes and what comes in a before and after,
-  red and green tints with a line style each, plus a key.
+Halftone, paper grain, liquid chrome, ordered dither and blob tracking, from the
+studio's print and TouchDesigner work. Details in `references/expressive.md`.
 
-## Expressive layer
+- At most **one** per screen or page.
+- MAY appear on an empty state, onboarding, a celebration, an app icon, a
+  poster, a cover slide, a section opener or an Easter egg.
+- NEVER on the frequent path, behind body text, on a control, or as the only
+  carrier of meaning.
+- MUST switch off with Reduce Transparency or Increase Contrast, MUST stop with
+  Reduce Motion, and MUST be hidden from VoiceOver.
 
-Halftone dots, paper grain, chrome, and since 0.5 **dither** and **blob
-tracking**, from his own print and TouchDesigner work. Chrome is a real texture
-(liquid chrome after his reference: diagonal currents, eddies, deep blacks, a
-whisper of iridescence) that drifts inside type and leans towards the pointer. Rules in
-`references/expressive.md`: at most one per screen or page; on an empty state,
-an onboarding page, a poster, an app icon, an Easter egg or a celebration; never
-on the frequent path and never behind body text. All three switch off with
-Reduce Transparency or Increase Contrast and are hidden from VoiceOver.
+## 8. Words
 
-## Voice
+Details in `references/voice.md`.
 
-Concise and plain; see `references/voice.md`. **No dashes as punctuation.**
-Numbers over sentences. Every action keeps its name ("File" makes "Filed").
-Errors say what happened and what to do.
+- Concise and plain. If a word can go, it goes. Captions are fragments.
+- NEVER a dash as punctuation: use a colon, a comma, a full stop or a middle dot.
+- Numbers over sentences ("3 of 4").
+- One name per action: the button says "File", the result says "Filed".
+- Errors say what happened and what to do next. Confirmations name exactly what
+  will happen, with the count.
+- Plain words for machinery: "memory", not "embeddings".
 
-## Accessibility
+## 9. Accessibility
 
-Blocking, not polish; see `references/accessibility.md`. Text 4.5:1, large
-text and needed edges 3:1, colour never alone, Dynamic Type, Reduce Motion,
-Reduce Transparency, Increase Contrast, full keyboard use, every command in the
-menu bar on a Mac, touch targets 44 pt on iOS.
+Accessibility findings outrank every style finding. Details in
+`references/accessibility.md`.
 
-## Adaptations
+- Text 4.5:1 or more; large text, meaningful icons and needed edges 3:1. Every
+  token pair is tested by `swift test` in `swift/`; a new pair gets a test first.
+- Colour NEVER alone: a word, a symbol or a shape says the same.
+- Dynamic Type, Reduce Motion, Reduce Transparency, Increase Contrast and dark
+  mode MUST work.
+- Mac: every command in the menu bar, everything works from the keyboard,
+  focus is visible. iOS: targets 44 × 44 pt.
+- VoiceOver: headers marked, decoration hidden, custom controls labelled.
 
-- Corners are square everywhere; a platform control keeps its own shape.
-- Without Switzer: Helvetica Neue, then Helvetica, then Arial, then the system
-  grotesk. Never a geometric or humanist face as a
-  stand in.
-- A dense tool may halve the spacing steps it uses, but keeps the unit.
-- A theme that needs colour before the brand has chosen it uses the status or
-  data colours for meaning only, and asks.
+## 10. Platforms and adaptation
+
+Details in `references/platforms.md`.
+
+- **macOS**: system sidebar, toolbar and menus; content margins 32; body 13.
+- **iOS**: body 17 with Dynamic Type; margin 16; controls in real toolbars.
+- **Web**: load `web/jkd.css` and Switzer from Fontshare; respect the reduced
+  motion, contrast and transparency settings.
+- **Print and slides**: 25 mm margins, 12 columns, one idea per slide, fonts
+  embedded.
+- Without Switzer: Helvetica Neue, then Helvetica, then Arial. NEVER a
+  geometric or humanist face.
+- A dense tool MAY halve the spacing steps it uses; it keeps the 4 pt unit.
+
+## 11. Glossary
+
+- **The bar**: the system's mark, a heavy square rule laid over a word.
+- **Band**: a full-width section in inverted colours.
+- **Cube (b²)**: the 8 pt reference square; placements are whole cubes.
+- **Expressive layer**: the optional effects in section 7.
+- **Heavy rule**: a 6 pt ink line between sections.
+- **Pile**: many identical things shown as one with a count.
+- **Plate**: an ink-filled button with a solid shadow; the primary action.
+- **Sand**: the accent colour #C9B69B, used only as a thin line.
+- **Slab**: a raised card with an ink edge and a solid shadow; what you act on.
+- **Theme**: a product's adaptation of JKD (`themes/`).
+
+## 12. Review checklist
+
+Answer each with yes or no; every "no" is a finding. Accessibility first.
+
+1. Does every text pair reach 4.5:1 (large text 3:1)?
+2. Is every colour backed by a word, symbol or shape?
+3. Do Dynamic Type, Reduce Motion and Increase Contrast work, and does the
+   layout fit at 320 pt?
+4. Is every command reachable by keyboard (and in the menu bar on a Mac)?
+5. Is every gap a multiple of 4?
+6. Are all sizes from the scale, flush left, with tabular numbers?
+7. Is there at most one bar, one plate and one expressive moment?
+8. Is every colour beyond black, white and sand admitted by section 2.3?
+9. Are corners square and shadows solid?
+10. Are the words free of dashes, with one name per action?
+11. Covered with the logo, would the screen still be recognisably JKD?
+
+For the reporting format, see `references/review.md`.

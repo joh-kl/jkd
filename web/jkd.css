@@ -194,7 +194,7 @@ hr, .jkd-rule { border: 0; border-top: 1px solid var(--jkd-rule); margin: var(--
 
 /* Change marks (0.6.1): colour that earns its job. What goes and what comes in
    a before and after; each also has a line style, so colour is never alone.
-   DESIGN.md › Colors › When colour earns a job. */
+   DESIGN.md section 2.3. */
 .jkd-goes, del.jkd-goes {
   background: color-mix(in srgb, var(--jkd-danger) 28%, transparent);
   color: var(--jkd-ink);

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.2 (22 Oct 2026): the guidelines, rewritten to be read
+
+No value changed. `DESIGN.md` is now a numbered spec that a designer or an AI
+agent can read on its own: how to read it (tokens are the source of truth;
+MUST, SHOULD, NEVER, MAY), the rules on one page, tables for the palette, the
+type scale and the components (what, when, never), the colour test and its
+recorded case, a glossary and a yes/no review checklist. Version asides and
+first-person history moved here. JKD is described as its own design; the
+büro brand guide appears only as a case study among the work. Every README
+image was retaken at 0.6.1.
+
 ## 0.6.1 (22 Oct 2026)
 
 Black and white **until colour earns a job**, his motto, now written down

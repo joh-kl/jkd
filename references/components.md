@@ -11,7 +11,7 @@ exactly as wide as the word.
 
 - Over the single most important name on a screen (a destination, a page
   title). One per screen.
-- It **hugs** the word (0.6): about a sixth of the type size thick (never
+- It **hugs** the word: about a sixth of the type size thick (never
   under 6 pt) and about a twelfth of it away (never under 4), so bar and word
   read as one block: 18 pt bar and 9 pt gap over a 108 pt title, 11 and 5 over
   a 64 pt headline. A thin bar over a huge word reads as an underline, and a
@@ -31,16 +31,16 @@ choice; the default is white.
 
 One section may flip the theme for effect (black on a white page, white on a
 black one), when its content is light on dark by nature, such as a tracker's
-readout. Up to two bands per screen since 0.6, never for text the reader must study.
+readout. Up to two bands per screen, never for text the reader must study.
 
-## Heavy rule (0.6)
+## Heavy rule
 
 A 6 pt ink rule across the whole column, between sections: the grid made
 visible, the way Swiss posters divide a sheet. Not between rows (rows keep the
 hairline or nothing), not more than one between two sections. Decorative to
 VoiceOver. SwiftUI `HeavyRule()`, CSS `.jkd-rule-heavy`.
 
-## Section index (0.6)
+## Section index
 
 A section's number, two digits, in a solid ink square that opens the section
 ("01 what it found", "02 the plan"). Black weight, tabular, the square 1.6 times
@@ -55,7 +55,7 @@ short facts, never a dash.
 
 ## Page title
 
-Monument size in apps since 0.6 (108 pt Switzer Black on a Mac window, 72
+Monument size in apps (108 pt Switzer Black on a Mac window, 72
 where the window is narrower, `largeTitle` scaled on iOS), lowercase, tracking
 -4.3, under the bar that hugs it. Marked as a header for VoiceOver. Where the
 platform's own navigation title is the native answer (iOS), use that and put
@@ -83,20 +83,20 @@ hover, dimmed when pressed. No box.
 A choice as a plain button: square (not a capsule), ink fill with onInk
 text when on, sunken fill with ink text when off, a checkmark symbol so on
 and off never depend on colour. Used instead of `Toggle` and `Picker` in iOS
-sheets, where those proved unreliable in Augury.
+sheets, where those prove unreliable.
 
 ## Pile
 
-Augury's rule, now a house rule: three or more identical things are drawn as
+Three or more identical things are drawn as
 one, with two offset copies behind it at 55% opacity, a count on the corner in
 an ink circle, and one caption saying how the pile is split. Two is not a pile.
 Anything different stands alone. Acting on a pile asks how many first, with
 minus, number and plus, starting at nothing.
 
-## Change marks (0.6.1)
+## Change marks
 
 What a change removes and adds, inside running text. Colour with a job: see
-`DESIGN.md › Colors › When colour earns a job` for the test and the story.
+`DESIGN.md`, sections 2.3 and 2.4, for the test and the case.
 
 - **Goes**: `status.danger` at 28% behind the text, ink text, struck through.
   A line break that goes is drawn as ↵ in the same mark.

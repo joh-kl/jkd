@@ -91,7 +91,7 @@ public enum JKD {
         #endif
 
         /// Change marks (0.6.1): the platform's red and green as a light tint
-        /// behind ink text. Colour that earns its job (DESIGN.md › Colors).
+        /// behind ink text. Colour that earns its job (DESIGN.md 2.3).
         public static let changeTint: Double = 0.28
         public static var goes: Color { danger.opacity(changeTint) }
         public static var comes: Color { success.opacity(changeTint) }
