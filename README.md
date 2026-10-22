@@ -141,6 +141,7 @@ web/jkd.css          tokens and components for HTML
 examples/site/       the showcase site (index.html, site.js, assets/)
 examples/swiftui/    renders the app images (swift run render)
 assets/              the screenshots in this README
+tools/               make_claude_design_system.py: the Claude design system from this repo
 CHANGELOG.md         what changed, version by version
 LICENSE              all rights reserved, and the font licences
 ```
